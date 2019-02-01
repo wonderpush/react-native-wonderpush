@@ -67,11 +67,11 @@ public class RNWonderpushModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void init() {
+  public void init(String clientId, String clientSecret) {
     WonderPush.initialize(
             reactContext,
-            "7524c8a317c1794c0b23895dce3a3314d6a24105",
-            "b43a2d0fbdb54d24332b4d70736954eab5d24d29012b18ef6d214ff0f51e7901"
+            clientId,
+            clientSecret
     );
   }
 
@@ -96,28 +96,29 @@ public class RNWonderpushModule extends ReactContextBaseJavaModule {
     WonderPush.setDelegate();
   }*/
 
-/*  @ReactMethod
-  public void setLogging(){
-    WonderPush.setLogging();
-  }*/
+  @ReactMethod
+  public void setLogging(Boolean shouldLog){
+    WonderPush.setLogging(shouldLog);
+  }
+
+  @ReactMethod
+  public void setNotificationEnabled(Boolean isEnabled){
+    WonderPush.setNotificationEnabled(isEnabled);
+  }
+
+  @ReactMethod
+  public void setUserId(String userId){
+    WonderPush.setUserId(userId);
+  }
 
 /*  @ReactMethod
-  public void setNotificationEnabled(){
-    WonderPush.setNotificationEnabled();
-  }*/
-
-/*  @ReactMethod
-  public void setUserId(){
-    WonderPush.setUserId();
-  }*/
-
- /* @ReactMethod
   public void showPotentialNotification(){
     WonderPush.showPotentialNotification();
   }*/
 
-/*  @ReactMethod
-  public void trackEvent(){
-    WonderPush.trackEvent();
-  }*/
+  @ReactMethod
+  public void trackEvent(String type){
+    WonderPush.trackEvent(type);
+  }
+
 }
