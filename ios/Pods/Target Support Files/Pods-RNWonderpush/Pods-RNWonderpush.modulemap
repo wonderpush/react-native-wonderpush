@@ -1,0 +1,6 @@
+framework module Pods_RNWonderpush {
+  umbrella header "Pods-RNWonderpush-umbrella.h"
+
+  export *
+  module * { export * }
+}

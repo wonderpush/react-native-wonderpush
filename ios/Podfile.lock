@@ -1,0 +1,18 @@
+PODS:
+  - WonderPush (3.2.0):
+    - WonderPush/Core (= 3.2.0)
+  - WonderPush/Core (3.2.0)
+
+DEPENDENCIES:
+  - WonderPush (~> 3.0)
+
+SPEC REPOS:
+  trunk:
+    - WonderPush
+
+SPEC CHECKSUMS:
+  WonderPush: 48055a92bce4d7f06f139422925a808e943ea636
+
+PODFILE CHECKSUM: da175cf0dab2968e3b8c51e78939989acc776cdc
+
+COCOAPODS: 1.8.4

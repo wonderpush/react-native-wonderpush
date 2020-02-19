@@ -7,8 +7,69 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187BAFB423FCF6F0002915AE /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 187BAFA523FCF6EA002915AE /* libReact.a */; };
 		B3E7B58A1CC2AC0600A0062D /* RNWonderpush.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNWonderpush.m */; };
+		B49A69DAFC8781A07A355669 /* Pods_RNWonderpush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A93F704F74267EFA4F345F6A /* Pods_RNWonderpush.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		187BAFA423FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		187BAFA623FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
+			remoteInfo = "React-tvOS";
+		};
+		187BAFA823FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C059A1DE3340900C268FA;
+			remoteInfo = yoga;
+		};
+		187BAFAA23FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C06751DE3340C00C268FA;
+			remoteInfo = "yoga-tvOS";
+		};
+		187BAFAC23FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9251DE5FBEC00167DC4;
+			remoteInfo = cxxreact;
+		};
+		187BAFAE23FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
+			remoteInfo = "cxxreact-tvOS";
+		};
+		187BAFB023FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
+			remoteInfo = jschelpers;
+		};
+		187BAFB223FCF6EA002915AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
+			remoteInfo = "jschelpers-tvOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		58B511D91A9E6C8500147676 /* CopyFiles */ = {
@@ -23,9 +84,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		01B147B2B6B4C6B0B42BD0C8 /* Pods-RNWonderpush.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWonderpush.release.xcconfig"; path = "Target Support Files/Pods-RNWonderpush/Pods-RNWonderpush.release.xcconfig"; sourceTree = "<group>"; };
 		134814201AA4EA6300B7C361 /* libRNWonderpush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNWonderpush.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		187BAF9923FCF6EA002915AE /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		A93F704F74267EFA4F345F6A /* Pods_RNWonderpush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RNWonderpush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E7B5881CC2AC0600A0062D /* RNWonderpush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNWonderpush.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNWonderpush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNWonderpush.m; sourceTree = "<group>"; };
+		EBE01BEF3D611444F688EDF3 /* Pods-RNWonderpush.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWonderpush.debug.xcconfig"; path = "Target Support Files/Pods-RNWonderpush/Pods-RNWonderpush.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +98,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187BAFB423FCF6F0002915AE /* libReact.a in Frameworks */,
+				B49A69DAFC8781A07A355669 /* Pods_RNWonderpush.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,13 +114,49 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		187BAF9823FCF6EA002915AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				187BAF9923FCF6EA002915AE /* React.xcodeproj */,
+				A93F704F74267EFA4F345F6A /* Pods_RNWonderpush.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		187BAF9A23FCF6EA002915AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				187BAFA523FCF6EA002915AE /* libReact.a */,
+				187BAFA723FCF6EA002915AE /* libReact.a */,
+				187BAFA923FCF6EA002915AE /* libyoga.a */,
+				187BAFAB23FCF6EA002915AE /* libyoga.a */,
+				187BAFAD23FCF6EA002915AE /* libcxxreact.a */,
+				187BAFAF23FCF6EA002915AE /* libcxxreact.a */,
+				187BAFB123FCF6EA002915AE /* libjschelpers.a */,
+				187BAFB323FCF6EA002915AE /* libjschelpers.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
 				B3E7B5881CC2AC0600A0062D /* RNWonderpush.h */,
 				B3E7B5891CC2AC0600A0062D /* RNWonderpush.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				187BAF9823FCF6EA002915AE /* Frameworks */,
+				5E3CF2761F45E692D636BC92 /* Pods */,
 			);
+			sourceTree = "<group>";
+		};
+		5E3CF2761F45E692D636BC92 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EBE01BEF3D611444F688EDF3 /* Pods-RNWonderpush.debug.xcconfig */,
+				01B147B2B6B4C6B0B42BD0C8 /* Pods-RNWonderpush.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -63,6 +166,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "RNWonderpush" */;
 			buildPhases = (
+				A594FE7350343DB01171906C /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
@@ -95,17 +199,108 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
 			productRefGroup = 58B511D21A9E6C8500147676;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 187BAF9A23FCF6EA002915AE /* Products */;
+					ProjectRef = 187BAF9923FCF6EA002915AE /* React.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				58B511DA1A9E6C8500147676 /* RNWonderpush */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		187BAFA523FCF6EA002915AE /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 187BAFA423FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFA723FCF6EA002915AE /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 187BAFA623FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFA923FCF6EA002915AE /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = 187BAFA823FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFAB23FCF6EA002915AE /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = 187BAFAA23FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFAD23FCF6EA002915AE /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = 187BAFAC23FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFAF23FCF6EA002915AE /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = 187BAFAE23FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFB123FCF6EA002915AE /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = 187BAFB023FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		187BAFB323FCF6EA002915AE /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = 187BAFB223FCF6EA002915AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A594FE7350343DB01171906C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RNWonderpush-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
@@ -202,13 +397,15 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBE01BEF3D611444F688EDF3 /* Pods-RNWonderpush.debug.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
+					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNWonderpush;
@@ -218,6 +415,7 @@
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01B147B2B6B4C6B0B42BD0C8 /* Pods-RNWonderpush.release.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -225,6 +423,7 @@
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNWonderpush;

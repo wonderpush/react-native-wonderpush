@@ -1,0 +1,1050 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00A18EF189AD5853A79A5A4620B964B9 /* WonderPushConcreteAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 844C580D642F9E77AA15B5DA9636624B /* WonderPushConcreteAPI.m */; };
+		02492861309870FA3517DDC9F3295715 /* WonderPush.h in Headers */ = {isa = PBXBuildFile; fileRef = BC7D5E0EF1DC7BAF983B9517E76367F0 /* WonderPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		02E6668C9C4F8ECCB253CF2853C194FF /* WPAction.h in Headers */ = {isa = PBXBuildFile; fileRef = B1B87FDEF9870EE0FE303448563D23AD /* WPAction.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		08E2774E3C1EE2947B4FD3818C21CBBA /* WPNetworkReachabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B0F3AC187430DC26841AFCE5AC3FCC9E /* WPNetworkReachabilityManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0A19AC9501018DFEE0AA223B829C8626 /* ko.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 53B7F5867BBA0AAA6690D46EAADDF585 /* ko.lproj */; };
+		11DB9964D17DA9C869A93E1102C3E7EE /* WonderPushConcreteAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCA35C7793E2AEEEC6B42A7492366C4 /* WonderPushConcreteAPI.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		137450A5581B7C778C604035CBB5B691 /* nl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 89E04BC3280AA5F11CD7C9BC8748351E /* nl.lproj */; };
+		155CF2A547B9BB33178DBED7FE2BDA5F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88417BDF51D0493220034648710B74 /* CoreLocation.framework */; };
+		1568FDDE44B1DF5C2F6D2F2CCE01746F /* WPLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B4C9824896DF60922F98B64863F527FD /* WPLog.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1B471D82E58E245240481CE3AE7900E5 /* WonderPush_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D6EDCC93C983F8B2C3374B4A3C7C40A /* WonderPush_private.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1CA65F747A9BF4CDECA0E721605A939D /* cs.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 83AE11D1216CE0E5A508DF4CFAA7F3E4 /* cs.lproj */; };
+		1D024DCE63F1EFCFEBBA8E2A80BAC04B /* ms.lproj in Resources */ = {isa = PBXBuildFile; fileRef = DECE43B10AA828D42C769423FBA1FCA5 /* ms.lproj */; };
+		2A0980069578B293D244CF7D7CC25D2F /* el.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CDE1790CD0D437513C382BBA550E2B53 /* el.lproj */; };
+		2E247C5DD1450C17FED492E54375EF99 /* WPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DF88548AC15AAE389A18DBD31896EA /* WPUtil.m */; };
+		31BDA6CBB5100DA047CB4928DEF44A16 /* WPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B5C80F06A0B965D192F4AB5A0D14D2 /* WPResponse.m */; };
+		33EF9CFC62752DBA0153030D2AD7AE8B /* WPUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FDDD8A41AADC183329FC6C3696EDA74 /* WPUtil.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		37182B0232713B7CE7AF8294E13AFAE0 /* WPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 942789F2139C060D9B5B7C37F094E714 /* WPRequestSerializer.m */; };
+		3740A2E628A8DEB83B8B9C8497E70342 /* WPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A012A87226F5E27A5347D423AF6D3D05 /* WPRequest.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3A3D95AE2AB348F85222A3EF510D0D27 /* WonderPush-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F5DCA648EB5C6BB82DA272BE762FDA /* WonderPush-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3B244FF80EE7C87130A8A8ACABEA9E2C /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D1A80DF52658EECC0D42840CDDD95B26 /* fr.lproj */; };
+		3CD8DE176304173945AD9CC6A2B82CBE /* WPJsonSyncInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6173E2868E40614A34FD4579B0555475 /* WPJsonSyncInstallation.m */; };
+		454C851E581CFE333972C9E55711E022 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 031EA09906C97AB82DA916544946965F /* en.lproj */; };
+		457057A6B97B94F12DF10EF09EFE820F /* WPDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FF3619F6A233D802C3B64D99B89993CF /* WPDataManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4C0BED8AE9695E2380B090B95B94A553 /* WPJsonSyncInstallation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB195E22FF5A292E9B6079A19B048363 /* WPJsonSyncInstallation.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4EE2B8DACEDE28B664458D24960B8D09 /* WPMobileProvision.h in Headers */ = {isa = PBXBuildFile; fileRef = ACDEEE52397350A79E43E3565BBA470B /* WPMobileProvision.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		510D930B56C064384B0FEBE38DF73051 /* WPDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32169B2D3CCE77FAD4A731154C9514E3 /* WPDataManager.m */; };
+		526E8217B3B7A1F5DC92D39D88A02B11 /* WonderPushAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = F14D1D48D3BFEEFE60996DDB74F1717F /* WonderPushAPI.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		53A5F818B8CD8DEBDC647C6F4EE5C843 /* ar.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6E908B74C6C49104BAEC8A347F13 /* ar.lproj */; };
+		53FBEBE5F63668BE0FC46D9B4080C2ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B5A95A62000CC2B0F6CFC81040C035 /* Foundation.framework */; };
+		56860B7F7E97C65F690B5C5AAAFFC477 /* WonderPush.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7792EF0CBF69AD286E0EE4BD8FD9E21 /* WonderPush.bundle */; };
+		5F2FBC5423A6AA27F2CDD66C3EDC5990 /* WPMobileProvision.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037CA3E480F41ED40951892BF7F49BD /* WPMobileProvision.m */; };
+		6220E3B3F2A21F9139097F8396357386 /* hu.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BF97987E8753092B03A001784EB34573 /* hu.lproj */; };
+		644E3C05E920A1F01E82D276B794B911 /* pl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 538A8EEB1A5A5FDD41CB7DC432712BC9 /* pl.lproj */; };
+		6625D03CF62E6168899FE58D17F90EAC /* WPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A360C872075D59B2704AC139C3191E5 /* WPAppDelegate.m */; };
+		677AA583DB2DF310AD10893DEE4F065A /* WPHTMLInAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D7A2E35E215224A1E4A244C13043CC /* WPHTMLInAppController.m */; };
+		67B8764681F859DE7A7C68228AED5710 /* WonderPush-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D84027B35B2B99A7C586EAAEB5C6E3E /* WonderPush-dummy.m */; };
+		69269F86DD7F278B95444F9D68037481 /* WPAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BA8CD6E6EF707652484A227D5D4B1B0E /* WPAppDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6D3D5B15373534D76DF1B627E04B943C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E1614ED7A95C857D2963B46825175AA /* CoreGraphics.framework */; };
+		74F621BAAF959E0391500C80A69880AA /* he.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 89E30A5BCF6872347C83A6237AA164DA /* he.lproj */; };
+		75BA5BD25154150E8655E485416EDD38 /* WPDialogButtonHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F578CF186D4C4782C47D04CADAF03C29 /* WPDialogButtonHandler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		76BF9B0924404BF1FF633A16103E161E /* WPRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F33947E907BD9E70C32560A872E343C /* WPRequestSerializer.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		7771059A6AC3D2D48AABC83519B4E5D2 /* WPNotificationCenterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 68208F8C3E3D4F9BE51C62E98A721CC8 /* WPNotificationCenterDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		78A8D4FA9133AA0CC17BB2F0B0A3B3FB /* ro.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 688F466A97414844E48D968E5E8EC2E4 /* ro.lproj */; };
+		7A9D8683BEF95C887E1048F6B06EFA2D /* zh-Hant.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D5521BC9F202455A5B29A4FDDF3D4592 /* zh-Hant.lproj */; };
+		7BAAD7851A235DDFB9BFDF00AE7EC1F6 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 1D638B6169AE5D51893073127DA1B0B7 /* zh-Hans.lproj */; };
+		7BB39FFD9013D986159C81C639462283 /* WPNotificationCenterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E88B4CA3C9ED2548CB82AAD3038950 /* WPNotificationCenterDelegate.m */; };
+		7F20A012E8E23A899409F11194581922 /* fi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7D6202C782173199B176C96EEADEB819 /* fi.lproj */; };
+		845C47864D917A0981261A4135B8FE24 /* WPDialogButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6936A4D87011F97FF6DE8E21E1FD8D37 /* WPDialogButtonHandler.m */; };
+		86F34D781BD2F77EA8CE85ABAE56804E /* WPJsonSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 1179D55F75A769340740DAFF11AED255 /* WPJsonSync.m */; };
+		8A8D52FE47BC272287184778C491CD3A /* hi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = E27DC2F923F1D7BA9B4820C92891C9F4 /* hi.lproj */; };
+		8DF9DAF3289C2951839369E766817FF6 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C116A4265FDB615184EC960236667287 /* de.lproj */; };
+		8F4A85E1C0968044607BC7111E20A1C2 /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 30CEC34E521704709976C34B03D9B03F /* ja.lproj */; };
+		9076EE2CDBD4B8CE89BED58EAA5B110C /* WonderPushLogErrorAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 653CB1CF31A78C5E9BD3E42958776DDD /* WonderPushLogErrorAPI.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		94231D2087DFF55F2CAC5011985B79BA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BBCC941B900CFC47BC95461B1AE8B2 /* WebKit.framework */; };
+		99B3CE94E0E765AFA8E832C04C050B25 /* Pods-RNWonderpush-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9BF2DA8BB138005AAA9DB643F60CC724 /* Pods-RNWonderpush-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9C17DB406EB9729CF66A5BB407A36F16 /* WPRequestVault.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F9C7A1899D6C239A6FF5D588749614 /* WPRequestVault.m */; };
+		A137E02F4661FC2A0C1C818942B726AF /* Pods-RNWonderpush-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D3E9D0E6812E9142CFB95B21B6C026 /* Pods-RNWonderpush-dummy.m */; };
+		A3409D4F11145193C627C8CB8F9C7CF5 /* WPJsonSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A341AD4EE723CE88D6A6BEE02321F2 /* WPJsonSync.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B0C25157DD79C33B339374F7DDD2F554 /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D93CC37AE3765400FC738D0A688F57B7 /* it.lproj */; };
+		B2684A145CC57A7D993C40B5F07290C9 /* id.lproj in Resources */ = {isa = PBXBuildFile; fileRef = EAE94B2033DF1663A6039CF312469908 /* id.lproj */; };
+		B4009704C0E7F45E5B64F0C19BE8001F /* WPHTMLInAppController.h in Headers */ = {isa = PBXBuildFile; fileRef = B22D6AA6FCA8A1B855801882FBA49CCA /* WPHTMLInAppController.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B4154AE0A0375FC37C649D1415EB0C01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6307DD4016BF6E916E393563BFFD0F1 /* UIKit.framework */; };
+		B4CB37D3B9CA56E55DFECA1B7FE2E53F /* WonderPush.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD14C9BF88408754AF3CAC9AFF8EA0D8 /* WonderPush.storyboard */; };
+		B4FAE359713E878FA4C315E879951E9E /* WPInstallationCoreProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 96762E77484C5870F2D285DE173841EA /* WPInstallationCoreProperties.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B5D77DD1EA966684FA1F159A58BA3D32 /* vi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 3DEB47EDEA436F81DEBAD64B98ACBEC7 /* vi.lproj */; };
+		BB14D7B63ACF0A3B6BAEA45812F2DD14 /* WPJsonUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D6CB34BBF3F8D15A898B222A85BFD5 /* WPJsonUtil.m */; };
+		BC3A46DFA5C43233A9F633FA83FEF3E4 /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0105D25127C7B85E162FCF221FCBE7DD /* ru.lproj */; };
+		C01DFB68364236C2776E6BFEE0DCEB19 /* WPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B4DF5AACB304F3294EB778711C2C47E /* WPResponse.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		C03E626E702F74BDA7E4E8E35008A09B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC0553BE479972BF90395337F8078CA /* SystemConfiguration.framework */; };
+		C07C643FBC28E739859D8BEEFE5ABA93 /* WPInstallationCoreProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 01312D056E910D685575CB0B4B25BDBF /* WPInstallationCoreProperties.m */; };
+		C41F68049FCC07A4F91134D36B58B7B9 /* WonderPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 84096012D8CFA4024BDBDDA94C56E024 /* WonderPush.m */; };
+		C4EED36828FCF838E11E431DA76142E6 /* nb.lproj in Resources */ = {isa = PBXBuildFile; fileRef = EFF7E1004E887900F51277584D63BFB9 /* nb.lproj */; };
+		C6C918AB50D25E8F986175AEA650ABC7 /* WPConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8EEE7308179913079698DF3092D376 /* WPConfiguration.m */; };
+		CD9E346107B61644C03720A5E1F0E355 /* WPAPIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 8963318922823034D0913E0CEF25CDFC /* WPAPIClient.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		CE9A2E0CA39AB24E92864D1869904DB0 /* sv.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6F4B9FEE3335D5136A11B45B14CB2D11 /* sv.lproj */; };
+		D00A68C715E350B3A3063E2C7CF7BBC3 /* WPNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA01BDE285AC2B740787F097A0F1E7AD /* WPNetworkReachabilityManager.m */; };
+		D046C3DE9F9425F885B2CB6680FA0C3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B5A95A62000CC2B0F6CFC81040C035 /* Foundation.framework */; };
+		D3973CE01D2B8576AA0BE16C273298A9 /* WPJsonUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C24890F9E1F0533082ABD40C926E9E0 /* WPJsonUtil.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D4B1297E79AD7F54BB55BAA2AB4C7B09 /* hr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 67E467597940D92AC1761AEAF5E94DEE /* hr.lproj */; };
+		D53283014460F3FB5407B81555ACA76D /* WPLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A52543836B8FA35FC398DF42C5C16E0 /* WPLog.m */; };
+		D75B6D8C594A24DEDFC19B5359144B6C /* da.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 88FF70C8BBCDD557B9B75A0711136B28 /* da.lproj */; };
+		D849434FB547B55E2057F30A27D9A9DC /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B06366290EB154B45628644148B8B667 /* es.lproj */; };
+		D9B9B94476544E32A88168F5792617AF /* WPRequestVault.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D88B31662879F4913F23F2E7F6F9ED3 /* WPRequestVault.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D9FCC8B47160ACD96D1C17E24B9F4967 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D993A0D2430465AF0C343BA160329A70 /* tr.lproj */; };
+		DC5813E475353011887001A3A51B0815 /* WPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA81C479E4B3E61BD060899E3C3DB25B /* WPRequest.m */; };
+		E1C6B827F09614D024EECBF84EB32EA9 /* WPConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = B44B5B25FDB111ADEA0758053EB36E30 /* WPConfiguration.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		E87F178D24A5D88F03BDCE6F2C325D80 /* WonderPushLogErrorAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756162AA0CD802B13B2799ED9F4B02E /* WonderPushLogErrorAPI.m */; };
+		E893F890898FCEB4739B7E437381ACC1 /* sk.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 466FC49C6CDB0F3156E42568E6F9CCFF /* sk.lproj */; };
+		EA7A35FE4E33E9E9C6426111EF7EBB24 /* pt-PT.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 4A912427C06ABC31CEEF7A592885CAB0 /* pt-PT.lproj */; };
+		EF071215446E432F0159E29004AC1527 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C600CD55ED5326774AE6393CDE4DEE /* CoreTelephony.framework */; };
+		F5A56599664B0CA162F2D1706009EBD2 /* uk.lproj in Resources */ = {isa = PBXBuildFile; fileRef = DA0F9114F7A403E1CF5C8E7703C38EA7 /* uk.lproj */; };
+		FD8F80EF3B4DC980D67DB226AC175B65 /* WPAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C060FF714EA5E7D0BA6A90E9C55E06F0 /* WPAPIClient.m */; };
+		FDEF31934CF5964EB233491E0BE41630 /* ca.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 4EE76DC003E5C8CFF0A6C24C7CEE1A5E /* ca.lproj */; };
+		FE1A948F0B36E1142D364B80CF8652DA /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 503BA5083FFDD464960356EF7DC018F9 /* pt.lproj */; };
+		FF7368A5291F388DEE403156A4FE9C8F /* th.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 770C57A609635199218967C46174F332 /* th.lproj */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA67B9698BF54ACED4FDCCC4FF313CA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2EAE0F4F7FB119DBCB4AA7B927AEC130;
+			remoteInfo = WonderPush;
+		};
+		FD7C3F2DBAA80A3075F4FC923EBCCB19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D456F3D19D4759A3772437837C5B9556;
+			remoteInfo = "WonderPush-WonderPush";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00BBCC941B900CFC47BC95461B1AE8B2 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
+		0105D25127C7B85E162FCF221FCBE7DD /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = WonderPush/Resources/ru.lproj; sourceTree = "<group>"; };
+		01312D056E910D685575CB0B4B25BDBF /* WPInstallationCoreProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPInstallationCoreProperties.m; path = WonderPush/Sources/WPInstallationCoreProperties.m; sourceTree = "<group>"; };
+		031EA09906C97AB82DA916544946965F /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = WonderPush/Resources/en.lproj; sourceTree = "<group>"; };
+		0A360C872075D59B2704AC139C3191E5 /* WPAppDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPAppDelegate.m; path = WonderPush/Sources/WPAppDelegate.m; sourceTree = "<group>"; };
+		0C24890F9E1F0533082ABD40C926E9E0 /* WPJsonUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPJsonUtil.h; path = WonderPush/Sources/WPJsonUtil.h; sourceTree = "<group>"; };
+		1179D55F75A769340740DAFF11AED255 /* WPJsonSync.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPJsonSync.m; path = WonderPush/Sources/WPJsonSync.m; sourceTree = "<group>"; };
+		148D15DABB98DE0A6D63AE62AA5987D2 /* Pods_RNWonderpush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_RNWonderpush.framework; path = "Pods-RNWonderpush.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D638B6169AE5D51893073127DA1B0B7 /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "WonderPush/Resources/zh-Hans.lproj"; sourceTree = "<group>"; };
+		28D0183D506D98EB2C84A05A29E508C8 /* WonderPush-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "WonderPush-Info.plist"; sourceTree = "<group>"; };
+		28DB6E908B74C6C49104BAEC8A347F13 /* ar.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ar.lproj; path = WonderPush/Resources/ar.lproj; sourceTree = "<group>"; };
+		30CEC34E521704709976C34B03D9B03F /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = WonderPush/Resources/ja.lproj; sourceTree = "<group>"; };
+		32169B2D3CCE77FAD4A731154C9514E3 /* WPDataManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPDataManager.m; path = WonderPush/Sources/WPDataManager.m; sourceTree = "<group>"; };
+		35A341AD4EE723CE88D6A6BEE02321F2 /* WPJsonSync.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPJsonSync.h; path = WonderPush/Sources/WPJsonSync.h; sourceTree = "<group>"; };
+		3756162AA0CD802B13B2799ED9F4B02E /* WonderPushLogErrorAPI.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WonderPushLogErrorAPI.m; path = WonderPush/Sources/WonderPushLogErrorAPI.m; sourceTree = "<group>"; };
+		38C4749B5F21A2B5228D2BD05492EA5C /* WonderPush.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WonderPush.modulemap; sourceTree = "<group>"; };
+		3D88B31662879F4913F23F2E7F6F9ED3 /* WPRequestVault.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPRequestVault.h; path = WonderPush/Sources/WPRequestVault.h; sourceTree = "<group>"; };
+		3DEB47EDEA436F81DEBAD64B98ACBEC7 /* vi.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = vi.lproj; path = WonderPush/Resources/vi.lproj; sourceTree = "<group>"; };
+		43D6CB34BBF3F8D15A898B222A85BFD5 /* WPJsonUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPJsonUtil.m; path = WonderPush/Sources/WPJsonUtil.m; sourceTree = "<group>"; };
+		466FC49C6CDB0F3156E42568E6F9CCFF /* sk.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = sk.lproj; path = WonderPush/Resources/sk.lproj; sourceTree = "<group>"; };
+		4A912427C06ABC31CEEF7A592885CAB0 /* pt-PT.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "pt-PT.lproj"; path = "WonderPush/Resources/pt-PT.lproj"; sourceTree = "<group>"; };
+		4D6EDCC93C983F8B2C3374B4A3C7C40A /* WonderPush_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WonderPush_private.h; path = WonderPush/Sources/WonderPush_private.h; sourceTree = "<group>"; };
+		4D84027B35B2B99A7C586EAAEB5C6E3E /* WonderPush-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WonderPush-dummy.m"; sourceTree = "<group>"; };
+		4EE76DC003E5C8CFF0A6C24C7CEE1A5E /* ca.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ca.lproj; path = WonderPush/Resources/ca.lproj; sourceTree = "<group>"; };
+		5037CA3E480F41ED40951892BF7F49BD /* WPMobileProvision.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPMobileProvision.m; path = WonderPush/Sources/WPMobileProvision.m; sourceTree = "<group>"; };
+		503BA5083FFDD464960356EF7DC018F9 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = WonderPush/Resources/pt.lproj; sourceTree = "<group>"; };
+		51578873D344D8D6A76EC27997A946CD /* Pods-RNWonderpush-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-RNWonderpush-Info.plist"; sourceTree = "<group>"; };
+		538A8EEB1A5A5FDD41CB7DC432712BC9 /* pl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pl.lproj; path = WonderPush/Resources/pl.lproj; sourceTree = "<group>"; };
+		53B7F5867BBA0AAA6690D46EAADDF585 /* ko.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ko.lproj; path = WonderPush/Resources/ko.lproj; sourceTree = "<group>"; };
+		53D7A2E35E215224A1E4A244C13043CC /* WPHTMLInAppController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPHTMLInAppController.m; path = WonderPush/Sources/WPHTMLInAppController.m; sourceTree = "<group>"; };
+		5DC0553BE479972BF90395337F8078CA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		5E1614ED7A95C857D2963B46825175AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		6173E2868E40614A34FD4579B0555475 /* WPJsonSyncInstallation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPJsonSyncInstallation.m; path = WonderPush/Sources/WPJsonSyncInstallation.m; sourceTree = "<group>"; };
+		640E6CAC7A2EED273CE4E529488F2FCF /* WonderPush.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WonderPush.xcconfig; sourceTree = "<group>"; };
+		653CB1CF31A78C5E9BD3E42958776DDD /* WonderPushLogErrorAPI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WonderPushLogErrorAPI.h; path = WonderPush/Sources/WonderPushLogErrorAPI.h; sourceTree = "<group>"; };
+		67E467597940D92AC1761AEAF5E94DEE /* hr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hr.lproj; path = WonderPush/Resources/hr.lproj; sourceTree = "<group>"; };
+		68208F8C3E3D4F9BE51C62E98A721CC8 /* WPNotificationCenterDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPNotificationCenterDelegate.h; path = WonderPush/Sources/WPNotificationCenterDelegate.h; sourceTree = "<group>"; };
+		688F466A97414844E48D968E5E8EC2E4 /* ro.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ro.lproj; path = WonderPush/Resources/ro.lproj; sourceTree = "<group>"; };
+		6936A4D87011F97FF6DE8E21E1FD8D37 /* WPDialogButtonHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPDialogButtonHandler.m; path = WonderPush/Sources/WPDialogButtonHandler.m; sourceTree = "<group>"; };
+		697E3374965E4A95E9EEC26A213B3157 /* Pods-RNWonderpush.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RNWonderpush.debug.xcconfig"; sourceTree = "<group>"; };
+		6B4DF5AACB304F3294EB778711C2C47E /* WPResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPResponse.h; path = WonderPush/Sources/WPResponse.h; sourceTree = "<group>"; };
+		6C6174BA62F48D40121E602913664EC0 /* Pods-RNWonderpush-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-RNWonderpush-acknowledgements.plist"; sourceTree = "<group>"; };
+		6F4B9FEE3335D5136A11B45B14CB2D11 /* sv.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = sv.lproj; path = WonderPush/Resources/sv.lproj; sourceTree = "<group>"; };
+		770C57A609635199218967C46174F332 /* th.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = th.lproj; path = WonderPush/Resources/th.lproj; sourceTree = "<group>"; };
+		79DF88548AC15AAE389A18DBD31896EA /* WPUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPUtil.m; path = WonderPush/Sources/WPUtil.m; sourceTree = "<group>"; };
+		7B7B285B180F615AD9A47334DC8E1A06 /* WonderPush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = WonderPush.framework; path = WonderPush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D6202C782173199B176C96EEADEB819 /* fi.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fi.lproj; path = WonderPush/Resources/fi.lproj; sourceTree = "<group>"; };
+		7DCA35C7793E2AEEEC6B42A7492366C4 /* WonderPushConcreteAPI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WonderPushConcreteAPI.h; path = WonderPush/Sources/WonderPushConcreteAPI.h; sourceTree = "<group>"; };
+		7FDDD8A41AADC183329FC6C3696EDA74 /* WPUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPUtil.h; path = WonderPush/Sources/WPUtil.h; sourceTree = "<group>"; };
+		83AE11D1216CE0E5A508DF4CFAA7F3E4 /* cs.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = cs.lproj; path = WonderPush/Resources/cs.lproj; sourceTree = "<group>"; };
+		84096012D8CFA4024BDBDDA94C56E024 /* WonderPush.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WonderPush.m; path = WonderPush/Sources/WonderPush.m; sourceTree = "<group>"; };
+		844C580D642F9E77AA15B5DA9636624B /* WonderPushConcreteAPI.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WonderPushConcreteAPI.m; path = WonderPush/Sources/WonderPushConcreteAPI.m; sourceTree = "<group>"; };
+		855FDC969AC02DA312A245C1ABA56354 /* Pods-RNWonderpush-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-RNWonderpush-acknowledgements.markdown"; sourceTree = "<group>"; };
+		88FF70C8BBCDD557B9B75A0711136B28 /* da.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = da.lproj; path = WonderPush/Resources/da.lproj; sourceTree = "<group>"; };
+		8963318922823034D0913E0CEF25CDFC /* WPAPIClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPAPIClient.h; path = WonderPush/Sources/WPAPIClient.h; sourceTree = "<group>"; };
+		89E04BC3280AA5F11CD7C9BC8748351E /* nl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nl.lproj; path = WonderPush/Resources/nl.lproj; sourceTree = "<group>"; };
+		89E30A5BCF6872347C83A6237AA164DA /* he.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = he.lproj; path = WonderPush/Resources/he.lproj; sourceTree = "<group>"; };
+		8A52543836B8FA35FC398DF42C5C16E0 /* WPLog.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPLog.m; path = WonderPush/Sources/WPLog.m; sourceTree = "<group>"; };
+		8E46F43A017B4588C5E3872B42F235DF /* Pods-RNWonderpush.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RNWonderpush.release.xcconfig"; sourceTree = "<group>"; };
+		8F88417BDF51D0493220034648710B74 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		942789F2139C060D9B5B7C37F094E714 /* WPRequestSerializer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPRequestSerializer.m; path = WonderPush/Sources/WPRequestSerializer.m; sourceTree = "<group>"; };
+		96762E77484C5870F2D285DE173841EA /* WPInstallationCoreProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPInstallationCoreProperties.h; path = WonderPush/Sources/WPInstallationCoreProperties.h; sourceTree = "<group>"; };
+		96C600CD55ED5326774AE6393CDE4DEE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		9BF2DA8BB138005AAA9DB643F60CC724 /* Pods-RNWonderpush-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RNWonderpush-umbrella.h"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9F33947E907BD9E70C32560A872E343C /* WPRequestSerializer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPRequestSerializer.h; path = WonderPush/Sources/WPRequestSerializer.h; sourceTree = "<group>"; };
+		A012A87226F5E27A5347D423AF6D3D05 /* WPRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPRequest.h; path = WonderPush/Sources/WPRequest.h; sourceTree = "<group>"; };
+		ACDEEE52397350A79E43E3565BBA470B /* WPMobileProvision.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPMobileProvision.h; path = WonderPush/Sources/WPMobileProvision.h; sourceTree = "<group>"; };
+		AD8EEE7308179913079698DF3092D376 /* WPConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPConfiguration.m; path = WonderPush/Sources/WPConfiguration.m; sourceTree = "<group>"; };
+		B06366290EB154B45628644148B8B667 /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = WonderPush/Resources/es.lproj; sourceTree = "<group>"; };
+		B0F3AC187430DC26841AFCE5AC3FCC9E /* WPNetworkReachabilityManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPNetworkReachabilityManager.h; path = WonderPush/Sources/WPNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		B1B87FDEF9870EE0FE303448563D23AD /* WPAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPAction.h; path = WonderPush/Sources/WPAction.h; sourceTree = "<group>"; };
+		B22D6AA6FCA8A1B855801882FBA49CCA /* WPHTMLInAppController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPHTMLInAppController.h; path = WonderPush/Sources/WPHTMLInAppController.h; sourceTree = "<group>"; };
+		B2F5F8512F569189FACA171F2F3DC4CE /* WonderPush-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WonderPush-prefix.pch"; sourceTree = "<group>"; };
+		B2F9C7A1899D6C239A6FF5D588749614 /* WPRequestVault.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPRequestVault.m; path = WonderPush/Sources/WPRequestVault.m; sourceTree = "<group>"; };
+		B44B5B25FDB111ADEA0758053EB36E30 /* WPConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPConfiguration.h; path = WonderPush/Sources/WPConfiguration.h; sourceTree = "<group>"; };
+		B4C9824896DF60922F98B64863F527FD /* WPLog.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPLog.h; path = WonderPush/Sources/WPLog.h; sourceTree = "<group>"; };
+		B9D3E9D0E6812E9142CFB95B21B6C026 /* Pods-RNWonderpush-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RNWonderpush-dummy.m"; sourceTree = "<group>"; };
+		BA8CD6E6EF707652484A227D5D4B1B0E /* WPAppDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPAppDelegate.h; path = WonderPush/Sources/WPAppDelegate.h; sourceTree = "<group>"; };
+		BC7D5E0EF1DC7BAF983B9517E76367F0 /* WonderPush.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WonderPush.h; path = WonderPush/Sources/WonderPush.h; sourceTree = "<group>"; };
+		BF97987E8753092B03A001784EB34573 /* hu.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hu.lproj; path = WonderPush/Resources/hu.lproj; sourceTree = "<group>"; };
+		C060FF714EA5E7D0BA6A90E9C55E06F0 /* WPAPIClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPAPIClient.m; path = WonderPush/Sources/WPAPIClient.m; sourceTree = "<group>"; };
+		C116A4265FDB615184EC960236667287 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = WonderPush/Resources/de.lproj; sourceTree = "<group>"; };
+		CD14C9BF88408754AF3CAC9AFF8EA0D8 /* WonderPush.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = WonderPush.storyboard; path = WonderPush/Resources/WonderPush.storyboard; sourceTree = "<group>"; };
+		CDE1790CD0D437513C382BBA550E2B53 /* el.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = el.lproj; path = WonderPush/Resources/el.lproj; sourceTree = "<group>"; };
+		D0E88B4CA3C9ED2548CB82AAD3038950 /* WPNotificationCenterDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPNotificationCenterDelegate.m; path = WonderPush/Sources/WPNotificationCenterDelegate.m; sourceTree = "<group>"; };
+		D1A80DF52658EECC0D42840CDDD95B26 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = WonderPush/Resources/fr.lproj; sourceTree = "<group>"; };
+		D5521BC9F202455A5B29A4FDDF3D4592 /* zh-Hant.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hant.lproj"; path = "WonderPush/Resources/zh-Hant.lproj"; sourceTree = "<group>"; };
+		D7792EF0CBF69AD286E0EE4BD8FD9E21 /* WonderPush.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = WonderPush.bundle; path = "WonderPush-WonderPush.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7B5C80F06A0B965D192F4AB5A0D14D2 /* WPResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPResponse.m; path = WonderPush/Sources/WPResponse.m; sourceTree = "<group>"; };
+		D93CC37AE3765400FC738D0A688F57B7 /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = WonderPush/Resources/it.lproj; sourceTree = "<group>"; };
+		D993A0D2430465AF0C343BA160329A70 /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = WonderPush/Resources/tr.lproj; sourceTree = "<group>"; };
+		DA01BDE285AC2B740787F097A0F1E7AD /* WPNetworkReachabilityManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPNetworkReachabilityManager.m; path = WonderPush/Sources/WPNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		DA0F9114F7A403E1CF5C8E7703C38EA7 /* uk.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = uk.lproj; path = WonderPush/Resources/uk.lproj; sourceTree = "<group>"; };
+		DB195E22FF5A292E9B6079A19B048363 /* WPJsonSyncInstallation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPJsonSyncInstallation.h; path = WonderPush/Sources/WPJsonSyncInstallation.h; sourceTree = "<group>"; };
+		DECE43B10AA828D42C769423FBA1FCA5 /* ms.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ms.lproj; path = WonderPush/Resources/ms.lproj; sourceTree = "<group>"; };
+		E27DC2F923F1D7BA9B4820C92891C9F4 /* hi.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hi.lproj; path = WonderPush/Resources/hi.lproj; sourceTree = "<group>"; };
+		E6307DD4016BF6E916E393563BFFD0F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		EAE94B2033DF1663A6039CF312469908 /* id.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = id.lproj; path = WonderPush/Resources/id.lproj; sourceTree = "<group>"; };
+		EC14D002049B62C4876406FF96A79A81 /* Pods-RNWonderpush.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-RNWonderpush.modulemap"; sourceTree = "<group>"; };
+		EFF7E1004E887900F51277584D63BFB9 /* nb.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nb.lproj; path = WonderPush/Resources/nb.lproj; sourceTree = "<group>"; };
+		F14D1D48D3BFEEFE60996DDB74F1717F /* WonderPushAPI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WonderPushAPI.h; path = WonderPush/Sources/WonderPushAPI.h; sourceTree = "<group>"; };
+		F4EF65E8C00D8544DF66BEC069C674B3 /* ResourceBundle-WonderPush-WonderPush-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-WonderPush-WonderPush-Info.plist"; sourceTree = "<group>"; };
+		F578CF186D4C4782C47D04CADAF03C29 /* WPDialogButtonHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPDialogButtonHandler.h; path = WonderPush/Sources/WPDialogButtonHandler.h; sourceTree = "<group>"; };
+		F8B5A95A62000CC2B0F6CFC81040C035 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		F9F5DCA648EB5C6BB82DA272BE762FDA /* WonderPush-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WonderPush-umbrella.h"; sourceTree = "<group>"; };
+		FA81C479E4B3E61BD060899E3C3DB25B /* WPRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WPRequest.m; path = WonderPush/Sources/WPRequest.m; sourceTree = "<group>"; };
+		FF3619F6A233D802C3B64D99B89993CF /* WPDataManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WPDataManager.h; path = WonderPush/Sources/WPDataManager.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		46B4E5530A607DBF22148A2A44E20C89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046C3DE9F9425F885B2CB6680FA0C3D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		917312D01B6D912585AEB946D4C0A277 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB0D28BEAF581A55320E98F183FBF8CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D3D5B15373534D76DF1B627E04B943C /* CoreGraphics.framework in Frameworks */,
+				155CF2A547B9BB33178DBED7FE2BDA5F /* CoreLocation.framework in Frameworks */,
+				EF071215446E432F0159E29004AC1527 /* CoreTelephony.framework in Frameworks */,
+				53FBEBE5F63668BE0FC46D9B4080C2ED /* Foundation.framework in Frameworks */,
+				C03E626E702F74BDA7E4E8E35008A09B /* SystemConfiguration.framework in Frameworks */,
+				B4154AE0A0375FC37C649D1415EB0C01 /* UIKit.framework in Frameworks */,
+				94231D2087DFF55F2CAC5011985B79BA /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1292C697C457F36F2B30CA101A572CD8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				28DB6E908B74C6C49104BAEC8A347F13 /* ar.lproj */,
+				4EE76DC003E5C8CFF0A6C24C7CEE1A5E /* ca.lproj */,
+				83AE11D1216CE0E5A508DF4CFAA7F3E4 /* cs.lproj */,
+				88FF70C8BBCDD557B9B75A0711136B28 /* da.lproj */,
+				C116A4265FDB615184EC960236667287 /* de.lproj */,
+				CDE1790CD0D437513C382BBA550E2B53 /* el.lproj */,
+				031EA09906C97AB82DA916544946965F /* en.lproj */,
+				B06366290EB154B45628644148B8B667 /* es.lproj */,
+				7D6202C782173199B176C96EEADEB819 /* fi.lproj */,
+				D1A80DF52658EECC0D42840CDDD95B26 /* fr.lproj */,
+				89E30A5BCF6872347C83A6237AA164DA /* he.lproj */,
+				E27DC2F923F1D7BA9B4820C92891C9F4 /* hi.lproj */,
+				67E467597940D92AC1761AEAF5E94DEE /* hr.lproj */,
+				BF97987E8753092B03A001784EB34573 /* hu.lproj */,
+				EAE94B2033DF1663A6039CF312469908 /* id.lproj */,
+				D93CC37AE3765400FC738D0A688F57B7 /* it.lproj */,
+				30CEC34E521704709976C34B03D9B03F /* ja.lproj */,
+				53B7F5867BBA0AAA6690D46EAADDF585 /* ko.lproj */,
+				DECE43B10AA828D42C769423FBA1FCA5 /* ms.lproj */,
+				EFF7E1004E887900F51277584D63BFB9 /* nb.lproj */,
+				89E04BC3280AA5F11CD7C9BC8748351E /* nl.lproj */,
+				538A8EEB1A5A5FDD41CB7DC432712BC9 /* pl.lproj */,
+				503BA5083FFDD464960356EF7DC018F9 /* pt.lproj */,
+				4A912427C06ABC31CEEF7A592885CAB0 /* pt-PT.lproj */,
+				688F466A97414844E48D968E5E8EC2E4 /* ro.lproj */,
+				0105D25127C7B85E162FCF221FCBE7DD /* ru.lproj */,
+				466FC49C6CDB0F3156E42568E6F9CCFF /* sk.lproj */,
+				6F4B9FEE3335D5136A11B45B14CB2D11 /* sv.lproj */,
+				770C57A609635199218967C46174F332 /* th.lproj */,
+				D993A0D2430465AF0C343BA160329A70 /* tr.lproj */,
+				DA0F9114F7A403E1CF5C8E7703C38EA7 /* uk.lproj */,
+				3DEB47EDEA436F81DEBAD64B98ACBEC7 /* vi.lproj */,
+				CD14C9BF88408754AF3CAC9AFF8EA0D8 /* WonderPush.storyboard */,
+				1D638B6169AE5D51893073127DA1B0B7 /* zh-Hans.lproj */,
+				D5521BC9F202455A5B29A4FDDF3D4592 /* zh-Hant.lproj */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		25DDE941ED1F227FCBAAA3ECA5DBDB86 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5E1614ED7A95C857D2963B46825175AA /* CoreGraphics.framework */,
+				8F88417BDF51D0493220034648710B74 /* CoreLocation.framework */,
+				96C600CD55ED5326774AE6393CDE4DEE /* CoreTelephony.framework */,
+				F8B5A95A62000CC2B0F6CFC81040C035 /* Foundation.framework */,
+				5DC0553BE479972BF90395337F8078CA /* SystemConfiguration.framework */,
+				E6307DD4016BF6E916E393563BFFD0F1 /* UIKit.framework */,
+				00BBCC941B900CFC47BC95461B1AE8B2 /* WebKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		2F83CD8322D26616956025CDA00CDCE2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BC7D5E0EF1DC7BAF983B9517E76367F0 /* WonderPush.h */,
+				84096012D8CFA4024BDBDDA94C56E024 /* WonderPush.m */,
+				4D6EDCC93C983F8B2C3374B4A3C7C40A /* WonderPush_private.h */,
+				F14D1D48D3BFEEFE60996DDB74F1717F /* WonderPushAPI.h */,
+				7DCA35C7793E2AEEEC6B42A7492366C4 /* WonderPushConcreteAPI.h */,
+				844C580D642F9E77AA15B5DA9636624B /* WonderPushConcreteAPI.m */,
+				653CB1CF31A78C5E9BD3E42958776DDD /* WonderPushLogErrorAPI.h */,
+				3756162AA0CD802B13B2799ED9F4B02E /* WonderPushLogErrorAPI.m */,
+				B1B87FDEF9870EE0FE303448563D23AD /* WPAction.h */,
+				8963318922823034D0913E0CEF25CDFC /* WPAPIClient.h */,
+				C060FF714EA5E7D0BA6A90E9C55E06F0 /* WPAPIClient.m */,
+				BA8CD6E6EF707652484A227D5D4B1B0E /* WPAppDelegate.h */,
+				0A360C872075D59B2704AC139C3191E5 /* WPAppDelegate.m */,
+				B44B5B25FDB111ADEA0758053EB36E30 /* WPConfiguration.h */,
+				AD8EEE7308179913079698DF3092D376 /* WPConfiguration.m */,
+				FF3619F6A233D802C3B64D99B89993CF /* WPDataManager.h */,
+				32169B2D3CCE77FAD4A731154C9514E3 /* WPDataManager.m */,
+				F578CF186D4C4782C47D04CADAF03C29 /* WPDialogButtonHandler.h */,
+				6936A4D87011F97FF6DE8E21E1FD8D37 /* WPDialogButtonHandler.m */,
+				B22D6AA6FCA8A1B855801882FBA49CCA /* WPHTMLInAppController.h */,
+				53D7A2E35E215224A1E4A244C13043CC /* WPHTMLInAppController.m */,
+				96762E77484C5870F2D285DE173841EA /* WPInstallationCoreProperties.h */,
+				01312D056E910D685575CB0B4B25BDBF /* WPInstallationCoreProperties.m */,
+				35A341AD4EE723CE88D6A6BEE02321F2 /* WPJsonSync.h */,
+				1179D55F75A769340740DAFF11AED255 /* WPJsonSync.m */,
+				DB195E22FF5A292E9B6079A19B048363 /* WPJsonSyncInstallation.h */,
+				6173E2868E40614A34FD4579B0555475 /* WPJsonSyncInstallation.m */,
+				0C24890F9E1F0533082ABD40C926E9E0 /* WPJsonUtil.h */,
+				43D6CB34BBF3F8D15A898B222A85BFD5 /* WPJsonUtil.m */,
+				B4C9824896DF60922F98B64863F527FD /* WPLog.h */,
+				8A52543836B8FA35FC398DF42C5C16E0 /* WPLog.m */,
+				ACDEEE52397350A79E43E3565BBA470B /* WPMobileProvision.h */,
+				5037CA3E480F41ED40951892BF7F49BD /* WPMobileProvision.m */,
+				B0F3AC187430DC26841AFCE5AC3FCC9E /* WPNetworkReachabilityManager.h */,
+				DA01BDE285AC2B740787F097A0F1E7AD /* WPNetworkReachabilityManager.m */,
+				68208F8C3E3D4F9BE51C62E98A721CC8 /* WPNotificationCenterDelegate.h */,
+				D0E88B4CA3C9ED2548CB82AAD3038950 /* WPNotificationCenterDelegate.m */,
+				A012A87226F5E27A5347D423AF6D3D05 /* WPRequest.h */,
+				FA81C479E4B3E61BD060899E3C3DB25B /* WPRequest.m */,
+				9F33947E907BD9E70C32560A872E343C /* WPRequestSerializer.h */,
+				942789F2139C060D9B5B7C37F094E714 /* WPRequestSerializer.m */,
+				3D88B31662879F4913F23F2E7F6F9ED3 /* WPRequestVault.h */,
+				B2F9C7A1899D6C239A6FF5D588749614 /* WPRequestVault.m */,
+				6B4DF5AACB304F3294EB778711C2C47E /* WPResponse.h */,
+				D7B5C80F06A0B965D192F4AB5A0D14D2 /* WPResponse.m */,
+				7FDDD8A41AADC183329FC6C3696EDA74 /* WPUtil.h */,
+				79DF88548AC15AAE389A18DBD31896EA /* WPUtil.m */,
+				1292C697C457F36F2B30CA101A572CD8 /* Resources */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		57CB8E6A9B37F0EE8E6A3C441EB0897B /* Pods-RNWonderpush */ = {
+			isa = PBXGroup;
+			children = (
+				EC14D002049B62C4876406FF96A79A81 /* Pods-RNWonderpush.modulemap */,
+				855FDC969AC02DA312A245C1ABA56354 /* Pods-RNWonderpush-acknowledgements.markdown */,
+				6C6174BA62F48D40121E602913664EC0 /* Pods-RNWonderpush-acknowledgements.plist */,
+				B9D3E9D0E6812E9142CFB95B21B6C026 /* Pods-RNWonderpush-dummy.m */,
+				51578873D344D8D6A76EC27997A946CD /* Pods-RNWonderpush-Info.plist */,
+				9BF2DA8BB138005AAA9DB643F60CC724 /* Pods-RNWonderpush-umbrella.h */,
+				697E3374965E4A95E9EEC26A213B3157 /* Pods-RNWonderpush.debug.xcconfig */,
+				8E46F43A017B4588C5E3872B42F235DF /* Pods-RNWonderpush.release.xcconfig */,
+			);
+			name = "Pods-RNWonderpush";
+			path = "Target Support Files/Pods-RNWonderpush";
+			sourceTree = "<group>";
+		};
+		61F198BABE792EFF684E6AE7650368C7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F4EF65E8C00D8544DF66BEC069C674B3 /* ResourceBundle-WonderPush-WonderPush-Info.plist */,
+				38C4749B5F21A2B5228D2BD05492EA5C /* WonderPush.modulemap */,
+				640E6CAC7A2EED273CE4E529488F2FCF /* WonderPush.xcconfig */,
+				4D84027B35B2B99A7C586EAAEB5C6E3E /* WonderPush-dummy.m */,
+				28D0183D506D98EB2C84A05A29E508C8 /* WonderPush-Info.plist */,
+				B2F5F8512F569189FACA171F2F3DC4CE /* WonderPush-prefix.pch */,
+				F9F5DCA648EB5C6BB82DA272BE762FDA /* WonderPush-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/WonderPush";
+			sourceTree = "<group>";
+		};
+		8275CCB4E8732497B1021FCBC240F3C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25DDE941ED1F227FCBAAA3ECA5DBDB86 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		95E7C03EC18AC06B18C07CBB4941ABAF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E26D244A793ED0185B8A7640B607D327 /* WonderPush */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B3C22E75370B88611D5E77E200BAF271 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				57CB8E6A9B37F0EE8E6A3C441EB0897B /* Pods-RNWonderpush */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				8275CCB4E8732497B1021FCBC240F3C2 /* Frameworks */,
+				95E7C03EC18AC06B18C07CBB4941ABAF /* Pods */,
+				DD63CBB112EAA06B175746658828CEC6 /* Products */,
+				B3C22E75370B88611D5E77E200BAF271 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		DD63CBB112EAA06B175746658828CEC6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				148D15DABB98DE0A6D63AE62AA5987D2 /* Pods_RNWonderpush.framework */,
+				D7792EF0CBF69AD286E0EE4BD8FD9E21 /* WonderPush.bundle */,
+				7B7B285B180F615AD9A47334DC8E1A06 /* WonderPush.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E26D244A793ED0185B8A7640B607D327 /* WonderPush */ = {
+			isa = PBXGroup;
+			children = (
+				2F83CD8322D26616956025CDA00CDCE2 /* Core */,
+				61F198BABE792EFF684E6AE7650368C7 /* Support Files */,
+			);
+			name = WonderPush;
+			path = WonderPush;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		18E29A276912D97850E28678056FEBF6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A3D95AE2AB348F85222A3EF510D0D27 /* WonderPush-umbrella.h in Headers */,
+				02492861309870FA3517DDC9F3295715 /* WonderPush.h in Headers */,
+				1B471D82E58E245240481CE3AE7900E5 /* WonderPush_private.h in Headers */,
+				526E8217B3B7A1F5DC92D39D88A02B11 /* WonderPushAPI.h in Headers */,
+				11DB9964D17DA9C869A93E1102C3E7EE /* WonderPushConcreteAPI.h in Headers */,
+				9076EE2CDBD4B8CE89BED58EAA5B110C /* WonderPushLogErrorAPI.h in Headers */,
+				02E6668C9C4F8ECCB253CF2853C194FF /* WPAction.h in Headers */,
+				CD9E346107B61644C03720A5E1F0E355 /* WPAPIClient.h in Headers */,
+				69269F86DD7F278B95444F9D68037481 /* WPAppDelegate.h in Headers */,
+				E1C6B827F09614D024EECBF84EB32EA9 /* WPConfiguration.h in Headers */,
+				457057A6B97B94F12DF10EF09EFE820F /* WPDataManager.h in Headers */,
+				75BA5BD25154150E8655E485416EDD38 /* WPDialogButtonHandler.h in Headers */,
+				B4009704C0E7F45E5B64F0C19BE8001F /* WPHTMLInAppController.h in Headers */,
+				B4FAE359713E878FA4C315E879951E9E /* WPInstallationCoreProperties.h in Headers */,
+				A3409D4F11145193C627C8CB8F9C7CF5 /* WPJsonSync.h in Headers */,
+				4C0BED8AE9695E2380B090B95B94A553 /* WPJsonSyncInstallation.h in Headers */,
+				D3973CE01D2B8576AA0BE16C273298A9 /* WPJsonUtil.h in Headers */,
+				1568FDDE44B1DF5C2F6D2F2CCE01746F /* WPLog.h in Headers */,
+				4EE2B8DACEDE28B664458D24960B8D09 /* WPMobileProvision.h in Headers */,
+				08E2774E3C1EE2947B4FD3818C21CBBA /* WPNetworkReachabilityManager.h in Headers */,
+				7771059A6AC3D2D48AABC83519B4E5D2 /* WPNotificationCenterDelegate.h in Headers */,
+				3740A2E628A8DEB83B8B9C8497E70342 /* WPRequest.h in Headers */,
+				76BF9B0924404BF1FF633A16103E161E /* WPRequestSerializer.h in Headers */,
+				D9B9B94476544E32A88168F5792617AF /* WPRequestVault.h in Headers */,
+				C01DFB68364236C2776E6BFEE0DCEB19 /* WPResponse.h in Headers */,
+				33EF9CFC62752DBA0153030D2AD7AE8B /* WPUtil.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63425B3F95C24E413F711593B8DBA8FB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99B3CE94E0E765AFA8E832C04C050B25 /* Pods-RNWonderpush-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2EAE0F4F7FB119DBCB4AA7B927AEC130 /* WonderPush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD0328007A89D41A45020FD9E525BF99 /* Build configuration list for PBXNativeTarget "WonderPush" */;
+			buildPhases = (
+				18E29A276912D97850E28678056FEBF6 /* Headers */,
+				551C6AE09E79DF03D56D9BB050D53BA7 /* Sources */,
+				DB0D28BEAF581A55320E98F183FBF8CF /* Frameworks */,
+				ED1FE3C641CC028E70369ED90700B74A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EDC0AB25DD708348E442EB66DE40799 /* PBXTargetDependency */,
+			);
+			name = WonderPush;
+			productName = WonderPush;
+			productReference = 7B7B285B180F615AD9A47334DC8E1A06 /* WonderPush.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D456F3D19D4759A3772437837C5B9556 /* WonderPush-WonderPush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE43AEB878190296F215C2F4895F0998 /* Build configuration list for PBXNativeTarget "WonderPush-WonderPush" */;
+			buildPhases = (
+				5CCC0010CA7162A5A75A609D9EDC6D66 /* Sources */,
+				917312D01B6D912585AEB946D4C0A277 /* Frameworks */,
+				8A91DEA90D82A8F8D5887003F7FE340C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WonderPush-WonderPush";
+			productName = "WonderPush-WonderPush";
+			productReference = D7792EF0CBF69AD286E0EE4BD8FD9E21 /* WonderPush.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		ED9671106BE241F6162712DC92ED824D /* Pods-RNWonderpush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 439A64D9891FAA10EA7C7777C147D05C /* Build configuration list for PBXNativeTarget "Pods-RNWonderpush" */;
+			buildPhases = (
+				63425B3F95C24E413F711593B8DBA8FB /* Headers */,
+				A090BBB360C75FFA1378D1D3F30AACF0 /* Sources */,
+				46B4E5530A607DBF22148A2A44E20C89 /* Frameworks */,
+				504B3D28DD5ECC9F9FA8AB273CD74D56 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				787117594B53055CD5DADE9F707CEBEB /* PBXTargetDependency */,
+			);
+			name = "Pods-RNWonderpush";
+			productName = "Pods-RNWonderpush";
+			productReference = 148D15DABB98DE0A6D63AE62AA5987D2 /* Pods_RNWonderpush.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = DD63CBB112EAA06B175746658828CEC6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED9671106BE241F6162712DC92ED824D /* Pods-RNWonderpush */,
+				2EAE0F4F7FB119DBCB4AA7B927AEC130 /* WonderPush */,
+				D456F3D19D4759A3772437837C5B9556 /* WonderPush-WonderPush */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		504B3D28DD5ECC9F9FA8AB273CD74D56 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A91DEA90D82A8F8D5887003F7FE340C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53A5F818B8CD8DEBDC647C6F4EE5C843 /* ar.lproj in Resources */,
+				FDEF31934CF5964EB233491E0BE41630 /* ca.lproj in Resources */,
+				1CA65F747A9BF4CDECA0E721605A939D /* cs.lproj in Resources */,
+				D75B6D8C594A24DEDFC19B5359144B6C /* da.lproj in Resources */,
+				8DF9DAF3289C2951839369E766817FF6 /* de.lproj in Resources */,
+				2A0980069578B293D244CF7D7CC25D2F /* el.lproj in Resources */,
+				454C851E581CFE333972C9E55711E022 /* en.lproj in Resources */,
+				D849434FB547B55E2057F30A27D9A9DC /* es.lproj in Resources */,
+				7F20A012E8E23A899409F11194581922 /* fi.lproj in Resources */,
+				3B244FF80EE7C87130A8A8ACABEA9E2C /* fr.lproj in Resources */,
+				74F621BAAF959E0391500C80A69880AA /* he.lproj in Resources */,
+				8A8D52FE47BC272287184778C491CD3A /* hi.lproj in Resources */,
+				D4B1297E79AD7F54BB55BAA2AB4C7B09 /* hr.lproj in Resources */,
+				6220E3B3F2A21F9139097F8396357386 /* hu.lproj in Resources */,
+				B2684A145CC57A7D993C40B5F07290C9 /* id.lproj in Resources */,
+				B0C25157DD79C33B339374F7DDD2F554 /* it.lproj in Resources */,
+				8F4A85E1C0968044607BC7111E20A1C2 /* ja.lproj in Resources */,
+				0A19AC9501018DFEE0AA223B829C8626 /* ko.lproj in Resources */,
+				1D024DCE63F1EFCFEBBA8E2A80BAC04B /* ms.lproj in Resources */,
+				C4EED36828FCF838E11E431DA76142E6 /* nb.lproj in Resources */,
+				137450A5581B7C778C604035CBB5B691 /* nl.lproj in Resources */,
+				644E3C05E920A1F01E82D276B794B911 /* pl.lproj in Resources */,
+				EA7A35FE4E33E9E9C6426111EF7EBB24 /* pt-PT.lproj in Resources */,
+				FE1A948F0B36E1142D364B80CF8652DA /* pt.lproj in Resources */,
+				78A8D4FA9133AA0CC17BB2F0B0A3B3FB /* ro.lproj in Resources */,
+				BC3A46DFA5C43233A9F633FA83FEF3E4 /* ru.lproj in Resources */,
+				E893F890898FCEB4739B7E437381ACC1 /* sk.lproj in Resources */,
+				CE9A2E0CA39AB24E92864D1869904DB0 /* sv.lproj in Resources */,
+				FF7368A5291F388DEE403156A4FE9C8F /* th.lproj in Resources */,
+				D9FCC8B47160ACD96D1C17E24B9F4967 /* tr.lproj in Resources */,
+				F5A56599664B0CA162F2D1706009EBD2 /* uk.lproj in Resources */,
+				B5D77DD1EA966684FA1F159A58BA3D32 /* vi.lproj in Resources */,
+				B4CB37D3B9CA56E55DFECA1B7FE2E53F /* WonderPush.storyboard in Resources */,
+				7BAAD7851A235DDFB9BFDF00AE7EC1F6 /* zh-Hans.lproj in Resources */,
+				7A9D8683BEF95C887E1048F6B06EFA2D /* zh-Hant.lproj in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED1FE3C641CC028E70369ED90700B74A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56860B7F7E97C65F690B5C5AAAFFC477 /* WonderPush.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		551C6AE09E79DF03D56D9BB050D53BA7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67B8764681F859DE7A7C68228AED5710 /* WonderPush-dummy.m in Sources */,
+				C41F68049FCC07A4F91134D36B58B7B9 /* WonderPush.m in Sources */,
+				00A18EF189AD5853A79A5A4620B964B9 /* WonderPushConcreteAPI.m in Sources */,
+				E87F178D24A5D88F03BDCE6F2C325D80 /* WonderPushLogErrorAPI.m in Sources */,
+				FD8F80EF3B4DC980D67DB226AC175B65 /* WPAPIClient.m in Sources */,
+				6625D03CF62E6168899FE58D17F90EAC /* WPAppDelegate.m in Sources */,
+				C6C918AB50D25E8F986175AEA650ABC7 /* WPConfiguration.m in Sources */,
+				510D930B56C064384B0FEBE38DF73051 /* WPDataManager.m in Sources */,
+				845C47864D917A0981261A4135B8FE24 /* WPDialogButtonHandler.m in Sources */,
+				677AA583DB2DF310AD10893DEE4F065A /* WPHTMLInAppController.m in Sources */,
+				C07C643FBC28E739859D8BEEFE5ABA93 /* WPInstallationCoreProperties.m in Sources */,
+				86F34D781BD2F77EA8CE85ABAE56804E /* WPJsonSync.m in Sources */,
+				3CD8DE176304173945AD9CC6A2B82CBE /* WPJsonSyncInstallation.m in Sources */,
+				BB14D7B63ACF0A3B6BAEA45812F2DD14 /* WPJsonUtil.m in Sources */,
+				D53283014460F3FB5407B81555ACA76D /* WPLog.m in Sources */,
+				5F2FBC5423A6AA27F2CDD66C3EDC5990 /* WPMobileProvision.m in Sources */,
+				D00A68C715E350B3A3063E2C7CF7BBC3 /* WPNetworkReachabilityManager.m in Sources */,
+				7BB39FFD9013D986159C81C639462283 /* WPNotificationCenterDelegate.m in Sources */,
+				DC5813E475353011887001A3A51B0815 /* WPRequest.m in Sources */,
+				37182B0232713B7CE7AF8294E13AFAE0 /* WPRequestSerializer.m in Sources */,
+				9C17DB406EB9729CF66A5BB407A36F16 /* WPRequestVault.m in Sources */,
+				31BDA6CBB5100DA047CB4928DEF44A16 /* WPResponse.m in Sources */,
+				2E247C5DD1450C17FED492E54375EF99 /* WPUtil.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CCC0010CA7162A5A75A609D9EDC6D66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A090BBB360C75FFA1378D1D3F30AACF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A137E02F4661FC2A0C1C818942B726AF /* Pods-RNWonderpush-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		787117594B53055CD5DADE9F707CEBEB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WonderPush;
+			target = 2EAE0F4F7FB119DBCB4AA7B927AEC130 /* WonderPush */;
+			targetProxy = BA67B9698BF54ACED4FDCCC4FF313CA3 /* PBXContainerItemProxy */;
+		};
+		8EDC0AB25DD708348E442EB66DE40799 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "WonderPush-WonderPush";
+			target = D456F3D19D4759A3772437837C5B9556 /* WonderPush-WonderPush */;
+			targetProxy = FD7C3F2DBAA80A3075F4FC923EBCCB19 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		196DFA3E4A09A28224918543529A1885 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		38EFAD9D41F4E150BAF9B4528D34A4E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 697E3374965E4A95E9EEC26A213B3157 /* Pods-RNWonderpush.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-RNWonderpush/Pods-RNWonderpush-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-RNWonderpush/Pods-RNWonderpush.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		68E4124AFC6E27529B3B4F7E897C3645 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 640E6CAC7A2EED273CE4E529488F2FCF /* WonderPush.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/WonderPush";
+				IBSC_MODULE = WonderPush;
+				INFOPLIST_FILE = "Target Support Files/WonderPush/ResourceBundle-WonderPush-WonderPush-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = WonderPush;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		A5EDACB4DE4A14FA120EF23BD6D4228A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 640E6CAC7A2EED273CE4E529488F2FCF /* WonderPush.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/WonderPush/WonderPush-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/WonderPush/WonderPush-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/WonderPush/WonderPush.modulemap";
+				PRODUCT_MODULE_NAME = WonderPush;
+				PRODUCT_NAME = WonderPush;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		ACFEE00DC753237595AEF60D913DA815 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E46F43A017B4588C5E3872B42F235DF /* Pods-RNWonderpush.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-RNWonderpush/Pods-RNWonderpush-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-RNWonderpush/Pods-RNWonderpush.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B01D14FDC83DCF9D4BE53066BEA96D05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		C76F841DBFFB7426C9CFBCA8C2D6E0E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 640E6CAC7A2EED273CE4E529488F2FCF /* WonderPush.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/WonderPush";
+				IBSC_MODULE = WonderPush;
+				INFOPLIST_FILE = "Target Support Files/WonderPush/ResourceBundle-WonderPush-WonderPush-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = WonderPush;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		CB5FB0FE718F82D9AB0DE87F246CDCB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 640E6CAC7A2EED273CE4E529488F2FCF /* WonderPush.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/WonderPush/WonderPush-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/WonderPush/WonderPush-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/WonderPush/WonderPush.modulemap";
+				PRODUCT_MODULE_NAME = WonderPush;
+				PRODUCT_NAME = WonderPush;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		439A64D9891FAA10EA7C7777C147D05C /* Build configuration list for PBXNativeTarget "Pods-RNWonderpush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38EFAD9D41F4E150BAF9B4528D34A4E1 /* Debug */,
+				ACFEE00DC753237595AEF60D913DA815 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				196DFA3E4A09A28224918543529A1885 /* Debug */,
+				B01D14FDC83DCF9D4BE53066BEA96D05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE43AEB878190296F215C2F4895F0998 /* Build configuration list for PBXNativeTarget "WonderPush-WonderPush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C76F841DBFFB7426C9CFBCA8C2D6E0E3 /* Debug */,
+				68E4124AFC6E27529B3B4F7E897C3645 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD0328007A89D41A45020FD9E525BF99 /* Build configuration list for PBXNativeTarget "WonderPush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB5FB0FE718F82D9AB0DE87F246CDCB9 /* Debug */,
+				A5EDACB4DE4A14FA120EF23BD6D4228A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
