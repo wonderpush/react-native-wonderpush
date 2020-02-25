@@ -12,6 +12,8 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(initWithClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret)
 {
     [WonderPush setClientId:clientId secret:clientSecret];
+    [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
+    [WonderPush setupDelegateForUserNotificationCenter];
 }
 RCT_EXPORT_METHOD(subscribeToNotifications)
 {
