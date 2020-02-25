@@ -24,6 +24,9 @@ export class WonderPush{
     } else {
     }
   }
+  static helloWorld(){
+    console.log("Hello World");
+  }
   static subscribeToNotifications(){
     if (Platform.OS === 'ios') {
       RNWonderpush.subscribeToNotifications()
