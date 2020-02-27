@@ -27,36 +27,57 @@
 }
 RCT_EXPORT_MODULE()
 
+// Sample Methods
 RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnull NSNumber *)numberArgument callback:(RCTResponseSenderBlock)callback)
 {
-    // TODO: Implement some actually useful functionality
     callback(@[[NSString stringWithFormat: @"numberArgument: %@ stringArgument: %@", numberArgument, stringArgument]]);
 }
-
 RCT_EXPORT_METHOD(show:(NSString *)text)
 {
     [self.toast showToast:text];
 }
-RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecret)
+
+// WonderPush: Initialization methods
+RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecret callback:(RCTResponseSenderBlock)callback)
 {
     if(![WonderPush isInitialized]){
         [WonderPush setClientId:clientId secret:clientSecret];
         [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
         [WonderPush setupDelegateForUserNotificationCenter];
-        [self.toast showToast:[NSString stringWithFormat:@"initWithClientId %@ | %@",clientId,clientSecret]];
+        callback(@[@"WonderPush <ios> initialized successfully."]);
     }else{
-        [self.toast showToast:[NSString stringWithFormat:@"initialized %@ | %@",clientId,clientSecret]];
+        callback(@[@"WonderPush <ios> already initialized."]);
     }
 }
-RCT_EXPORT_METHOD(subscribeToNotifications)
+
+// WonderPush: Subscribing users methods
+RCT_EXPORT_METHOD(subscribeToNotifications:(RCTResponseSenderBlock)callback)
 {
-    [WonderPush subscribeToNotifications];
-    [self.toast showToast:@"subscribeToNotifications called"];
+    if([WonderPush isInitialized]){
+        if(![WonderPush isSubscribedToNotifications]){
+            [WonderPush subscribeToNotifications];
+            callback(@[@"WonderPush: <ios> subscribed to notification successfully."]);
+        }else{
+            callback(@[@"WonderPush: <ios> already subscribed to notifications."]);
+        }
+    }else{
+        callback(@[@"WonderPush <ios> not initialized."]);
+    }
 }
-RCT_EXPORT_METHOD(unsubscribeFromNotifications)
+RCT_EXPORT_METHOD(unsubscribeFromNotifications:(RCTResponseSenderBlock)callback)
 {
-    [WonderPush unsubscribeFromNotifications];
-    [self.toast showToast:@"unsubscribeFromNotifications called"];
-    
+    if([WonderPush isInitialized]){
+        if([WonderPush isSubscribedToNotifications]){
+            [WonderPush unsubscribeFromNotifications];
+            callback(@[@"WonderPush: <ios> unsubscribed to notification successfully."]);
+        }else{
+            callback(@[@"WonderPush: <ios> already usubscribed to notifications."]);
+        }
+    }else{
+        callback(@[@"WonderPush <ios> not initialized."]);
+    }
 }
+
+// 
+
 @end

@@ -10,7 +10,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View,Button } from 'react-native';
-import WonderPushLib from 'react-native-wonderpush';
+import wonderpush from 'react-native-wonderpush';
 
 export default class App extends Component<{}> {
   state = {
@@ -18,27 +18,26 @@ export default class App extends Component<{}> {
     message: '--'
   };
   componentDidMount() {
-    WonderPushLib.sampleMethod('Testing', 123, (message) => {
-      this.setState({
-        status: 'native callback received',
-        message
-      });
-    });
+    wonderpush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6')
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>☆CBAliceHelper example☆</Text>
-        <Text style={styles.instructions}>STATUS: {this.state.status}</Text>
-        <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
-        <Text style={styles.instructions}>{this.state.message}</Text>
 
         <Button
-          onPress={() => {WonderPushLib.show('test toast')}}
-          title="Show Toast"
+          onPress={() => {
+            wonderpush.subscribeToNotifications();
+          }}
+          title="Subscribe to WonderPush Notifications."
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-/>
+          accessibilityLabel="Learn more about this purple button"/>
+        <Button
+          onPress={() => {
+            wonderpush.unsubscribeFromNotifications();
+          }}
+          title="Unsubscribe to WonderPush Notifications."
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
       </View>
     );
   }

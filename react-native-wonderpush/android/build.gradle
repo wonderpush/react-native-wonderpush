@@ -73,6 +73,8 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation 'com.wonderpush:wonderpush-android-sdk:3.+'
+
 }
 
 def configureReactNativePom(def pom) {
