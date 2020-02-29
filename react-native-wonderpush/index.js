@@ -34,6 +34,61 @@ class WonderPushPlugIn {
         });
     }
 
+    setLogging(enable){
+        if (!this.isNativeModuleInitialized()) {
+            console.log("WonderPushLib {Native module} not initialized.");
+            return;
+        }
+        WonderPushLib.setLogging(enable,(response) => {
+            console.log(response);
+        });
+    }
+
+    isInitialized(){
+        if (!this.isNativeModuleInitialized()) {
+            console.log("WonderPushLib {Native module} not initialized.");
+            return;
+        }
+        WonderPushLib.isInitialized((response) => {
+            console.log(response);
+        });
+    }
+
+    isReady(){
+        if (!this.isNativeModuleInitialized()) {
+            console.log("WonderPushLib {Native module} not initialized.");
+            return;
+        }
+        WonderPushLib.isReady((response) => {
+            console.log(response);
+        });
+    }
+
+    setupDelegateForApplication(){
+        if (!this.isNativeModuleInitialized()) {
+            console.log("WonderPushLib {Native module} not initialized.");
+            return;
+        }
+        if(Platform.OS === 'ios'){
+            WonderPushLib.setupDelegateForApplication((response) => {
+                console.log(response);
+            });
+        }
+    }
+
+    setupDelegateForUserNotificationCenter(){
+        if (!this.isNativeModuleInitialized()) {
+            console.log("WonderPushLib {Native module} not initialized.");
+            return;
+        }
+        if(Platform.OS === 'ios'){
+            WonderPushLib.setupDelegateForUserNotificationCenter((response) => {
+                console.log(response);
+            });
+        }
+       
+    }
+
     // WonderPush: Subscribing users methods
     subscribeToNotifications(){
         if (!this.isNativeModuleInitialized()) {
@@ -51,6 +106,16 @@ class WonderPushPlugIn {
             return;
         }
         WonderPushLib.unsubscribeFromNotifications((response) => {
+            console.log(response);
+        });
+    }
+
+    isSubscribedToNotifications(){
+        if (!this.isNativeModuleInitialized()) {
+            console.log("WonderPushLib {Native module} not initialized.");
+            return;
+        }
+        WonderPushLib.isSubscribedToNotifications((response) => {
             console.log(response);
         });
     }

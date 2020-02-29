@@ -1,9 +1,7 @@
 #import "WonderPushLib.h"
-#import "IOSNativeToast.h"
 #import <WonderPush/WonderPush.h>
 @interface WonderPushLib()
 
-@property (nonatomic, retain) IOSNativeToast *toast;
 
 @end
 @implementation WonderPushLib
@@ -11,7 +9,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.toast = [[IOSNativeToast alloc] init];
     }
     return self;
 }
@@ -32,10 +29,6 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 {
     callback(@[[NSString stringWithFormat: @"numberArgument: %@ stringArgument: %@", numberArgument, stringArgument]]);
 }
-RCT_EXPORT_METHOD(show:(NSString *)text)
-{
-    [self.toast showToast:text];
-}
 
 // WonderPush: Initialization methods
 RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecret callback:(RCTResponseSenderBlock)callback)
@@ -43,10 +36,76 @@ RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecr
     if(![WonderPush isInitialized]){
         [WonderPush setClientId:clientId secret:clientSecret];
         [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
-        [WonderPush setupDelegateForUserNotificationCenter];
+        if (@available(iOS 10.0, *)) {
+            [WonderPush setupDelegateForUserNotificationCenter];
+        }
         callback(@[@"WonderPush <ios> initialized successfully."]);
     }else{
         callback(@[@"WonderPush <ios> already initialized."]);
+    }
+}
+
+RCT_EXPORT_METHOD(setLogging:(BOOL)enable callback:(RCTResponseSenderBlock)callback)
+{
+    if([WonderPush isInitialized]){
+        [WonderPush setLogging:enable];
+        if(enable){
+           callback(@[@"WonderPush <ios> logging status enabled successfully."]);
+        }else{
+           callback(@[@"WonderPush <ios> logging status disabled successfully."]);
+        }
+    }else{
+        callback(@[@"WonderPush <ios> already initialized."]);
+    }
+}
+
+RCT_EXPORT_METHOD(isReady:(RCTResponseSenderBlock)callback)
+{
+    if([WonderPush isInitialized]){
+        if([WonderPush isReady]){
+            callback(@[@TRUE]);
+        }else{
+            callback(@[@FALSE]);
+        }
+    }else{
+        callback(@[@FALSE]);
+    }
+}
+
+RCT_EXPORT_METHOD(isInitialized:(RCTResponseSenderBlock)callback)
+{
+    if([WonderPush isInitialized]){
+        if([WonderPush isReady]){
+            callback(@[@TRUE]);
+        }else{
+            callback(@[@FALSE]);
+        }
+    }else{
+        callback(@[@FALSE]);
+    }
+}
+
+// WonderPush: Initialization methods
+RCT_EXPORT_METHOD(setupDelegateForApplication:(RCTResponseSenderBlock)callback)
+{
+    if([WonderPush isInitialized]){
+        [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
+        callback(@[@"WonderPush <ios> notification delegete setup succesfully."]);
+    }else{
+        callback(@[@"WonderPush <ios> already initialized."]);
+    }
+}
+
+// WonderPush: Initialization methods
+RCT_EXPORT_METHOD(setupDelegateForUserNotificationCenter:(RCTResponseSenderBlock)callback)
+{
+    if([WonderPush isInitialized]){
+        if (@available(iOS 10.0, *)) {
+            [WonderPush setupDelegateForUserNotificationCenter];
+        }
+        callback(@[@"WonderPush <ios> notification center delegete setup succesfully."]);
+    }else{
+        callback(@[@"WonderPush <ios> not initialized."]);
     }
 }
 
@@ -78,6 +137,18 @@ RCT_EXPORT_METHOD(unsubscribeFromNotifications:(RCTResponseSenderBlock)callback)
     }
 }
 
+RCT_EXPORT_METHOD(isSubscribedToNotifications:(RCTResponseSenderBlock)callback)
+{
+    if([WonderPush isInitialized]){
+        if([WonderPush isSubscribedToNotifications]){
+            callback(@[@TRUE]);
+        }else{
+            callback(@[@FALSE]);
+        }
+    }else{
+        callback(@[@FALSE]);
+    }
+}
 // 
 
 @end

@@ -23,7 +23,6 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-
         <Button
           onPress={() => {
             wonderpush.subscribeToNotifications();
@@ -36,6 +35,27 @@ export default class App extends Component<{}> {
             wonderpush.unsubscribeFromNotifications();
           }}
           title="Unsubscribe to WonderPush Notifications."
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+      <Button
+          onPress={() => {
+            wonderpush.isSubscribedToNotifications();
+          }}
+          title="Check for subscription"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+        <Button
+          onPress={() => {
+            wonderpush.setLogging(true);
+          }}
+          title="Enable Logging"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+        <Button
+          onPress={() => {
+            wonderpush.setLogging(false);
+          }}
+          title="Disable Logging"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
       </View>

@@ -1,6 +1,5 @@
 package com.reactwonderpushlibrary;
 import android.content.Context;
-import android.widget.Toast;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -30,17 +29,33 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
     }
 
-   @ReactMethod
-    public void show(String text) {
-        Context context = getReactApplicationContext();
-        Toast.makeText(context,text, Toast.LENGTH_LONG).show();
-    }
-
     // WonderPush: Initialization methods
     @ReactMethod
     public void setClientId(String clientId, String clientSecret, Callback callback) {
         WonderPush.initialize(this.reactContext,clientId,clientSecret);
         callback.invoke("WonderPush <Android> initialized successfully.");
+    }
+
+    @ReactMethod
+    public void setLogging(boolean enable, Callback callback){
+        WonderPush.setLogging(enable);
+        if(enable){
+            callback.invoke("WonderPush <Android> logging status enabled successfully.");
+        }else{
+            callback.invoke("WonderPush <Android> logging status disabled successfully.");
+        }
+    }
+
+    @ReactMethod
+    public void isReady(Callback callback) {
+        boolean status = WonderPush.isReady();
+        callback.invoke(status);
+    }
+
+     @ReactMethod
+    public void isInitialized(Callback callback) {
+         boolean status = WonderPush.isReady();
+         callback.invoke(status);
     }
 
     // WonderPush: Subscribing users methods
@@ -64,4 +79,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
          }
     }
 
+    @ReactMethod
+    public void isSubscribedToNotifications(Callback callback) {
+        boolean status = WonderPush.isSubscribedToNotifications();
+        callback.invoke(status);
+    }
 }
