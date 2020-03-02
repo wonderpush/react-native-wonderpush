@@ -18,42 +18,54 @@ export default class App extends Component<{}> {
     message: '--'
   };
   componentDidMount() {
-    wonderpush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6')
+    wonderpush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6',(response)=>{
+      console.log(response);
+    });
   }
   render() {
     return (
       <View style={styles.container}>
         <Button
           onPress={() => {
-            wonderpush.subscribeToNotifications();
+            wonderpush.subscribeToNotifications((response)=>{
+              console.log(response);
+            });
           }}
           title="Subscribe to WonderPush Notifications."
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
         <Button
           onPress={() => {
-            wonderpush.unsubscribeFromNotifications();
+            wonderpush.unsubscribeFromNotifications((response)=>{
+              console.log(response);
+            });
           }}
           title="Unsubscribe to WonderPush Notifications."
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
       <Button
           onPress={() => {
-            wonderpush.isSubscribedToNotifications();
+            wonderpush.isSubscribedToNotifications((response)=>{
+              console.log(response);
+            });
           }}
           title="Check for subscription"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
         <Button
           onPress={() => {
-            wonderpush.setLogging(true);
+            wonderpush.setLogging(true,(response)=>{
+              console.log(response);
+            });
           }}
           title="Enable Logging"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
         <Button
           onPress={() => {
-            wonderpush.setLogging(false);
+            wonderpush.setLogging(false,(response)=>{
+              console.log(response);
+            });
           }}
           title="Disable Logging"
           color="#841584"
