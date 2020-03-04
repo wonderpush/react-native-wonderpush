@@ -10,7 +10,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View,Button } from 'react-native';
-import wonderpush from 'react-native-wonderpush';
+import WonderPush from 'react-native-wonderpush';
 
 export default class App extends Component<{}> {
   state = {
@@ -18,7 +18,7 @@ export default class App extends Component<{}> {
     message: '--'
   };
   componentDidMount() {
-    wonderpush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6',(response)=>{
+    WonderPush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6',(response)=>{
       console.log(response);
     });
   }
@@ -27,7 +27,7 @@ export default class App extends Component<{}> {
       <View style={styles.container}>
         <Button
           onPress={() => {
-            wonderpush.subscribeToNotifications((response)=>{
+            WonderPush.subscribeToNotifications((response)=>{
               console.log(response);
             });
           }}
@@ -36,7 +36,7 @@ export default class App extends Component<{}> {
           accessibilityLabel="Learn more about this purple button"/>
         <Button
           onPress={() => {
-            wonderpush.unsubscribeFromNotifications((response)=>{
+            WonderPush.unsubscribeFromNotifications((response)=>{
               console.log(response);
             });
           }}
@@ -45,7 +45,7 @@ export default class App extends Component<{}> {
           accessibilityLabel="Learn more about this purple button"/>
       <Button
           onPress={() => {
-            wonderpush.isSubscribedToNotifications((response)=>{
+            WonderPush.isSubscribedToNotifications((response)=>{
               console.log(response);
             });
           }}
@@ -54,7 +54,7 @@ export default class App extends Component<{}> {
           accessibilityLabel="Learn more about this purple button"/>
         <Button
           onPress={() => {
-            wonderpush.setLogging(true,(response)=>{
+            WonderPush.setLogging(true,(response)=>{
               console.log(response);
             });
           }}
@@ -63,7 +63,7 @@ export default class App extends Component<{}> {
           accessibilityLabel="Learn more about this purple button"/>
         <Button
           onPress={() => {
-            wonderpush.setLogging(false,(response)=>{
+            WonderPush.setLogging(false,(response)=>{
               console.log(response);
             });
           }}
