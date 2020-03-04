@@ -61,22 +61,14 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     // WonderPush: Subscribing users methods
     @ReactMethod
     public void subscribeToNotifications(Callback callback) {
-        if(!WonderPush.isSubscribedToNotifications()){
-            WonderPush.subscribeToNotifications();
-            callback.invoke("WonderPush: <Android> subscribed to notification successfully.");
-        }else{
-            callback.invoke("WonderPush: <Android> already subscribed to notifications.");
-        }
+        WonderPush.subscribeToNotifications();
+        callback.invoke("WonderPush: <Android> subscribed to notification successfully.");
     }
 
      @ReactMethod
     public void unsubscribeFromNotifications(Callback callback) {
-         if(WonderPush.isSubscribedToNotifications()){
-             WonderPush.unsubscribeFromNotifications();
-             callback.invoke("WonderPush: <Android> unsubscribed to notification successfully.");
-         }else{
-             callback.invoke("WonderPush: <Android> already unsubscribed to notifications.");
-         }
+        WonderPush.unsubscribeFromNotifications();
+        callback.invoke("WonderPush: <Android> unsubscribed to notification successfully.");
     }
 
     @ReactMethod
