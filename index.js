@@ -13,7 +13,7 @@ class WonderPushPlugIn {
 
     show() {
         if (!this.isNativeModuleInitialized()) {
-            console.log("WonderPushLib {Native module} not initialized.");
+            console.log("WonderPush {Native module} not initialized.");
             return;
         }
         WonderPushLib.show("test toast");
@@ -24,99 +24,145 @@ class WonderPushPlugIn {
     }
 
     // WonderPush: Initialization methods
-    setClientId(clientId, secret, callback) {
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.setClientId(clientId, secret, (response) => {
-            callback(response);
-        });
+
+    setClientId(clientId, secret) {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.setClientId(clientId, secret);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        }); 
     }
 
-    setLogging(enable, callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.setLogging(enable,(response) => {
-            callback(response);
-        });
+    setLogging(enable){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            try {
+                const response = await WonderPushLib.setLogging(enable);
+                resolve(response);   
+            } catch (error) {
+                reject(error);
+            }
+        }); 
     }
 
-    isInitialized(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.isInitialized((response) => {
-            callback(response);
-        });
+    isReady(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.isReady();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        }); 
     }
 
-    isReady(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.isReady((response) => {
-            callback(response);
-        });
+    isInitialized(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.isInitialized();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        }); 
     }
 
-    setupDelegateForApplication(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        if(Platform.OS === 'ios'){
-            WonderPushLib.setupDelegateForApplication((response) => {
-                callback(response);
-            });
-        }
+    setupDelegateForApplication(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            if(Platform.OS === 'ios'){
+                try{
+                    const response = await WonderPushLib.setupDelegateForApplication();
+                    resolve(response);
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        }); 
     }
 
-    setupDelegateForUserNotificationCenter(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        if(Platform.OS === 'ios'){
-            WonderPushLib.setupDelegateForUserNotificationCenter((response) => {
-                callback(response);
-            });
-        }
-       
+    setupDelegateForUserNotificationCenter(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            if(Platform.OS === 'ios'){
+                try{
+                    const response = await WonderPushLib.setupDelegateForUserNotificationCenter();
+                    resolve(response);
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        }); 
     }
 
     // WonderPush: Subscribing users methods
-    subscribeToNotifications(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.subscribeToNotifications((response) => {
-            callback(response);
+    subscribeToNotifications(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.subscribeToNotifications();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
-    unsubscribeFromNotifications(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.unsubscribeFromNotifications((response) => {
-            callback(response);
+    unsubscribeFromNotifications(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.unsubscribeFromNotifications();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
         });
     }
-
-    isSubscribedToNotifications(callback){
-        if (!this.isNativeModuleInitialized()) {
-            callback("WonderPushLib {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.isSubscribedToNotifications((response) => {
-            callback(response);
+    
+    isSubscribedToNotifications(){
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPush {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.isSubscribedToNotifications();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 }

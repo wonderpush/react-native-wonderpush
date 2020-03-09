@@ -17,55 +17,74 @@ export default class App extends Component<{}> {
     status: 'starting',
     message: '--'
   };
-  componentDidMount() {
-    WonderPush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6',(response)=>{
-      console.log(response);
-    });
+ 
+  async componentDidMount() {
+    try {
+      const response = await WonderPush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6');
+      console.log(response);  
+    } catch (error) {
+      console.log(error);
+    }
   }
   render() {
     return (
       <View style={styles.container}>
         <Button
-          onPress={() => {
-            WonderPush.subscribeToNotifications((response)=>{
-              console.log(response);
-            });
+          onPress={async () => {
+            try {
+              const response = await WonderPush.subscribeToNotifications();
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
           }}
           title="Subscribe to WonderPush Notifications."
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
         <Button
-          onPress={() => {
-            WonderPush.unsubscribeFromNotifications((response)=>{
-              console.log(response);
-            });
+          onPress={ async () => {
+            try {
+              const response = await WonderPush.unsubscribeFromNotifications();
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
           }}
           title="Unsubscribe to WonderPush Notifications."
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
       <Button
-          onPress={() => {
-            WonderPush.isSubscribedToNotifications((response)=>{
-              console.log(response);
-            });
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.isSubscribedToNotifications();
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
           }}
           title="Check for subscription"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
         <Button
-          onPress={() => {
-            WonderPush.setLogging(true,(response)=>{
-              console.log(response);
-            });
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.setLogging(true);
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
           }}
           title="Enable Logging"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
         <Button
-          onPress={() => {
-            WonderPush.setLogging(false,(response)=>{
-              console.log(response);
-            });
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.setLogging(false);
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
           }}
           title="Disable Logging"
           color="#841584"

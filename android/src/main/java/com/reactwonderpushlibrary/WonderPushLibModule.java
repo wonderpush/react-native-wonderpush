@@ -3,10 +3,9 @@ import android.content.Context;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.wonderpush.sdk.WonderPush;
-import com.wonderpush.sdk.WonderPushInitializer;
-import com.wonderpush.sdk.WonderPushService;
+
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
@@ -22,58 +21,82 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         return "WonderPushLib";
     }
 
-    // Sample methods
-    @ReactMethod
-    public void sampleMethod(String stringArgument, int numberArgument, Callback callback) {
-        // TODO: Implement some actually useful functionality
-        callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
-    }
 
     // WonderPush: Initialization methods
-    @ReactMethod
-    public void setClientId(String clientId, String clientSecret, Callback callback) {
-        WonderPush.initialize(this.reactContext,clientId,clientSecret);
-        callback.invoke("WonderPush <Android> initialized successfully.");
-    }
 
+  // WonderPush: Initialization methods
     @ReactMethod
-    public void setLogging(boolean enable, Callback callback){
-        WonderPush.setLogging(enable);
-        if(enable){
-            callback.invoke("WonderPush <Android> logging status enabled successfully.");
-        }else{
-            callback.invoke("WonderPush <Android> logging status disabled successfully.");
+    public void setClientId(String clientId, String clientSecret, Promise promise) {
+        try {
+            WonderPush.initialize(this.reactContext,clientId,clientSecret);
+            promise.resolve("WonderPush: initialized successfully.");
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling setClientId:secretId.",  e);
         }
     }
 
     @ReactMethod
-    public void isReady(Callback callback) {
-        boolean status = WonderPush.isReady();
-        callback.invoke(status);
+    public void setLogging(boolean enable, Promise promise){
+        try {
+            WonderPush.setLogging(enable);
+            if(enable){
+                promise.resolve("WonderPush: logging enabled successfully.");
+            }else{
+                promise.resolve("WonderPush: logging disabled successfully.");
+            }
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling setLogging.", e);
+        }
     }
 
-     @ReactMethod
-    public void isInitialized(Callback callback) {
-         boolean status = WonderPush.isReady();
-         callback.invoke(status);
+    @ReactMethod
+    public void isReady(Promise promise) {
+        try {
+            boolean status = WonderPush.isReady();
+            promise.resolve(status);
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling isReady.", e);
+        }
+    }
+
+    @ReactMethod
+    public void isInitialized(Promise promise) {
+        try {
+            boolean status = WonderPush.isReady();
+            promise.resolve(status);
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling isInitialized." , e);
+        }
     }
 
     // WonderPush: Subscribing users methods
     @ReactMethod
-    public void subscribeToNotifications(Callback callback) {
-        WonderPush.subscribeToNotifications();
-        callback.invoke("WonderPush: <Android> subscribed to notification successfully.");
-    }
-
-     @ReactMethod
-    public void unsubscribeFromNotifications(Callback callback) {
-        WonderPush.unsubscribeFromNotifications();
-        callback.invoke("WonderPush: <Android> unsubscribed to notification successfully.");
+    public void subscribeToNotifications(Promise promise) {
+        try {
+            WonderPush.subscribeToNotifications();
+            promise.resolve("WonderPush: subscribed to notification successfully.");
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling subscribeToNotifications.", e);
+        }
     }
 
     @ReactMethod
-    public void isSubscribedToNotifications(Callback callback) {
-        boolean status = WonderPush.isSubscribedToNotifications();
-        callback.invoke(status);
+    public void unsubscribeFromNotifications(Promise promise) {
+        try {
+            WonderPush.unsubscribeFromNotifications();
+            promise.resolve("WonderPush: unsubscribed to notification successfully.");
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling unsubscribeFromNotifications.",e);
+        }
+    }
+
+    @ReactMethod
+    public void isSubscribedToNotifications(Promise promise) {
+        try {
+            boolean status = WonderPush.isSubscribedToNotifications();
+            promise.resolve(status);
+        } catch (Exception e) {
+            promise.reject("0","WonderPush: Error occured in calling isSubscribedToNotifications.", e);
+        }
     }
 }

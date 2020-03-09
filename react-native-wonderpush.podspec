@@ -15,11 +15,10 @@ Pod::Spec.new do |s|
   s.authors      = { "Your Name" => "yourname@email.com" }
   s.platforms    = { :ios => "9.0" }
   s.source       = { :git => "https://github.com/github_account/react-native-wonderpush.git", :tag => "#{s.version}" }
-
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
 
-  s.dependency "React"
+  s.dependency 'React',  '>= 0.13.0', '< 1.0.0'
   s.dependency 'WonderPush', '~> 3.0'
 
   # ...
