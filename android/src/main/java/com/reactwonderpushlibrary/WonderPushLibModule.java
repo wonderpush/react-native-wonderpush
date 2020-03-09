@@ -28,7 +28,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setClientId(String clientId, String clientSecret, Promise promise) {
         try {
-            WonderPush.initialize(this.reactContext,clientId,clientSecret);
+            RCTWonderPush.getInstance().setClientId(this.reactContext,clientId,clientSecret);
             promise.resolve("WonderPush: initialized successfully.");
         } catch (Exception e) {
             promise.reject("0","WonderPush: Error occured in calling setClientId:secretId.",  e);

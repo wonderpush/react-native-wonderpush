@@ -1,5 +1,6 @@
 #import "WonderPushLib.h"
 #import <WonderPush/WonderPush.h>
+#import "RCTWonderPush.h"
 @interface WonderPushLib()
 
 @end
@@ -28,11 +29,7 @@ RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecr
  {
     @try {
         dispatch_async(dispatch_get_main_queue(), ^{
-           [WonderPush setClientId:clientId secret:clientSecret];
-           [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
-           if (@available(iOS 10.0, *)) {
-                 [WonderPush setupDelegateForUserNotificationCenter];
-            }
+            [[RCTWonderPush sharedInstance] setClientId:clientId secret:clientSecret];
             resolve(@"WonderPush: initialized successfully.");
         });
     }
