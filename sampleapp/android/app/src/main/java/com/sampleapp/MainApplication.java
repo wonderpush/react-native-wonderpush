@@ -9,7 +9,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import  com.reactwonderpushlibrary.RCTWonderPush;
 //import com.reac;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -46,8 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    RCTWonderPush.getInstance().setLogging(true);
-    RCTWonderPush.getInstance().setClientId(this.getApplicationContext(),"fd49eef17401e6b2916e9101fa48c9c2f15ec330","fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6");
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }

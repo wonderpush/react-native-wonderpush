@@ -28,7 +28,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setClientId(String clientId, String clientSecret, Promise promise) {
         try {
-            RCTWonderPush.getInstance().setClientId(this.reactContext,clientId,clientSecret);
+            WonderPush.initialize(this.reactContext,clientId,clientSecret);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -38,7 +38,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setLogging(boolean enable, Promise promise){
         try {
-            RCTWonderPush.getInstance().setLogging(enable);
+            WonderPush.setLogging(enable);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -48,7 +48,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isReady(Promise promise) {
         try {
-            boolean status =  RCTWonderPush.getInstance().isReady();
+            boolean status =  WonderPush.isReady();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
@@ -58,7 +58,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isInitialized(Promise promise) {
         try {
-            boolean status =  RCTWonderPush.getInstance().isReady();
+            boolean status =  WonderPush.isReady();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
@@ -69,7 +69,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void subscribeToNotifications(Promise promise) {
         try {
-            RCTWonderPush.getInstance().subscribeToNotifications();
+            WonderPush.subscribeToNotifications();
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -79,7 +79,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void unsubscribeFromNotifications(Promise promise) {
         try {
-            RCTWonderPush.getInstance().unsubscribeFromNotifications();
+            WonderPush.unsubscribeFromNotifications();
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -89,7 +89,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isSubscribedToNotifications(Promise promise) {
         try {
-            boolean status =  RCTWonderPush.getInstance().isSubscribedToNotifications();
+            boolean status =  WonderPush.isSubscribedToNotifications();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);

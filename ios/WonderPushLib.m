@@ -1,6 +1,5 @@
 #import "WonderPushLib.h"
 #import <WonderPush/WonderPush.h>
-#import "RCTWonderPush.h"
 @interface WonderPushLib()
 
 @end
@@ -28,7 +27,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecret resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try {
-        [[RCTWonderPush sharedInstance] setClientId:clientId secret:clientSecret];
+        [WonderPush setClientId:clientId secret:clientSecret];
         resolve(nil);
     }
     @catch (NSError *e) {
@@ -39,7 +38,7 @@ RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecr
 RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
-         [[RCTWonderPush sharedInstance] setLogging:enable];
+         [WonderPush setLogging:enable];
          resolve(nil);
      }
      @catch(NSError *e){
@@ -50,7 +49,7 @@ RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resol
 RCT_EXPORT_METHOD(isReady:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        if([[RCTWonderPush sharedInstance] isReady]){
+        if([WonderPush isReady]){
             resolve(@TRUE);
         }else{
             resolve(@FALSE);
@@ -64,7 +63,7 @@ RCT_EXPORT_METHOD(isReady:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
 RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        if([[RCTWonderPush sharedInstance] isInitialized]){
+        if([WonderPush isInitialized]){
             resolve(@TRUE);
         }else{
             resolve(@FALSE);
@@ -78,7 +77,7 @@ RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 RCT_EXPORT_METHOD(setupDelegateForApplication:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        [[RCTWonderPush sharedInstance] setupDelegateForApplication];
+        [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
         resolve(nil);
     }
     @catch(NSError *e){
@@ -89,7 +88,9 @@ RCT_EXPORT_METHOD(setupDelegateForApplication:(RCTPromiseResolveBlock)resolve re
 RCT_EXPORT_METHOD(setupDelegateForUserNotificationCenter:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
      @try{
-         [[RCTWonderPush sharedInstance] setupDelegateForUserNotificationCenter];
+         if (@available(iOS 10.0, *)) {
+             [WonderPush setupDelegateForUserNotificationCenter];
+         }
          resolve(nil);
     }
     @catch(NSError *e){
@@ -101,7 +102,7 @@ RCT_EXPORT_METHOD(setupDelegateForUserNotificationCenter:(RCTPromiseResolveBlock
 RCT_EXPORT_METHOD(subscribeToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        [[RCTWonderPush sharedInstance] subscribeToNotifications];
+        [WonderPush subscribeToNotifications];
         resolve(nil);
     }
     @catch(NSError *e){
@@ -112,7 +113,7 @@ RCT_EXPORT_METHOD(subscribeToNotifications:(RCTPromiseResolveBlock)resolve rejec
 RCT_EXPORT_METHOD(unsubscribeFromNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        [[RCTWonderPush sharedInstance] unsubscribeFromNotifications];
+        [WonderPush unsubscribeFromNotifications];
         resolve(nil);
     }
     @catch(NSError *e){
@@ -123,7 +124,7 @@ RCT_EXPORT_METHOD(unsubscribeFromNotifications:(RCTPromiseResolveBlock)resolve r
 RCT_EXPORT_METHOD(isSubscribedToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        if([[RCTWonderPush sharedInstance] isSubscribedToNotifications]){
+        if([WonderPush isSubscribedToNotifications]){
             resolve(@TRUE);
         }else{
             resolve(@FALSE);

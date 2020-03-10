@@ -20,12 +20,12 @@ export default class App extends Component<{}> {
  
   constructor(){
     super();
-  //   WonderPush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6').then((response) => {
-  //     console.log(response);  
-  // })
-  // .catch(err => {
-  //   console.log(error);
-  // });
+    WonderPush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6').then((response) => {
+      console.log(response);  
+    })
+    .catch(err => {
+      console.log(error);
+    });
   }
   componentDidMount() {
     
