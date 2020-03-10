@@ -29,43 +29,39 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void setClientId(String clientId, String clientSecret, Promise promise) {
         try {
             RCTWonderPush.getInstance().setClientId(this.reactContext,clientId,clientSecret);
-            promise.resolve("WonderPush: initialized successfully.");
+            promise.resolve(null);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling setClientId:secretId.",  e);
+            promise.reject(e);
         }
     }
 
     @ReactMethod
     public void setLogging(boolean enable, Promise promise){
         try {
-            WonderPush.setLogging(enable);
-            if(enable){
-                promise.resolve("WonderPush: logging enabled successfully.");
-            }else{
-                promise.resolve("WonderPush: logging disabled successfully.");
-            }
+            RCTWonderPush.getInstance().setLogging(enable);
+            promise.resolve(null);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling setLogging.", e);
+            promise.reject(e);
         }
     }
 
     @ReactMethod
     public void isReady(Promise promise) {
         try {
-            boolean status = WonderPush.isReady();
+            boolean status =  RCTWonderPush.getInstance().isReady();
             promise.resolve(status);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling isReady.", e);
+            promise.reject(e);
         }
     }
 
     @ReactMethod
     public void isInitialized(Promise promise) {
         try {
-            boolean status = WonderPush.isReady();
+            boolean status =  RCTWonderPush.getInstance().isReady();
             promise.resolve(status);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling isInitialized." , e);
+            promise.reject(e);
         }
     }
 
@@ -73,30 +69,30 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void subscribeToNotifications(Promise promise) {
         try {
-            WonderPush.subscribeToNotifications();
-            promise.resolve("WonderPush: subscribed to notification successfully.");
+            RCTWonderPush.getInstance().subscribeToNotifications();
+            promise.resolve(null);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling subscribeToNotifications.", e);
+            promise.reject(e);
         }
     }
 
     @ReactMethod
     public void unsubscribeFromNotifications(Promise promise) {
         try {
-            WonderPush.unsubscribeFromNotifications();
-            promise.resolve("WonderPush: unsubscribed to notification successfully.");
+            RCTWonderPush.getInstance().unsubscribeFromNotifications();
+            promise.resolve(null);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling unsubscribeFromNotifications.",e);
+            promise.reject(e);
         }
     }
 
     @ReactMethod
     public void isSubscribedToNotifications(Promise promise) {
         try {
-            boolean status = WonderPush.isSubscribedToNotifications();
+            boolean status =  RCTWonderPush.getInstance().isSubscribedToNotifications();
             promise.resolve(status);
         } catch (Exception e) {
-            promise.reject("0","WonderPush: Error occured in calling isSubscribedToNotifications.", e);
+            promise.reject(e);
         }
     }
 }

@@ -28,80 +28,72 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecret resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[RCTWonderPush sharedInstance] setClientId:clientId secret:clientSecret];
-            resolve(@"WonderPush: initialized successfully.");
-        });
+        [[RCTWonderPush sharedInstance] setClientId:clientId secret:clientSecret];
+        resolve(nil);
     }
     @catch (NSError *e) {
-        reject(@"WonderPush", @"Error occured in calling setClientId:secretId.", e);
+        reject(nil, nil, e);
     }
  }
 
 RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
-         [WonderPush setLogging:enable];
-         if(enable){
-            resolve(@"WonderPush: logging enabled successfully.");
-         }else{
-            resolve(@"WonderPush: logging disabled successfully.");
-         }
+         [[RCTWonderPush sharedInstance] setLogging:enable];
+         resolve(nil);
      }
      @catch(NSError *e){
-        reject(@"WonderPush", @"Error occured in calling setLogging.", e);
+        reject(nil, nil, e);
      }
  }
 
 RCT_EXPORT_METHOD(isReady:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        if([WonderPush isReady]){
+        if([[RCTWonderPush sharedInstance] isReady]){
             resolve(@TRUE);
         }else{
             resolve(@FALSE);
         }
      }
      @catch(NSError *e){
-        reject(@"WonderPush", @"Error occured in calling isReady.", e);
+        reject(nil, nil, e);
      }
  }
 
 RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        if([WonderPush isInitialized]){
+        if([[RCTWonderPush sharedInstance] isInitialized]){
             resolve(@TRUE);
         }else{
             resolve(@FALSE);
         }
      }
      @catch(NSError *e){
-        reject(@"WonderPush", @"Error occured in calling isInitialized.", e);
+        reject(nil, nil, e);
      }
  }
 
 RCT_EXPORT_METHOD(setupDelegateForApplication:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
-        resolve(@"WonderPush: Application delegate setup successfully.");
+        [[RCTWonderPush sharedInstance] setupDelegateForApplication];
+        resolve(nil);
     }
     @catch(NSError *e){
-        reject(@"WonderPush", @"Error occured in setupDelegateForApplication.", e);
+        reject(nil, nil, e);
     }
  }
 
 RCT_EXPORT_METHOD(setupDelegateForUserNotificationCenter:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
      @try{
-        if (@available(iOS 10.0, *)) {
-             [WonderPush setupDelegateForUserNotificationCenter];
-         }
-         resolve(@[@"WonderPush: UserNotificationCenter delegate setup successfully."]);
+         [[RCTWonderPush sharedInstance] setupDelegateForUserNotificationCenter];
+         resolve(nil);
     }
     @catch(NSError *e){
-        reject(@"WonderPush", @"Error occured in setupDelegateForUserNotificationCenter.", e);
+        reject(nil, nil, e);
     }
  }
 
@@ -109,36 +101,36 @@ RCT_EXPORT_METHOD(setupDelegateForUserNotificationCenter:(RCTPromiseResolveBlock
 RCT_EXPORT_METHOD(subscribeToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        [WonderPush subscribeToNotifications];
-        resolve(@"WonderPush: subscribed to notification successfully.");
+        [[RCTWonderPush sharedInstance] subscribeToNotifications];
+        resolve(nil);
     }
     @catch(NSError *e){
-       reject(@"WonderPush", @"Error occured in calling subscribeToNotifications.", e);
+       reject(nil, nil, e);
     }
  }
 
 RCT_EXPORT_METHOD(unsubscribeFromNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        [WonderPush unsubscribeFromNotifications];
-        resolve(@"WonderPush: unsubscribed to notification successfully.");
+        [[RCTWonderPush sharedInstance] unsubscribeFromNotifications];
+        resolve(nil);
     }
     @catch(NSError *e){
-       reject(@"WonderPush", @"Error occured in calling unsubscribeFromNotifications.", e);
+       reject(nil, nil, e);
     }
  }
 
 RCT_EXPORT_METHOD(isSubscribedToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
  {
     @try{
-        if([WonderPush isSubscribedToNotifications]){
+        if([[RCTWonderPush sharedInstance] isSubscribedToNotifications]){
             resolve(@TRUE);
         }else{
             resolve(@FALSE);
         }
      }
      @catch(NSError *e){
-        reject(@"WonderPush", @"Error occured in calling isSubscribedToNotifications.", e);
+        reject(nil, nil, e);
      }
  }
 
