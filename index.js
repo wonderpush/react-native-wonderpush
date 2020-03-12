@@ -165,6 +165,102 @@ class WonderPushPlugIn {
             }
         });
     }
+
+    trackEvent(type, attributes) {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.trackEvent(type, attributes);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    addTag(tag) {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.addTag(tag);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    removeTag(tag) {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.removeTag(tag);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    removeAllTags() {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.removeAllTags();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    hasTag(tag) {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.hasTag(tag);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    getTags() {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+
+            try{
+                const response = await WonderPushLib.getTags();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 const WonderPush = new WonderPushPlugIn();
 export default WonderPush;

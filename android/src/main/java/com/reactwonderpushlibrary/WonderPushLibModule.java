@@ -95,4 +95,74 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
             promise.reject(e);
         }
     }
+
+      @ReactMethod
+    public void isSubscribedToNotifications(Promise promise) {
+        try {
+            boolean status = WonderPush.isSubscribedToNotifications();
+            promise.resolve(status);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void trackEvent(String type, JSONObject attributes, Promise promise) {
+        try {
+            WonderPush.trackEvent(type, attributes);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void addTag(String tag, Promise promise) {
+        try {
+            WonderPush.addTag(tag);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void removeTag(String tag, Promise promise) {
+        try {
+            WonderPush.removeTag(tag);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void removeAllTags(Promise promise) {
+        try {
+            WonderPush.removeAllTags();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void hasTag(String tag, Promise promise) {
+        try {
+            boolean status =  WonderPush.hasTag(tag);
+            promise.resolve(status);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getTags(Promise promise) {
+        try {
+            Set<String> tags = WonderPush.getTags();
+            promise.resolve(tags);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
 }

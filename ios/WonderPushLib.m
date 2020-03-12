@@ -135,4 +135,94 @@ RCT_EXPORT_METHOD(isSubscribedToNotifications:(RCTPromiseResolveBlock)resolve re
      }
  }
 
+RCT_EXPORT_METHOD(trackEvent:(NSString *)type attributes:(NSDictionary *)attributes resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush trackEvent:type attributes:attributes];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(addTag:(NSString *)tag resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+   @try{
+        [WonderPush addTag:tag];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(addTags:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+   @try{
+        [WonderPush addTags:tags];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(removeTag:(NSString *)tag resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush removeTag:tag];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(removeTags:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush removeTags:tags];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(removeAllTags:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush removeAllTags];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(hasTag:(NSString *)tag findEventsWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+       if([WonderPush hasTag:tag]){
+            resolve(@TRUE);
+        }else{
+            resolve(@FALSE);
+        }
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(getTags:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        NSOrderedSet<NSString*> *tags = [WonderPush getTags];
+        resolve((NSArray *) tags);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
 @end
