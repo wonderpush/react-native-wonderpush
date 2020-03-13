@@ -252,7 +252,6 @@ class WonderPushPlugIn {
             if (!self.isNativeModuleInitialized()) {
                 reject("WonderPushLib {Native module} not initialized.");
             }
-
             try{
                 const response = await WonderPushLib.getTags();
                 resolve(response);
@@ -261,6 +260,37 @@ class WonderPushPlugIn {
             }
         });
     }
+
+    getUserId() {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.getUserId();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    setUserId(userId) {
+        self = this;
+        return new Promise(async function(resolve, reject) {
+            if (!self.isNativeModuleInitialized()) {
+                reject("WonderPushLib {Native module} not initialized.");
+            }
+            try{
+                const response = await WonderPushLib.setUserId(userId);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
 }
 const WonderPush = new WonderPushPlugIn();
 export default WonderPush;

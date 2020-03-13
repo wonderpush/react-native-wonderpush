@@ -5,7 +5,10 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
 import com.wonderpush.sdk.WonderPush;
-
+import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
@@ -14,6 +17,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public WonderPushLibModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        WonderPush.setIntegrator("ReactNative");
     }
 
     @Override
@@ -96,15 +100,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-      @ReactMethod
-    public void isSubscribedToNotifications(Promise promise) {
-        try {
-            boolean status = WonderPush.isSubscribedToNotifications();
-            promise.resolve(status);
-        } catch (Exception e) {
-            promise.reject(e);
-        }
-    }
 
     @ReactMethod
     public void trackEvent(String type, JSONObject attributes, Promise promise) {
@@ -161,6 +156,26 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         try {
             Set<String> tags = WonderPush.getTags();
             promise.resolve(tags);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getUserId(Promise promise) {
+        try {
+            String userId = WonderPush.getUserId();
+            promise.resolve(userId);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setUserId(String userId, Promise promise) {
+        try {
+            WonderPush.setUserId(userId);
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
