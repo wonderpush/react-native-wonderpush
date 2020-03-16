@@ -121,6 +121,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
+
     @ReactMethod
     public void removeTag(String tag, Promise promise) {
         try {
@@ -156,6 +157,86 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         try {
             Set<String> tags = WonderPush.getTags();
             promise.resolve(tags);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+     @ReactMethod
+    public void getCountry(Promise promise) {
+        try {
+            String country = WonderPush.getCountry();
+            promise.resolve(country);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setCountry(String country, Promise promise) {
+        try {
+            WonderPush.setCountry(country);
+            promise.resolve("WonderPush <Android> country set successfully.");
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getCurrency(Promise promise) {
+        try {
+            String currency = WonderPush.getCurrency();
+            promise.resolve(currency);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setCurrency(String currency, Promise promise) {
+        try {
+            WonderPush.setCurrency(currency);
+            promise.resolve("WonderPush <Android> currency set successfully.");
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getLocale(Promise promise) {
+        try {
+            String locale = WonderPush.getLocale();
+            promise.resolve(locale);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setLocale(String locale, Promise promise) {
+        try {
+            WonderPush.setLocale(locale);
+            promise.resolve("WonderPush <Android> locale set successfully.");
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getTimeZone(Promise promise) {
+        try {
+            String timeZone = WonderPush.getTimeZone();
+            promise.resolve(timeZone);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setTimeZone(String timeZone, Promise promise) {
+        try {
+            WonderPush.setLocale(timeZone);
+            promise.resolve("WonderPush <Android> timeZone set successfully.");
         } catch (Exception e) {
             promise.reject(e);
         }
