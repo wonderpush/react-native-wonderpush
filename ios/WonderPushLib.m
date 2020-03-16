@@ -8,13 +8,13 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [WonderPush setIntegrator:@"ReactNative"];
     }
     return self;
 }
 
 + (BOOL)requiresMainQueueSetup
 {
+    [WonderPush setIntegrator:@"ReactNative"];
     return YES;
 }
 
