@@ -5,16 +5,13 @@
 @end
 @implementation WonderPushLib
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-    }
-    return self;
++ (void)initialize
+{
+    [WonderPush setIntegrator:@"ReactNative"];
 }
 
 + (BOOL)requiresMainQueueSetup
 {
-    [WonderPush setIntegrator:@"ReactNative"];
     return YES;
 }
 
