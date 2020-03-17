@@ -25,21 +25,6 @@ class WonderPushPlugIn {
 
     // WonderPush: Initialization methods
 
-    setClientId(clientId, secret) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.setClientId(clientId, secret);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        }); 
-    }
-
     setLogging(enable){
         self = this;
         return new Promise(async function(resolve, reject) {
@@ -82,40 +67,6 @@ class WonderPushPlugIn {
                 resolve(response);
             } catch (error) {
                 reject(error);
-            }
-        }); 
-    }
-
-    setupDelegateForApplication(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            if(Platform.OS === 'ios'){
-                try{
-                    const response = await WonderPushLib.setupDelegateForApplication();
-                    resolve(response);
-                } catch (error) {
-                    reject(error);
-                }
-            }
-        }); 
-    }
-
-    setupDelegateForUserNotificationCenter(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            if(Platform.OS === 'ios'){
-                try{
-                    const response = await WonderPushLib.setupDelegateForUserNotificationCenter();
-                    resolve(response);
-                } catch (error) {
-                    reject(error);
-                }
             }
         }); 
     }

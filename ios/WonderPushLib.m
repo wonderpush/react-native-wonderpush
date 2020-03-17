@@ -22,17 +22,6 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(setClientId:(NSString *)clientId secret:(NSString *)clientSecret resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try {
-        [WonderPush setClientId:clientId secret:clientSecret];
-        resolve(nil);
-    }
-    @catch (NSError *e) {
-        reject(nil, nil, e);
-    }
-}
-
 RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
@@ -66,30 +55,6 @@ RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
         }else{
             resolve(@FALSE);
         }
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(setupDelegateForApplication:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        [WonderPush setupDelegateForApplication:[UIApplication sharedApplication]];
-        resolve(nil);
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(setupDelegateForUserNotificationCenter:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        if (@available(iOS 10.0, *)) {
-            [WonderPush setupDelegateForUserNotificationCenter];
-        }
-        resolve(nil);
     }
     @catch(NSError *e){
         reject(nil, nil, e);
