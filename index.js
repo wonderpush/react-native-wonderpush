@@ -6,185 +6,140 @@ const { WonderPushLib } = NativeModules;
 
 class WonderPushPlugIn {
 
-    isNativeModuleInitialized(){
-        return WonderPushLib != null;
+    checkNativeModuleInitialized() {
+        if(WonderPushLib === null) {
+            throw new Error("WonderPush: Native module not initialized.");
+        }
     }
+    
 
     // WonderPush: Initialization methods
 
-    setLogging(enable) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async setLogging(enable) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.setLogging(enable);
     }
 
-    isReady() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async isReady() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.isReady();
     }
 
-    isInitialized() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async isInitialized() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.isInitialized();
     }
 
     // WonderPush: Subscribing users methods
 
-    subscribeToNotifications() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async subscribeToNotifications() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.subscribeToNotifications();
     }
 
-    unsubscribeFromNotifications() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async unsubscribeFromNotifications() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.unsubscribeFromNotifications();
     }
     
-    isSubscribedToNotifications() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async isSubscribedToNotifications() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.isSubscribedToNotifications();
     }
 
-    trackEvent(type, attributes) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async trackEvent(type, attributes) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.trackEvent(type, attributes);
     }
 
-    addTag(tag) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async addTag(tag) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.addTag(tag);
     }
 
-    addTags(tags) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async addTags(tags) {
+        this.checkNativeModuleInitialized();
         if(Platform.OS !== 'ios'){
             return Promise.reject("WonderPush: method not supported.");
         }
         return WonderPushLib.addTags(tags);
     }
 
-    removeTag(tag) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async removeTag(tag) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.removeTag(tag);
     }
 
-    removeTags(tags) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async removeTags(tags) {
+        this.checkNativeModuleInitialized();
         if(Platform.OS !== 'ios'){
             return Promise.reject("WonderPush: method not supported.");
         }
         return WonderPushLib.removeTags(tags);
     }
 
-    removeAllTags() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async removeAllTags() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.removeAllTags();
     }
 
-    hasTag(tag) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async hasTag(tag) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.hasTag(tag);
     }
 
-    getTags() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async getTags() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.getTags();
     }
 
-    getCountry() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async getCountry() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.getCountry();
     }
 
-    setCountry(country) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async setCountry(country) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.setCountry(country);
     }
 
-    getCurrency() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async getCurrency() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.getCurrency();
     }
 
-    setCurrency(currency) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async setCurrency(currency) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.setCurrency(currency);
     }
 
-    getLocale() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async getLocale() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.getLocale();
     }
 
-    setLocale(locale) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async setLocale(locale) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.setLocale(locale);
     }
 
-    getTimeZone() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async getTimeZone() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.getTimeZone();
     }
 
-    setTimeZone(timeZone) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async setTimeZone(timeZone) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.setTimeZone(timeZone);
     }
 
-    getUserId() {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async getUserId() {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.getUserId();
     }
 
-    setUserId(userId) {
-        if (!this.isNativeModuleInitialized()) {
-            return Promise.reject("WonderPush {Native module} not initialized.");
-        }
+    async setUserId(userId) {
+        this.checkNativeModuleInitialized();
         return WonderPushLib.setUserId(userId);
     }
 
