@@ -20,12 +20,7 @@ export default class App extends Component<{}> {
  
   constructor(){
     super();
-    WonderPush.setClientId('fd49eef17401e6b2916e9101fa48c9c2f15ec330','fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6').then((response) => {
-      console.log(response);  
-    })
-    .catch(err => {
-      console.log(error);
-    });
+    WonderPush.subscribeToNotifications();
   }
   componentDidMount() {
     
@@ -91,6 +86,19 @@ export default class App extends Component<{}> {
             }
           }}
           title="Disable Logging"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.trackEvent('purchase',{'product':123});
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Track Event"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
       </View>

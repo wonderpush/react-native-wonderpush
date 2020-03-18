@@ -6,402 +6,186 @@ const { WonderPushLib } = NativeModules;
 
 class WonderPushPlugIn {
 
-   // Sample Methods
-    displayMsg(message) {
-        WonderPushLib.show(message);
-    }
-
-    show() {
-        if (!this.isNativeModuleInitialized()) {
-            console.log("WonderPush: {Native module} not initialized.");
-            return;
-        }
-        WonderPushLib.show("test toast");
-    }
-
     isNativeModuleInitialized(){
         return WonderPushLib != null;
     }
 
     // WonderPush: Initialization methods
 
-    setLogging(enable){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try {
-                const response = await WonderPushLib.setLogging(enable);
-                resolve(response);   
-            } catch (error) {
-                reject(error);
-            }
-        }); 
+    setLogging(enable) {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.setLogging(enable);
     }
 
-    isReady(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.isReady();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        }); 
+    isReady() {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.isReady();
     }
 
-    isInitialized(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.isInitialized();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        }); 
+    isInitialized() {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.isInitialized();
     }
 
     // WonderPush: Subscribing users methods
-    subscribeToNotifications(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.subscribeToNotifications();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+
+    subscribeToNotifications() {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.subscribeToNotifications();
     }
 
-    unsubscribeFromNotifications(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.unsubscribeFromNotifications();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+    unsubscribeFromNotifications() {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.unsubscribeFromNotifications();
     }
     
-    isSubscribedToNotifications(){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.isSubscribedToNotifications();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+    isSubscribedToNotifications() {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.isSubscribedToNotifications();
     }
 
     trackEvent(type, attributes) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.trackEvent(type, attributes);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.trackEvent(type, attributes);
     }
 
     addTag(tag) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.addTag(tag);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.addTag(tag);
     }
 
-    addTags(tags){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            if(Platform.OS !== 'ios'){
-                reject("WonderPush: method not supported.");
-            }
-            try{
-                const response = await WonderPushLib.addTag(tag);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+    addTags(tags) {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        if(Platform.OS !== 'ios'){
+            return Promise.reject("WonderPush: method not supported.");
+        }
+        return WonderPushLib.addTags(tags);
     }
 
-    removeTags(tags){
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            if(Platform.OS !== 'ios'){
-                reject("WonderPush: method not supported.");
-            }
-            try{
-                const response = await WonderPushLib.addTag(tag);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
     removeTag(tag) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.removeTag(tag);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.removeTag(tag);
+    }
+
+    removeTags(tags) {
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        if(Platform.OS !== 'ios'){
+            return Promise.reject("WonderPush: method not supported.");
+        }
+        return WonderPushLib.removeTags(tags);
     }
 
     removeAllTags() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.removeAllTags();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.removeAllTags();
     }
 
     hasTag(tag) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.hasTag(tag);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.hasTag(tag);
     }
 
     getTags() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.getTags();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.getTags();
     }
 
     getCountry() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.getCountry();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.getCountry();
     }
 
     setCountry(country) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.setCountry(country);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.setCountry(country);
     }
 
     getCurrency() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.getCurrency();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.getCurrency();
     }
 
     setCurrency(currency) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.setCurrency(currency);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.setCurrency(currency);
     }
 
     getLocale() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.getLocale();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.getLocale();
     }
 
     setLocale(locale) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.setLocale(locale);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.setLocale(locale);
     }
 
     getTimeZone() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.getTimeZone();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.getTimeZone();
     }
 
     setTimeZone(timeZone) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-
-            try{
-                const response = await WonderPushLib.setTimeZone(timeZone);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.setTimeZone(timeZone);
     }
 
     getUserId() {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.getUserId();
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.getUserId();
     }
 
     setUserId(userId) {
-        self = this;
-        return new Promise(async function(resolve, reject) {
-            if (!self.isNativeModuleInitialized()) {
-                reject("WonderPush: {Native module} not initialized.");
-            }
-            try{
-                const response = await WonderPushLib.setUserId(userId);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        if (!this.isNativeModuleInitialized()) {
+            return Promise.reject("WonderPush {Native module} not initialized.");
+        }
+        return WonderPushLib.setUserId(userId);
     }
 
 }

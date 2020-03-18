@@ -1,13 +1,11 @@
-package com.reactwonderpushlibrary;
-import android.content.Context;
+package com.wonderpush.sdk.reactnative;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
 import com.wonderpush.sdk.WonderPush;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Set;
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
