@@ -6,7 +6,7 @@ const { WonderPushLib } = NativeModules;
 
 class WonderPushPlugIn {
 
-    checkNativeModuleInitialized() {
+    async checkNativeModuleInitialized() {
         if(WonderPushLib === null) {
             throw new Error("WonderPush: Native module not initialized.");
         }
@@ -52,30 +52,34 @@ class WonderPushPlugIn {
         return WonderPushLib.trackEvent(type, attributes);
     }
 
-    async addTag(tag) {
+    async addTag(...tags) {
         this.checkNativeModuleInitialized();
-        return WonderPushLib.addTag(tag);
-    }
-
-    async addTags(tags) {
-        this.checkNativeModuleInitialized();
-        if(Platform.OS !== 'ios'){
-            return Promise.reject("WonderPush: method not supported.");
+        if(tags.length > 0){
+            if(typeof(tags[0]) == 'object'){
+                return WonderPushLib.addTag(tags);
+            }else if(typeof(tags[0]) == 'string'){
+                return WonderPushLib.addTag(Array.from(tags));
+            }else{
+                return Promise.reject("Wonderpush: addTag() require Strings or String Array as parameter.");
+            }
+        }else{
+            return Promise.reject("Wonderpush: addTag() needs atleast one parameter.");
         }
-        return WonderPushLib.addTags(tags);
     }
 
-    async removeTag(tag) {
+    async removeTag(...tags) {
         this.checkNativeModuleInitialized();
-        return WonderPushLib.removeTag(tag);
-    }
-
-    async removeTags(tags) {
-        this.checkNativeModuleInitialized();
-        if(Platform.OS !== 'ios'){
-            return Promise.reject("WonderPush: method not supported.");
+        if(tags.length > 0){
+            if(typeof(tags[0]) == 'object'){
+                return WonderPushLib.removeTag(tags);
+            }else if(typeof(tags[0]) == 'string'){
+                return WonderPushLib.removeTag(Array.from(tags));
+            }else{
+                return Promise.reject("WonderPush: removeTag() require Strings or String Array as parameter.");
+            }
+        }else{
+            return Promise.reject("WonderPush: removeTag() needs atleast one parameter.");
         }
-        return WonderPushLib.removeTags(tags);
     }
 
     async removeAllTags() {

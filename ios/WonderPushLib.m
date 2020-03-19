@@ -109,18 +109,7 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)type attributes:(NSDictionary *)attribu
     }
 }
 
-RCT_EXPORT_METHOD(addTag:(NSString *)tag resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        [WonderPush addTag:tag];
-        resolve(nil);
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(addTags:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(addTag:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
         [WonderPush addTags:tags];
@@ -131,18 +120,7 @@ RCT_EXPORT_METHOD(addTags:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resol
     }
 }
 
-RCT_EXPORT_METHOD(removeTag:(NSString *)tag resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        [WonderPush removeTag:tag];
-        resolve(nil);
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(removeTags:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(removeTag:(NSArray *)tags resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
         [WonderPush removeTags:tags];

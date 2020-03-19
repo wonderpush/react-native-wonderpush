@@ -56,6 +56,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 case Array:
                     object.put(key, toJsonArray(readableMap.getArray(key)));
                     break;
+                default:
+                    object.put(key, "");
+                    break;
             }
         }
         return object;
@@ -81,12 +84,14 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     break;
                 case Array:
                     array.put(toJsonArray(readableArray.getArray(idx)));
+                    break;  
+                default:
+                    array.put("");
                     break;
             }
         }
         return array;
     }
-
 
     // WonderPush: Initialization methods
 
@@ -174,22 +179,20 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-
     @ReactMethod
-    public void addTag(String tag, Promise promise) {
+    public void addTag(ReadableArray tags, Promise promise) {
         try {
-            WonderPush.addTag(tag);
+            WonderPush.addTag(String.valueOf(tags));
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
     }
 
-
     @ReactMethod
-    public void removeTag(String tag, Promise promise) {
+    public void removeTag(ReadableArray tags, Promise promise) {
         try {
-            WonderPush.removeTag(tag);
+            WonderPush.removeTag(String.valueOf(tags));
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);

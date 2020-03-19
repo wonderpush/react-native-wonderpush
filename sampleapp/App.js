@@ -101,6 +101,40 @@ export default class App extends Component<{}> {
           title="Track Event"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.addTag('test');
+              console.log(response);  
+              const response1 = await WonderPush.addTag(['test','test123']);
+              console.log(response1);  
+              const response2 = await WonderPush.addTag('test','test123','tesdf');
+              console.log(response2);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Add Tags"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.removeTag('test');
+              console.log(response);  
+              const response1 = await WonderPush.removeTag(['test','test123']);
+              console.log(response1);  
+              const response2 = await WonderPush.removeTag('test','test123','tesdf');
+              console.log(response2);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Remove Tags"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
       </View>
     );
   }
