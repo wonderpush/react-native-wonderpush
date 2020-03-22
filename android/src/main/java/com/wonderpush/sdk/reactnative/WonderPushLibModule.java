@@ -56,8 +56,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 case Array:
                     object.put(key, toJsonArray(readableMap.getArray(key)));
                     break;
+                case Null:
+                    object.put(key, JSONObject.NULL);
+                    break;
                 default:
-                    object.put(key, "");
                     break;
             }
         }
@@ -85,17 +87,18 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 case Array:
                     array.put(toJsonArray(readableArray.getArray(idx)));
                     break;  
+                case Null:
+                    array.put(JSONObject.NULL);
+                    break;
                 default:
-                    array.put("");
                     break;
             }
         }
         return array;
     }
 
-    // WonderPush: Initialization methods
 
-    // WonderPush: Initialization methods
+    //Initialization
     @ReactMethod
     public void setClientId(String clientId, String clientSecret, Promise promise) {
         try {
@@ -136,7 +139,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-    // WonderPush: Subscribing users methods
+    // Subscribing users
     @ReactMethod
     public void subscribeToNotifications(Promise promise) {
         try {
@@ -167,7 +170,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-
+    // Segmentation
     @ReactMethod
     public void trackEvent(String type, ReadableMap attributes, Promise promise) {
         try{
@@ -308,7 +311,8 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
             promise.reject(e);
         }
     }
-
+    
+    // User IDs
     @ReactMethod
     public void getUserId(Promise promise) {
         try {
@@ -323,6 +327,88 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void setUserId(String userId, Promise promise) {
         try {
             WonderPush.setUserId(userId);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    // Installation info
+    @ReactMethod
+    public void getInstallationId(Promise promise) {
+        try {
+            String installationId = WonderPush.getInstallationId();
+            promise.resolve(installationId);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getPushToken(Promise promise) {
+        try {
+            String pushToken = WonderPush.getPushToken();
+            promise.resolve(pushToken);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+     @ReactMethod
+    public void getPushToken(Promise promise) {
+        try {
+            String pushToken = WonderPush.getPushToken();
+            promise.resolve(pushToken);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    // Privacy
+    @ReactMethod
+    public void disableGeolocation(Promise promise) {
+        try {
+            WonderPush.disableGeolocation();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void enableGeolocation(Promise promise) {
+        try {
+            WonderPush.enableGeolocation();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void clearEventsHistory(Promise promise) {
+        try {
+            WonderPush.clearEventsHistory();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void clearPreferences(Promise promise) {
+        try {
+            WonderPush.clearPreferences();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void clearAllData(Promise promise) {
+        try {
+            WonderPush.clearAllData();
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);

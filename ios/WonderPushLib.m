@@ -22,6 +22,7 @@
 
 RCT_EXPORT_MODULE()
 
+//Initialization
 RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
@@ -61,7 +62,7 @@ RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
     }
 }
 
-// WonderPush: Subscribing users methods
+// Subscribing users
 RCT_EXPORT_METHOD(subscribeToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
@@ -98,6 +99,8 @@ RCT_EXPORT_METHOD(isSubscribedToNotifications:(RCTPromiseResolveBlock)resolve re
     }
 }
 
+
+// Segmentation
 RCT_EXPORT_METHOD(trackEvent:(NSString *)type attributes:(NSDictionary *)attributes resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
@@ -161,28 +164,6 @@ RCT_EXPORT_METHOD(getTags:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
     @try{
         NSOrderedSet<NSString*> *tags = [WonderPush getTags];
         resolve((NSArray *) tags);
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(getUserId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        NSString *userId = [WonderPush userId];
-        resolve(userId);
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(setUserId:(NSString *)userId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        [WonderPush setUserId:userId];
-        resolve(nil);
     }
     @catch(NSError *e){
         reject(nil, nil, e);
@@ -270,6 +251,108 @@ RCT_EXPORT_METHOD(setTimeZone:(NSString *)timeZone resolver:(RCTPromiseResolveBl
 {
      @try{
         [WonderPush setTimeZone:timeZone];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+// User IDs
+RCT_EXPORT_METHOD(getUserId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        NSString *userId = [WonderPush userId];
+        resolve(userId);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(setUserId:(NSString *)userId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush setUserId:userId];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+// Installation info
+RCT_EXPORT_METHOD(getInstallationId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        NSString *installationId = [WonderPush installationId];
+        resolve(InstallationId);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(getPushToken:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+         NSString *pushToken = [WonderPush pushToken];
+        resolve(pushToken);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+//Privacy
+RCT_EXPORT_METHOD(disableGeolocation:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush disableGeolocation];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(enableGeolocation:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush enableGeolocation];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(clearEventsHistory:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush clearEventsHistory];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(clearPreferences:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush clearPreferences];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(clearAllData:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush clearAllData];
         resolve(nil);
     }
     @catch(NSError *e){

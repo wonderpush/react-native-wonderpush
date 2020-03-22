@@ -12,9 +12,7 @@ class WonderPushPlugIn {
         }
     }
     
-
-    // WonderPush: Initialization methods
-
+    //Initialization
     async setLogging(enable) {
         this.checkNativeModuleInitialized();
         return WonderPushLib.setLogging(enable);
@@ -30,8 +28,7 @@ class WonderPushPlugIn {
         return WonderPushLib.isInitialized();
     }
 
-    // WonderPush: Subscribing users methods
-
+    // Subscribing users
     async subscribeToNotifications() {
         this.checkNativeModuleInitialized();
         return WonderPushLib.subscribeToNotifications();
@@ -47,6 +44,7 @@ class WonderPushPlugIn {
         return WonderPushLib.isSubscribedToNotifications();
     }
 
+    // Segmentation
     async trackEvent(type, attributes) {
         this.checkNativeModuleInitialized();
         return WonderPushLib.trackEvent(type, attributes);
@@ -137,6 +135,7 @@ class WonderPushPlugIn {
         return WonderPushLib.setTimeZone(timeZone);
     }
 
+    // User IDs
     async getUserId() {
         this.checkNativeModuleInitialized();
         return WonderPushLib.getUserId();
@@ -147,6 +146,42 @@ class WonderPushPlugIn {
         return WonderPushLib.setUserId(userId);
     }
 
+    // Installation info
+    async getInstallationId() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.getInstallationId();
+    }
+
+    async getPushToken() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.getPushToken();
+    }
+
+    // Privacy
+    async disableGeolocation() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.disableGeolocation();
+    }
+
+    async enableGeolocation() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.enableGeolocation();
+    }
+
+    async clearEventsHistory() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.clearEventsHistory();
+    }
+
+    async clearPreferences() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.clearPreferences();
+    }
+
+    async clearAllData() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.clearAllData();
+    }
 }
 const WonderPush = new WonderPushPlugIn();
 export default WonderPush;
