@@ -170,6 +170,100 @@ RCT_EXPORT_METHOD(getTags:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
     }
 }
 
+RCT_EXPORT_METHOD(getPropertyValue:(NSString *)property resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+       id value = [WonderPush getPropertyValue:property];
+
+       if ([value isKindOfClass:[NSString class]]) {
+           NSString *val = (NSString *) value;
+           resolve(val);
+       }else{
+           resolve(@[@"WonderPush <ios> property value is not available."]);
+       }
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(getPropertyValues:(NSString *)property resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        NSArray *values = [WonderPush getPropertyValues:property];
+        resolve(values);
+    }
+    @catch(NSError *e){
+       reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(addProperty:(NSString *)str properties:(id)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush addProperty:str value:properties];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(removeProperty:(NSString *)str properties:(id)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush removeProperty:str value:properties];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(setProperty:(NSString *)str properties:(id)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush setProperty:str value:properties];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(unsetProperty:(NSString *)property resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush unsetProperty:property];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(putProperties:(NSDictionary *)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush putProperties:properties];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(getProperties:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        NSDictionary *properties = [WonderPush getProperties];
+        resolve(properties);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
 RCT_EXPORT_METHOD(getCountry:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
@@ -286,7 +380,7 @@ RCT_EXPORT_METHOD(getInstallationId:(RCTPromiseResolveBlock)resolve rejecter:(RC
 {
     @try{
         NSString *installationId = [WonderPush installationId];
-        resolve(InstallationId);
+        resolve(installationId);
     }
     @catch(NSError *e){
         reject(nil, nil, e);
@@ -304,7 +398,32 @@ RCT_EXPORT_METHOD(getPushToken:(RCTPromiseResolveBlock)resolve rejecter:(RCTProm
     }
 }
 
+
 //Privacy
+
+RCT_EXPORT_METHOD(setRequiresUserConsent:(BOOL)isConsent resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush setRequiresUserConsent:isConsent];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(setUserConsent:(BOOL)isConsent resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        [WonderPush setUserConsent:isConsent];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+
 RCT_EXPORT_METHOD(disableGeolocation:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try{
@@ -320,6 +439,18 @@ RCT_EXPORT_METHOD(enableGeolocation:(RCTPromiseResolveBlock)resolve rejecter:(RC
 {
     @try{
         [WonderPush enableGeolocation];
+        resolve(nil);
+    }
+    @catch(NSError *e){
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(setGeolocation:(double)lat lon:(double)lon resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try{
+        CLLocation *location =  [[CLLocation alloc] initWithLatitude:lat longitude:lon];        
+        [WonderPush setGeolocation:location];
         resolve(nil);
     }
     @catch(NSError *e){
@@ -359,5 +490,13 @@ RCT_EXPORT_METHOD(clearAllData:(RCTPromiseResolveBlock)resolve rejecter:(RCTProm
         reject(nil, nil, e);
     }
 }
-
+RCT_EXPORT_METHOD(downloadAllData:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    [WonderPush downloadAllData:^(NSData *data, NSError *error) {
+        if (error) {
+            reject(nil, nil, error);
+        }
+        resolve(data);
+    }];
+}
 @end

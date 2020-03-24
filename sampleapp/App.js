@@ -135,6 +135,89 @@ export default class App extends Component<{}> {
           title="Remove Tags"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"/>
+           <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.addProperty('string_interests', 'sports');
+              console.log(response);
+              const response2 = await WonderPush.addProperty('string_interests', ['sport', 'test']);
+              console.log(response2);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Add Property"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.removeProperty('string_interests', 'sport');
+              console.log(response);
+              const response2 = await WonderPush.removeProperty('string_interests', ['sport', 'test']);
+              console.log(response2);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Remove Property"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.getPropertyValue('string_interests');
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Property Value"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.getPropertyValues('string_interests');
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Property Values"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+      
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.setProperty('string_interests', 'sport');
+              console.log(response);
+              const response2 = await WonderPush.setProperty('string_interests', ['sport', 'test']);
+              console.log(response2);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set Property"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
+
+        <Button
+          onPress={ async() => {
+            try {
+              const response = await WonderPush.unsetProperty('string_interests');
+              console.log(response);  
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Unset Property"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"/>
       </View>
     );
   }

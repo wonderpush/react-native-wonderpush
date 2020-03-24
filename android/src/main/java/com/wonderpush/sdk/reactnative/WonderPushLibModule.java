@@ -1,5 +1,6 @@
 package com.wonderpush.sdk.reactnative;
 import android.util.Log;
+import android.location.Location;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -16,7 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
@@ -96,7 +100,35 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
         return array;
     }
-
+  private String[] toStringArray(ReadableArray readableArray) throws JSONException {
+        String[] array = new String[readableArray.size()];
+        for (int idx = 0; idx < readableArray.size(); idx++) {
+            ReadableType type = readableArray.getType(idx);
+            switch(type) {
+                case Boolean:
+                    array[idx] = String.valueOf(readableArray.getBoolean(idx));
+                    break;
+                case Number:
+                    array[idx] = String.valueOf(readableArray.getDouble(idx));
+                    break;
+                case String:
+                    array[idx] = String.valueOf(readableArray.getString(idx));
+                    break;
+                case Map:
+                    array[idx] = String.valueOf(toJsonObject(readableArray.getMap(idx)));
+                    break;
+                case Array:
+                    array[idx] = String.valueOf(toJsonArray(readableArray.getArray(idx)));
+                    break;
+                case Null:
+                    array[idx] = String.valueOf(JSONObject.NULL);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return array;
+    }
 
     //Initialization
     @ReactMethod
@@ -232,6 +264,112 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
+@ReactMethod
+    public void getPropertyValue(String property, Promise promise) {
+        try {
+            Object value = WonderPush.getPropertyValue(property);
+            if (value instanceof String) {
+                String val = (String) value;
+                promise.resolve(val);
+            }else{
+                promise.resolve("WonderPush <Android> property value is not available.");
+            }
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getPropertyValues(String property, Promise promise) {
+        try{
+            List<Object> values = WonderPush.getPropertyValues(property);
+            List<String> strValues = new ArrayList<>();
+            for (Object value : values) {
+                if (value instanceof String) {
+                    strValues.add((String) value);
+                }
+            }
+            promise.resolve(strValues.toString());
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+
+    @ReactMethod
+    public void addProperty(String str, ReadableArray property, Promise promise) {
+        try {
+            String[] StingArr = toStringArray(property);
+            WonderPush.addProperty(str, StingArr);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void removeProperty(String str, ReadableArray property, Promise promise) {
+        try {
+            String[] StingArr = toStringArray(property);
+            WonderPush.removeProperty(str, StingArr);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setPropertyUsingString(String str, String property, Promise promise) {
+        try {
+            WonderPush.setProperty(str, property);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void setPropertyUsingArray(String str, ReadableArray property, Promise promise) {
+        try {
+            String[] StingArr = toStringArray(property);
+            WonderPush.setProperty(str, StingArr);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void unsetProperty(String property, Promise promise) {
+        try {
+            WonderPush.unsetProperty(property);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void putProperties(ReadableMap properties, Promise promise) {
+        try{
+            JSONObject jObject = toJsonObject(properties);
+            WonderPush.putProperties(jObject);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getProperties(Promise promise) {
+        try {
+            JSONObject properties = WonderPush.getProperties();
+            promise.resolve(properties.toString());
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
     @ReactMethod
     public void getCountry(Promise promise) {
         try {
@@ -354,17 +492,29 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-     @ReactMethod
-    public void getPushToken(Promise promise) {
+    // Privacy
+
+    @ReactMethod
+    public void setRequiresUserConsent(Boolean isConsent, Promise promise) {
         try {
-            String pushToken = WonderPush.getPushToken();
-            promise.resolve(pushToken);
+            WonderPush.setRequiresUserConsent(isConsent);
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
     }
 
-    // Privacy
+    @ReactMethod
+    public void setUserConsent(Boolean isConsent, Promise promise) {
+        try {
+            WonderPush.setUserConsent(isConsent);
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+
     @ReactMethod
     public void disableGeolocation(Promise promise) {
         try {
@@ -379,6 +529,19 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void enableGeolocation(Promise promise) {
         try {
             WonderPush.enableGeolocation();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+  @ReactMethod
+    public void setGeolocation(double lat, double lon, Promise promise) {
+        try {
+            Location location = new Location("WonderPush");
+            location.setLatitude(lat);
+            location.setLongitude(lon);
+            WonderPush.setGeolocation(location);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -409,6 +572,16 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void clearAllData(Promise promise) {
         try {
             WonderPush.clearAllData();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+     @ReactMethod
+    public void downloadAllData(Promise promise) {
+        try {
+            WonderPush.downloadAllData();
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);

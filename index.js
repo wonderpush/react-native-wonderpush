@@ -90,6 +90,76 @@ class WonderPushPlugIn {
         return WonderPushLib.hasTag(tag);
     }
 
+    async getPropertyValue(property) {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.getPropertyValue(property);
+    }
+
+    async getPropertyValues(property) {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.getPropertyValues(property);
+    }
+
+    async addProperty(str, property) {
+        this.checkNativeModuleInitialized();
+        if(Platform.OS == 'android'){
+            if(typeof(property) == 'string'){
+                return WonderPushLib.addProperty(str, Array.from(property));
+            }else if(typeof(property) == 'object'){
+                return WonderPushLib.addProperty(str, property);
+            }else{
+                return Promise.reject("WonderPush: addProperty() require Strings or String Array as parameter.");
+            }
+        }else{
+            return WonderPushLib.addProperty(str, property);
+        }
+    }
+
+    async removeProperty(str, property) {
+        this.checkNativeModuleInitialized();
+        if(Platform.OS == 'android'){
+            if(typeof(property) == 'string'){
+                return WonderPushLib.removeProperty(str, Array.from(property));
+            }else if(typeof(property) == 'object'){
+                return WonderPushLib.removeProperty(str, property);
+            }else{
+                return Promise.reject("WonderPush: removeProperty() require Strings or String Array as parameter.");
+            }
+        }else{
+            return WonderPushLib.removeProperty(str, property);
+        }
+    }
+
+    async setProperty(str, property) {
+        this.checkNativeModuleInitialized();
+        if(Platform.OS == 'android'){
+            if(typeof(property) == 'string'){
+                return WonderPushLib.setPropertyUsingString(str, property);
+            }else if(typeof(property) == 'object'){
+                return WonderPushLib.setPropertyUsingArray(str, property);
+            }else{
+                throw new Error("set Property unknown type.");
+            }
+        }else{
+            return WonderPushLib.setProperty(str, property);
+        }
+    }
+    
+    async unsetProperty(property) {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.unsetProperty(property);
+    }
+
+    async putProperties(property) {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.putProperties(property);
+    }
+    
+    async getProperties() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.getProperties();
+    }
+
     async getTags() {
         this.checkNativeModuleInitialized();
         return WonderPushLib.getTags();
@@ -158,6 +228,17 @@ class WonderPushPlugIn {
     }
 
     // Privacy
+
+    async setRequiresUserConsent(isConsent){
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.setRequiresUserConsent(isConsent);
+    }
+
+    async setUserConsent(isConsent){
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.setUserConsent(isConsent);
+    }
+
     async disableGeolocation() {
         this.checkNativeModuleInitialized();
         return WonderPushLib.disableGeolocation();
@@ -167,6 +248,12 @@ class WonderPushPlugIn {
         this.checkNativeModuleInitialized();
         return WonderPushLib.enableGeolocation();
     }
+
+    async setGeolocation(lat, lon) {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.setGeolocation(lat, lon);
+    }
+
 
     async clearEventsHistory() {
         this.checkNativeModuleInitialized();
@@ -182,6 +269,12 @@ class WonderPushPlugIn {
         this.checkNativeModuleInitialized();
         return WonderPushLib.clearAllData();
     }
+
+    async downloadAllData() {
+        this.checkNativeModuleInitialized();
+        return WonderPushLib.downloadAllData();
+    }
+
 }
 const WonderPush = new WonderPushPlugIn();
 export default WonderPush;
