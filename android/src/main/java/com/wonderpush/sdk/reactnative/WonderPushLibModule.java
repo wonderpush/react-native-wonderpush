@@ -240,12 +240,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getPropertyValue(String property, Promise promise) {
         try {
             Object value = WonderPush.getPropertyValue(property);
-            if (value instanceof String) {
-                String val = (String) value;
-                promise.resolve(val);
-            }else{
-                promise.resolve(null);
-            }
+            promise.resolve(val);
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -255,13 +250,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getPropertyValues(String property, Promise promise) {
         try{
             List<Object> values = WonderPush.getPropertyValues(property);
-            List<String> strValues = new ArrayList<>();
-            for (Object value : values) {
-                if (value instanceof String) {
-                    strValues.add((String) value);
-                }
-            }
-            promise.resolve(strValues.toString());
+            promise.resolve(values);
         } catch (Exception e) {
             promise.reject(e);
         }

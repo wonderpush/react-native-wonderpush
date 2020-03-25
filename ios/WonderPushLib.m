@@ -174,13 +174,7 @@ RCT_EXPORT_METHOD(getPropertyValue:(NSString *)property resolver:(RCTPromiseReso
 {
     @try{
        id value = [WonderPush getPropertyValue:property];
-
-       if ([value isKindOfClass:[NSString class]]) {
-           NSString *val = (NSString *) value;
-           resolve(val);
-       }else{
-           resolve(nil);
-       }
+       resolve(value);
     }
     @catch(NSError *e){
        reject(nil, nil, e);
