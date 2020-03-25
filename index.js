@@ -103,12 +103,10 @@ class WonderPushPlugIn {
     async addProperty(str, property) {
         this.checkNativeModuleInitialized();
         if(Platform.OS == 'android'){
-            if(typeof(property) == 'string'){
-                return WonderPushLib.addProperty(str, Array.from(property));
-            }else if(typeof(property) == 'object'){
+            if(typeof(property) == 'object'){
                 return WonderPushLib.addProperty(str, property);
             }else{
-                return Promise.reject("WonderPush: addProperty() require Strings or String Array as parameter.");
+                return WonderPushLib.addProperty(str, Array.from(property));
             }
         }else{
             return WonderPushLib.addProperty(str, property);
@@ -118,12 +116,10 @@ class WonderPushPlugIn {
     async removeProperty(str, property) {
         this.checkNativeModuleInitialized();
         if(Platform.OS == 'android'){
-            if(typeof(property) == 'string'){
-                return WonderPushLib.removeProperty(str, Array.from(property));
-            }else if(typeof(property) == 'object'){
+            if(typeof(property) == 'object'){
                 return WonderPushLib.removeProperty(str, property);
             }else{
-                return Promise.reject("WonderPush: removeProperty() require Strings or String Array as parameter.");
+                return WonderPushLib.removeProperty(str, Array.from(property));
             }
         }else{
             return WonderPushLib.removeProperty(str, property);
@@ -133,12 +129,10 @@ class WonderPushPlugIn {
     async setProperty(str, property) {
         this.checkNativeModuleInitialized();
         if(Platform.OS == 'android'){
-            if(typeof(property) == 'string'){
-                return WonderPushLib.setPropertyUsingString(str, property);
-            }else if(typeof(property) == 'object'){
-                return WonderPushLib.setPropertyUsingArray(str, property);
+            if(typeof(property) == 'object'){
+                return WonderPushLib.setProperty(str, property);
             }else{
-                throw new Error("set Property unknown type.");
+                return WonderPushLib.setProperty(str, Array.from(property));
             }
         }else{
             return WonderPushLib.setProperty(str, property);

@@ -100,35 +100,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
         return array;
     }
-  private String[] toStringArray(ReadableArray readableArray) throws JSONException {
-        String[] array = new String[readableArray.size()];
-        for (int idx = 0; idx < readableArray.size(); idx++) {
-            ReadableType type = readableArray.getType(idx);
-            switch(type) {
-                case Boolean:
-                    array[idx] = String.valueOf(readableArray.getBoolean(idx));
-                    break;
-                case Number:
-                    array[idx] = String.valueOf(readableArray.getDouble(idx));
-                    break;
-                case String:
-                    array[idx] = String.valueOf(readableArray.getString(idx));
-                    break;
-                case Map:
-                    array[idx] = String.valueOf(toJsonObject(readableArray.getMap(idx)));
-                    break;
-                case Array:
-                    array[idx] = String.valueOf(toJsonArray(readableArray.getArray(idx)));
-                    break;
-                case Null:
-                    array[idx] = String.valueOf(JSONObject.NULL);
-                    break;
-                default:
-                    break;
-            }
-        }
-        return array;
-    }
+  
 
     //Initialization
     @ReactMethod
@@ -272,7 +244,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 String val = (String) value;
                 promise.resolve(val);
             }else{
-                promise.resolve("WonderPush <Android> property value is not available.");
+                promise.resolve(null);
             }
         } catch (Exception e) {
             promise.reject(e);
@@ -299,8 +271,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void addProperty(String str, ReadableArray property, Promise promise) {
         try {
-            String[] StingArr = toStringArray(property);
-            WonderPush.addProperty(str, StingArr);
+            WonderPush.addProperty(str, toJsonArray(property));
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -310,29 +281,18 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void removeProperty(String str, ReadableArray property, Promise promise) {
         try {
-            String[] StingArr = toStringArray(property);
-            WonderPush.removeProperty(str, StingArr);
+            WonderPush.removeProperty(str, toJsonArray(property));
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
     }
 
-    @ReactMethod
-    public void setPropertyUsingString(String str, String property, Promise promise) {
-        try {
-            WonderPush.setProperty(str, property);
-            promise.resolve(null);
-        } catch (Exception e) {
-            promise.reject(e);
-        }
-    }
 
     @ReactMethod
-    public void setPropertyUsingArray(String str, ReadableArray property, Promise promise) {
+    public void setProperty(String str, ReadableArray property, Promise promise) {
         try {
-            String[] StingArr = toStringArray(property);
-            WonderPush.setProperty(str, StingArr);
+            WonderPush.setProperty(str, toJsonArray(property));
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -384,7 +344,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void setCountry(String country, Promise promise) {
         try {
             WonderPush.setCountry(country);
-            promise.resolve("WonderPush <Android> country set successfully.");
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -404,7 +364,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void setCurrency(String currency, Promise promise) {
         try {
             WonderPush.setCurrency(currency);
-            promise.resolve("WonderPush <Android> currency set successfully.");
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -424,7 +384,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void setLocale(String locale, Promise promise) {
         try {
             WonderPush.setLocale(locale);
-            promise.resolve("WonderPush <Android> locale set successfully.");
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -444,7 +404,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void setTimeZone(String timeZone, Promise promise) {
         try {
             WonderPush.setLocale(timeZone);
-            promise.resolve("WonderPush <Android> timeZone set successfully.");
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }

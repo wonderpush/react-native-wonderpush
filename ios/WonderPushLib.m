@@ -179,7 +179,7 @@ RCT_EXPORT_METHOD(getPropertyValue:(NSString *)property resolver:(RCTPromiseReso
            NSString *val = (NSString *) value;
            resolve(val);
        }else{
-           resolve(@[@"WonderPush <ios> property value is not available."]);
+           resolve(nil);
        }
     }
     @catch(NSError *e){
