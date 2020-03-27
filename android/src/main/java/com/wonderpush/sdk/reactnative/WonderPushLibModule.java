@@ -1,6 +1,12 @@
 package com.wonderpush.sdk.reactnative;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 import android.location.Location;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -10,6 +16,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.wonderpush.sdk.WonderPush;
 
 import org.json.JSONArray;
@@ -26,10 +33,25 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
 
-    public WonderPushLibModule(ReactApplicationContext reactContext) {
+   public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         WonderPush.setIntegrator("ReactNative");
+
+        LocalBroadcastManager.getInstance(reactContext).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (!WonderPush.INTENT_NOTIFICATION_WILL_OPEN_EXTRA_NOTIFICATION_TYPE_DATA.equals(
+                        intent.getStringExtra(WonderPush.INTENT_NOTIFICATION_WILL_OPEN_EXTRA_NOTIFICATION_TYPE))) {
+
+                    Intent pushNotif = intent.getParcelableExtra(WonderPush.INTENT_NOTIFICATION_WILL_OPEN_EXTRA_RECEIVED_PUSH_NOTIFICATION);
+                    Log.d("WonderPush", pushNotif.toString());
+                    reactContext
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(WonderPush.INTENT_NOTIFICATION_WILL_OPEN, pushNotif);
+                }
+            }
+        }, new IntentFilter(WonderPush.INTENT_NOTIFICATION_WILL_OPEN));
     }
 
     @Override

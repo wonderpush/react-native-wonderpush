@@ -5,9 +5,22 @@
 @end
 @implementation WonderPushLib
 
+- (NSArray<NSString *> *)supportedEvents {
+  return @[
+    @"wonderpushNotificationWillOpen",
+  ];
+}
+
+
 + (void)initialize
 {
     [WonderPush setIntegrator:@"ReactNative"];
+     __block WonderPushLib *blocksafeSelf = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:WP_NOTIFICATION_OPENED_BROADCAST object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary *notification = note.userInfo;
+        [blocksafeSelf sendEventWithName:@"wonderpushNotificationWillOpen" body:notification];
+    }];
 }
 
 + (BOOL)requiresMainQueueSetup

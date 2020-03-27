@@ -1,5 +1,7 @@
+#import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 
-@interface WonderPushLib : NSObject <RCTBridgeModule>
+@interface WonderPushLib : RCTEventEmitter <RCTBridgeModule>
 
 @end

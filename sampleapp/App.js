@@ -9,7 +9,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View,Button } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import WonderPush from 'react-native-wonderpush';
 
 export default class App extends Component<{}> {
@@ -23,212 +23,549 @@ export default class App extends Component<{}> {
     WonderPush.subscribeToNotifications();
   }
   componentDidMount() {
-    
+    WonderPush.eventEmitterWonderPush.addListener('wonderpushNotificationWillOpen', this.wonderpushNotificationWillOpen);
+
+  }
+  componentWillUnmount() {
+    WonderPush.eventEmitterWonderPush.removeListener('wonderpushNotificationWillOpen', this.wonderpushNotificationWillOpen);
+  }
+  wonderpushNotificationWillOpen = (event) => {
+    alert(event);
   }
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Button
           onPress={async () => {
             try {
               const response = await WonderPush.subscribeToNotifications();
-              console.log(response);  
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Subscribe to WonderPush Notifications."
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
+        
         <Button
-          onPress={ async () => {
+          onPress={async () => {
             try {
               const response = await WonderPush.unsubscribeFromNotifications();
-              console.log(response);  
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Unsubscribe to WonderPush Notifications."
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
-      <Button
-          onPress={ async() => {
+        />
+
+        <Button
+          onPress={async () => {
             try {
               const response = await WonderPush.isSubscribedToNotifications();
-              console.log(response);  
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Check for subscription"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
+
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
               const response = await WonderPush.setLogging(true);
-              console.log(response);  
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Enable Logging"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
+
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
               const response = await WonderPush.setLogging(false);
-              console.log(response);  
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Disable Logging"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
-              const response = await WonderPush.trackEvent('purchase',{'product':123});
-              console.log(response);  
+              const response = await WonderPush.trackEvent('purchase', { 'product': 123 });
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Track Event"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
               const response = await WonderPush.addTag('test');
-              console.log(response);  
-              const response1 = await WonderPush.addTag(['test','test123']);
-              console.log(response1);  
-              const response2 = await WonderPush.addTag('test','test123','tesdf');
-              console.log(response2);  
+              console.log(response);
+              const response1 = await WonderPush.addTag(['test', 'test123']);
+              console.log(response1);
+              const response2 = await WonderPush.addTag('test', 'test123', 'tesdf');
+              console.log(response2);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Add Tags"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
               const response = await WonderPush.removeTag('test');
-              console.log(response);  
-              const response1 = await WonderPush.removeTag(['test','test123']);
-              console.log(response1);  
-              const response2 = await WonderPush.removeTag('test','test123','tesdf');
-              console.log(response2);  
+              console.log(response);
+              const response1 = await WonderPush.removeTag(['test', 'test123']);
+              console.log(response1);
+              const response2 = await WonderPush.removeTag('test', 'test123', 'tesdf');
+              console.log(response2);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Remove Tags"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
-           <Button
-          onPress={ async() => {
+        />
+        <Button
+          onPress={async () => {
             try {
-              const response = await WonderPush.addProperty('string_interests', 'sports');
+              const response = await WonderPush.addProperty('date_interests', new Date().getTime());
               console.log(response);
               const response2 = await WonderPush.addProperty('string_interests', ['sport', 'test']);
-              console.log(response2);  
+              console.log(response2);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Add Property"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
-              const response = await WonderPush.removeProperty('string_interests', 'sport');
+              const response = await WonderPush.removeProperty('date_interests', new Date().getTime());
               console.log(response);
               const response2 = await WonderPush.removeProperty('string_interests', ['sport', 'test']);
-              console.log(response2);  
+              console.log(response2);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Remove Property"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
-              const response = await WonderPush.getPropertyValue('string_interests');
-              console.log(response);  
+              const response = await WonderPush.getPropertyValue('date_interests');
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Get Property Value"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
               const response = await WonderPush.getPropertyValues('string_interests');
-              console.log(response);  
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Get Property Values"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
-      
+        />
+
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
-              const response = await WonderPush.setProperty('string_interests', 'sport');
+              const response = await WonderPush.setProperty('int_interests', 1);
               console.log(response);
               const response2 = await WonderPush.setProperty('string_interests', ['sport', 'test']);
-              console.log(response2);  
+              console.log(response2);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Set Property"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
+        />
 
         <Button
-          onPress={ async() => {
+          onPress={async () => {
             try {
-              const response = await WonderPush.unsetProperty('string_interests');
-              console.log(response);  
+              const response = await WonderPush.unsetProperty('int_interests');
+              console.log(response);
             } catch (error) {
               console.log(error);
             }
           }}
           title="Unset Property"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"/>
-      </View>
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.putProperties({ 'int_age': 23 });
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Put Properties"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getProperties();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Properties"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getCountry();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Country"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setCountry('US');
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set Country"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getCurrency();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Currency"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setCurrency('USD');
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set Currency"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getLocale();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Locale"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setLocale('en_US');
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set Locale"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getTimeZone();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get TimeZone"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setTimeZone('Europe/Paris');
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set TimeZone"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getUserId();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get UserId"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setUserId('USA_123');
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set UserId"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getInstallationId();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get InstallationId"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getPushToken();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get PushToken"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setRequiresUserConsent(true);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Enable RequiresUserConsent"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setRequiresUserConsent(false);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Disable RequiresUserConsent"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setUserConsent(true);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Enable UserConsent"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setUserConsent(false);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Disable UserConsent"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.enableGeolocation(true);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Enable Geolocation"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.disableGeolocation(false);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Disable Geolocation"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.setGeolocation(37.0902, 95.7129);
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Set Geolocation"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.clearEventsHistory();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Clear EventsHistory"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.clearPreferences();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Clear Preferences"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.clearAllData();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Clear All Data"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.downloadAllData();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Download All Data"
+          color="#841584"
+        />
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    marginTop: 40,
+    paddingBottom: 100
   },
   welcome: {
     fontSize: 20,

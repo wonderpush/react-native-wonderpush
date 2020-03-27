@@ -1,10 +1,11 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
 const { WonderPushLib } = NativeModules;
 
 //export default WonderPushLib;
 
 class WonderPushPlugIn {
+    eventEmitterWonderPush = new NativeEventEmitter(WonderPushLib);
 
     async checkNativeModuleInitialized() {
         if(WonderPushLib === null) {
