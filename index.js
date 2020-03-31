@@ -51,31 +51,19 @@ class WonderPushPlugIn {
 
     async addTag(...tags) {
         this.checkNativeModuleInitialized();
-        if(tags.length > 0){
-            if(typeof(tags[0]) == 'object'){
-                return WonderPushLib.addTag(tags);
-            }else if(typeof(tags[0]) == 'string'){
-                return WonderPushLib.addTag(Array.from(tags));
-            }else{
-                return Promise.reject("Wonderpush: addTag() require Strings or String Array as parameter.");
-            }
+        if(tags.length > 0 && Array.isArray(tags[0])){
+            return WonderPushLib.addTag(tags[0]);
         }else{
-            return Promise.reject("Wonderpush: addTag() needs atleast one parameter.");
+            return WonderPushLib.addTag(tags);
         }
     }
 
     async removeTag(...tags) {
         this.checkNativeModuleInitialized();
-        if(tags.length > 0){
-            if(typeof(tags[0]) == 'object'){
-                return WonderPushLib.removeTag(tags);
-            }else if(typeof(tags[0]) == 'string'){
-                return WonderPushLib.removeTag(Array.from(tags));
-            }else{
-                return Promise.reject("WonderPush: removeTag() require Strings or String Array as parameter.");
-            }
+        if(tags.length > 0 && Array.isArray(tags[0])){
+            return WonderPushLib.removeTag(tags[0]);
         }else{
-            return Promise.reject("WonderPush: removeTag() needs atleast one parameter.");
+            return WonderPushLib.removeTag(tags);
         }
     }
 
