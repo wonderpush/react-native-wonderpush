@@ -7,7 +7,7 @@ class WonderPushPlugIn {
 
     async checkNativeModuleInitialized() {
         if(WonderPushLib === null) {
-            throw new Error("WonderPush: Native module not initialized.");
+            throw new Error("WonderPush native module not initialized");
         }
     }
     
