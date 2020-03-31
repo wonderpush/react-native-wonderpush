@@ -335,7 +335,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getProperties(Promise promise) {
         try {
             JSONObject properties = WonderPush.getProperties();
-            promise.resolve(properties.toString());
+            promise.resolve(properties);
         } catch (Exception e) {
             promise.reject(e);
         }
