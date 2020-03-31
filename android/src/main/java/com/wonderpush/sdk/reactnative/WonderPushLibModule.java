@@ -262,7 +262,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getPropertyValue(String property, Promise promise) {
         try {
             Object value = WonderPush.getPropertyValue(property);
-            promise.resolve(val);
+            promise.resolve(value);
         } catch (Exception e) {
             promise.reject(e);
         }
