@@ -158,7 +158,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isInitialized(Promise promise) {
         try {
-            boolean status =  WonderPush.isReady();
+            boolean status =  WonderPush.isInitialized();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
