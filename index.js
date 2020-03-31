@@ -89,28 +89,18 @@ class WonderPushPlugIn {
 
     async addProperty(str, property) {
         this.checkNativeModuleInitialized();
-        if(Platform.OS == 'android'){
-            if(typeof(property) == 'object'){
-                return WonderPushLib.addProperty(str, property);
-            }else{
-                return WonderPushLib.addProperty(str, Array.from(property));
-            }
-        }else{
-            return WonderPushLib.addProperty(str, property);
+        if(!Array.isArray(property)) {
+            property = [property];
         }
+        return WonderPushLib.addProperty(str, property);
     }
 
     async removeProperty(str, property) {
         this.checkNativeModuleInitialized();
-        if(Platform.OS == 'android'){
-            if(typeof(property) == 'object'){
-                return WonderPushLib.removeProperty(str, property);
-            }else{
-                return WonderPushLib.removeProperty(str, Array.from(property));
-            }
-        }else{
-            return WonderPushLib.removeProperty(str, property);
+        if(!Array.isArray(property)) {
+            property = [property];
         }
+        return WonderPushLib.removeProperty(str, property);
     }
 
     async setProperty(str, property) {
