@@ -176,7 +176,8 @@ RCT_EXPORT_METHOD(getTags:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
 {
     @try{
         NSOrderedSet<NSString*> *tags = [WonderPush getTags];
-        resolve((NSArray *) tags);
+        NSArray *arrTags = [NSArray arrayWithArray:[tags array]];
+        resolve(arrTags);
     }
     @catch(NSError *e){
         reject(nil, nil, e);

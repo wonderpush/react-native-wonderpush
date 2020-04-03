@@ -10,31 +10,150 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
-import WonderPush from 'react-native-wonderpush';
+import WonderPush from 'react-native-wonderpush'
 
-export default class App extends Component<{}> {
+export default class App extends Component {
   state = {
     status: 'starting',
     message: '--'
   };
- 
-  constructor(){
+
+  constructor() {
     super();
     WonderPush.subscribeToNotifications();
   }
+
   componentDidMount() {
     WonderPush.eventEmitterWonderPush.addListener('wonderpushNotificationWillOpen', this.wonderpushNotificationWillOpen);
 
   }
+
   componentWillUnmount() {
     WonderPush.eventEmitterWonderPush.removeListener('wonderpushNotificationWillOpen', this.wonderpushNotificationWillOpen);
   }
+
   wonderpushNotificationWillOpen = (event) => {
     alert(event);
   }
+
+  _doTest = async () => {
+
+    console.log("WonderPushDemo", "Starting tests");
+    console.log(await WonderPush.setUserConsent(true));
+
+    console.log(await WonderPush.clearPreferences());
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log((await WonderPush.getProperties()).length == 0);
+    console.log(await WonderPush.getPropertyValue("string_foo") == null);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log((await WonderPush.getPropertyValues("string_foo")).length == 0);
+
+    console.log(await WonderPush.unsetProperty("string_foo")); // leaves the field missing
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 0);
+    console.log(await WonderPush.getPropertyValue("string_foo") == null);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.removeProperty("string_foo", "bar")); // makes the field an empty array
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValue("string_foo") == null);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.setProperty("string_foo", "bar")); // makes the field a string value
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 1);
+
+    console.log(await WonderPush.addProperty("string_foo", "foo")); // appends foo after bar, making the field an array
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 2);
+
+    console.log(await WonderPush.addProperty("string_foo", ["foo", "qux"])); // appends qux after bar, foo
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 3);
+
+    console.log(await WonderPush.removeProperty("string_foo", "bar")); // removes bar from the beginning, leaving foo and qux in this order
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 2);
+
+    console.log(await WonderPush.removeProperty("string_foo", ["bar", "foo", "qux"])); // leaves an empty array
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.addProperty("string_foo", null)); // leaves the field untouched
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.addProperty("string_foo", [])); // leaves the field untouched
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.addProperty("string_foo", [null])); // leaves the field untouched
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.setProperty("string_foo", ["bar", "foo"])); // supports setting a List
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 2);
+
+    console.log(await WonderPush.removeProperty("string_foo", ["foo", "bar"])); // supports removing a array; leaves an empty array
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 0);
+
+    console.log(await WonderPush.setProperty("string_foo", ["bar", "foo"])); // supports setting an array
+    console.log("WonderPushDemo", await WonderPush.getProperties());
+    console.log(await WonderPush.getProperties() != null);
+    console.log(await WonderPush.getProperties().length == 1);
+    console.log(await WonderPush.getPropertyValues("string_foo") != null);
+    console.log(await WonderPush.getPropertyValues("string_foo").length == 2);
+
+    console.log("WonderPushDemo", "Done tests");
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
+        <Button
+          onPress={() => this._doTest()}
+          title="Test"
+          color="#841584"
+        />
+
         <Button
           onPress={async () => {
             try {
@@ -47,7 +166,7 @@ export default class App extends Component<{}> {
           title="Subscribe to WonderPush Notifications."
           color="#841584"
         />
-        
+
         <Button
           onPress={async () => {
             try {
@@ -146,6 +265,20 @@ export default class App extends Component<{}> {
           title="Remove Tags"
           color="#841584"
         />
+
+        <Button
+          onPress={async () => {
+            try {
+              const response = await WonderPush.getTags();
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Get Tags"
+          color="#841584"
+        />
+
         <Button
           onPress={async () => {
             try {
@@ -153,6 +286,10 @@ export default class App extends Component<{}> {
               console.log(response);
               const response2 = await WonderPush.addProperty('string_interests', ['sport', 'test']);
               console.log(response2);
+              const response3 = await WonderPush.addProperty('int_interests', 1);
+              console.log(response3);
+              const response4 = await WonderPush.addProperty('string_likes', 'foo');
+              console.log(response4);
             } catch (error) {
               console.log(error);
             }
@@ -168,6 +305,10 @@ export default class App extends Component<{}> {
               console.log(response);
               const response2 = await WonderPush.removeProperty('string_interests', ['sport', 'test']);
               console.log(response2);
+              const response3 = await WonderPush.removeProperty('int_interests', 1);
+              console.log(response3);
+              const response4 = await WonderPush.removeProperty('string_likes', 'foo');
+              console.log(response4);
             } catch (error) {
               console.log(error);
             }
@@ -181,6 +322,12 @@ export default class App extends Component<{}> {
             try {
               const response = await WonderPush.getPropertyValue('date_interests');
               console.log(response);
+              const response1 = await WonderPush.getPropertyValue('string_interests');
+              console.log(response1);
+              const response2 = await WonderPush.getPropertyValue('int_interests');
+              console.log(response2);
+              const response4 = await WonderPush.getPropertyValue('string_likes');
+              console.log(response4);
             } catch (error) {
               console.log(error);
             }
@@ -194,6 +341,12 @@ export default class App extends Component<{}> {
             try {
               const response = await WonderPush.getPropertyValues('string_interests');
               console.log(response);
+              const response1 = await WonderPush.getPropertyValues('int_interests');
+              console.log(response1);
+              const response2 = await WonderPush.getPropertyValues('date_interests');
+              console.log(response2);
+              const response4 = await WonderPush.getPropertyValues('string_likes');
+              console.log(response4);
             } catch (error) {
               console.log(error);
             }
@@ -209,6 +362,10 @@ export default class App extends Component<{}> {
               console.log(response);
               const response2 = await WonderPush.setProperty('string_interests', ['sport', 'test']);
               console.log(response2);
+              const response3 = await WonderPush.setProperty('string_likes', 'foo');
+              console.log(response3);
+              const response4 = await WonderPush.setProperty('date_interests', new Date().getTime());
+              console.log(response4);
             } catch (error) {
               console.log(error);
             }
@@ -222,6 +379,13 @@ export default class App extends Component<{}> {
             try {
               const response = await WonderPush.unsetProperty('int_interests');
               console.log(response);
+              const response2 = await WonderPush.unsetProperty('string_interests');
+              console.log(response2);
+              const response3 = await WonderPush.unsetProperty('string_likes');
+              console.log(response3);
+              const response4 = await WonderPush.unsetProperty('date_interests');
+              console.log(response4);
+
             } catch (error) {
               console.log(error);
             }
@@ -233,8 +397,14 @@ export default class App extends Component<{}> {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.putProperties({ 'int_age': 23 });
+              const response = await WonderPush.putProperties({ 'int_interests': 23 });
               console.log(response);
+              const response2 = await WonderPush.putProperties({ 'string_interests': ['sport', 'test'] });
+              console.log(response2);
+              const response3 = await WonderPush.putProperties({ 'string_likes': 'foo' });
+              console.log(response3);
+              const response4 = await WonderPush.putProperties({ 'date_interests': new Date().getTime() });
+              console.log(response4);
             } catch (error) {
               console.log(error);
             }

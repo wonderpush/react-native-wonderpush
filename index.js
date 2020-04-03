@@ -105,15 +105,10 @@ class WonderPushPlugIn {
 
     async setProperty(str, property) {
         this.checkNativeModuleInitialized();
-        if(Platform.OS == 'android'){
-            if(typeof(property) == 'object'){
-                return WonderPushLib.setProperty(str, property);
-            }else{
-                return WonderPushLib.setProperty(str, Array.from(property));
-            }
-        }else{
-            return WonderPushLib.setProperty(str, property);
+        if(!Array.isArray(property)) {
+            property = [property];
         }
+        return WonderPushLib.setProperty(str, property);
     }
     
     async unsetProperty(property) {

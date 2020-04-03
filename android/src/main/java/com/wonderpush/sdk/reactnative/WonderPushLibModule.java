@@ -3,11 +3,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.location.Location;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -16,6 +17,8 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.wonderpush.sdk.WonderPush;
 
@@ -23,10 +26,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
@@ -36,7 +43,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
    public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        WonderPush.setIntegrator("react-native-wonderpush-1.0.0");
+        WonderPush.setIntegrator("ReactNative");
 
         LocalBroadcastManager.getInstance(reactContext).registerReceiver(new BroadcastReceiver() {
             @Override
@@ -58,7 +65,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public String getName() {
         return "WonderPushLib";
     }
-
 
     private JSONObject toJsonObject(ReadableMap readableMap) throws JSONException {
         JSONObject object = new JSONObject();
@@ -92,7 +98,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         return object;
     }
 
-
     private JSONArray toJsonArray(ReadableArray readableArray) throws JSONException {
         JSONArray array = new JSONArray();
         for (int idx = 0; idx < readableArray.size(); idx++) {
@@ -122,7 +127,51 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
         return array;
     }
-  
+
+    public static WritableMap jsonToReact(JSONObject jsonObject) throws JSONException {
+        WritableMap writableMap = Arguments.createMap();
+        Iterator iterator = jsonObject.keys();
+        while(iterator.hasNext()) {
+            String key = (String) iterator.next();
+            Object value = jsonObject.get(key);
+            if (value instanceof Float || value instanceof Double) {
+                writableMap.putDouble(key, jsonObject.getDouble(key));
+            } else if (value instanceof Number) {
+                writableMap.putInt(key, jsonObject.getInt(key));
+            } else if (value instanceof String) {
+                writableMap.putString(key, jsonObject.getString(key));
+            } else if (value instanceof JSONObject) {
+                writableMap.putMap(key, jsonToReact(jsonObject.getJSONObject(key)));
+            } else if (value instanceof JSONArray){
+                writableMap.putArray(key, jsonToReact(jsonObject.getJSONArray(key)));
+            } else if (value == JSONObject.NULL){
+                writableMap.putNull(key);
+            }
+        }
+
+        return writableMap;
+    }
+
+    public static WritableArray jsonToReact(JSONArray jsonArray) throws JSONException {
+        WritableArray writableArray = Arguments.createArray();
+        for(int i=0; i < jsonArray.length(); i++) {
+            Object value = jsonArray.get(i);
+            if (value instanceof Float || value instanceof Double) {
+                writableArray.pushDouble(jsonArray.getDouble(i));
+            } else if (value instanceof Number) {
+                writableArray.pushInt(jsonArray.getInt(i));
+            } else if (value instanceof String) {
+                writableArray.pushString(jsonArray.getString(i));
+            } else if (value instanceof JSONObject) {
+                writableArray.pushMap(jsonToReact(jsonArray.getJSONObject(i)));
+            } else if (value instanceof JSONArray){
+                writableArray.pushArray(jsonToReact(jsonArray.getJSONArray(i)));
+            } else if (value == JSONObject.NULL){
+                writableArray.pushNull();
+            }
+        }
+        return writableArray;
+    }
 
     //Initialization
     @ReactMethod
@@ -158,7 +207,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isInitialized(Promise promise) {
         try {
-            boolean status =  WonderPush.isInitialized();
+            boolean status =  WonderPush.isReady();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
@@ -211,7 +260,29 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void addTag(ReadableArray tags, Promise promise) {
         try {
-            WonderPush.addTag(String.valueOf(tags));
+            String[] array = new String[tags.size()];
+            for (int i = 0; i < tags.size(); i++) {
+                switch (tags.getType(i)) {
+                    case Null:
+                        break;
+                    case Boolean:
+                        array[i] = String.valueOf(tags.getBoolean(i));
+                        break;
+                    case Number:
+                        array[i] = String.valueOf(tags.getDouble(i));
+                        break;
+                    case String:
+                        array[i] = tags.getString(i);
+                        break;
+                    case Map:
+                        array[i] = String.valueOf(tags.getMap(i));
+                        break;
+                    case Array:
+                        array[i] = String.valueOf(tags.getArray(i));
+                        break;
+                }
+            }
+            WonderPush.addTag(array);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -221,7 +292,29 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void removeTag(ReadableArray tags, Promise promise) {
         try {
-            WonderPush.removeTag(String.valueOf(tags));
+            String[] array = new String[tags.size()];
+            for (int i = 0; i < tags.size(); i++) {
+                switch (tags.getType(i)) {
+                    case Null:
+                        break;
+                    case Boolean:
+                        array[i] = String.valueOf(tags.getBoolean(i));
+                        break;
+                    case Number:
+                        array[i] = String.valueOf(tags.getDouble(i));
+                        break;
+                    case String:
+                        array[i] = tags.getString(i);
+                        break;
+                    case Map:
+                        array[i] = String.valueOf(tags.getMap(i));
+                        break;
+                    case Array:
+                        array[i] = String.valueOf(tags.getArray(i));
+                        break;
+                }
+            }
+            WonderPush.removeTag(array);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -252,17 +345,48 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getTags(Promise promise) {
         try {
             Set<String> tags = WonderPush.getTags();
-            promise.resolve(tags);
+            Object[] tArray = tags.toArray();
+
+            WritableArray writableArray = Arguments.createArray();
+            for(int i=0; i < tArray.length; i++) {
+                Object value = tArray[i];
+                if (value instanceof Float || value instanceof Double) {
+                    writableArray.pushDouble((Double) value);
+                } else if (value instanceof Number) {
+                    writableArray.pushInt((Integer) value);
+                } else if (value instanceof String) {
+                    writableArray.pushString((String) value);
+                } else if (value instanceof JSONObject) {
+                    writableArray.pushMap((ReadableMap) value);
+                } else if (value instanceof JSONArray){
+                    writableArray.pushArray((ReadableArray) value);
+                } else if (value == JSONObject.NULL){
+                    writableArray.pushNull();
+                }
+            }
+            promise.resolve(writableArray);
         } catch (Exception e) {
             promise.reject(e);
         }
     }
 
-@ReactMethod
+    @ReactMethod
     public void getPropertyValue(String property, Promise promise) {
         try {
             Object value = WonderPush.getPropertyValue(property);
-            promise.resolve(value);
+            if (value instanceof Boolean) {
+                promise.resolve((Boolean) value);
+            } else if (value instanceof Integer) {
+                promise.resolve((Integer) value);
+            } else if (value instanceof String) {
+                promise.resolve((String) value);
+            } else if (value instanceof Map) {
+                promise.resolve((ReadableMap) value);
+            } else if (value instanceof Array) {
+                promise.resolve((ReadableArray) value);
+            } else {
+                promise.resolve(null);
+            }
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -272,7 +396,23 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getPropertyValues(String property, Promise promise) {
         try{
             List<Object> values = WonderPush.getPropertyValues(property);
-            promise.resolve(values);
+            WritableArray writableArray = Arguments.createArray();
+            for(Object obj : values){
+                if(obj instanceof Boolean) {
+                    writableArray.pushBoolean((Boolean) obj);
+                }else if(obj instanceof Integer){
+                    writableArray.pushInt((Integer) obj);
+                }else if(obj instanceof String){
+                    writableArray.pushString((String) obj);
+                }else if(obj instanceof Map) {
+                    writableArray.pushMap((WritableMap) obj);
+                }else if(obj instanceof Array) {
+                    writableArray.pushArray((WritableArray) obj);
+                }else if(obj == null) {
+                    writableArray.pushNull();
+                }
+            }
+            promise.resolve(writableArray);
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -335,7 +475,8 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getProperties(Promise promise) {
         try {
             JSONObject properties = WonderPush.getProperties();
-            promise.resolve(properties);
+            WritableMap map = jsonToReact(properties);
+            promise.resolve(map);
         } catch (Exception e) {
             promise.reject(e);
         }
@@ -464,7 +605,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     }
 
     // Privacy
-
     @ReactMethod
     public void setRequiresUserConsent(Boolean isConsent, Promise promise) {
         try {
@@ -506,7 +646,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-  @ReactMethod
+    @ReactMethod
     public void setGeolocation(double lat, double lon, Promise promise) {
         try {
             Location location = new Location("WonderPush");
@@ -549,7 +689,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-     @ReactMethod
+    @ReactMethod
     public void downloadAllData(Promise promise) {
         try {
             WonderPush.downloadAllData();
