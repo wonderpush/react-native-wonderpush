@@ -3,7 +3,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.location.Geocoder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.location.Location;
 
@@ -29,6 +31,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -262,25 +265,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         try {
             String[] array = new String[tags.size()];
             for (int i = 0; i < tags.size(); i++) {
-                switch (tags.getType(i)) {
-                    case Null:
-                        break;
-                    case Boolean:
-                        array[i] = String.valueOf(tags.getBoolean(i));
-                        break;
-                    case Number:
-                        array[i] = String.valueOf(tags.getDouble(i));
-                        break;
-                    case String:
-                        array[i] = tags.getString(i);
-                        break;
-                    case Map:
-                        array[i] = String.valueOf(tags.getMap(i));
-                        break;
-                    case Array:
-                        array[i] = String.valueOf(tags.getArray(i));
-                        break;
-                }
+                array[i] = tags.getString(i);
             }
             WonderPush.addTag(array);
             promise.resolve(null);
@@ -294,25 +279,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         try {
             String[] array = new String[tags.size()];
             for (int i = 0; i < tags.size(); i++) {
-                switch (tags.getType(i)) {
-                    case Null:
-                        break;
-                    case Boolean:
-                        array[i] = String.valueOf(tags.getBoolean(i));
-                        break;
-                    case Number:
-                        array[i] = String.valueOf(tags.getDouble(i));
-                        break;
-                    case String:
-                        array[i] = tags.getString(i);
-                        break;
-                    case Map:
-                        array[i] = String.valueOf(tags.getMap(i));
-                        break;
-                    case Array:
-                        array[i] = String.valueOf(tags.getArray(i));
-                        break;
-                }
+                array[i] = tags.getString(i);
             }
             WonderPush.removeTag(array);
             promise.resolve(null);
@@ -349,20 +316,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
             WritableArray writableArray = Arguments.createArray();
             for(int i=0; i < tArray.length; i++) {
-                Object value = tArray[i];
-                if (value instanceof Float || value instanceof Double) {
-                    writableArray.pushDouble((Double) value);
-                } else if (value instanceof Number) {
-                    writableArray.pushInt((Integer) value);
-                } else if (value instanceof String) {
-                    writableArray.pushString((String) value);
-                } else if (value instanceof JSONObject) {
-                    writableArray.pushMap((ReadableMap) value);
-                } else if (value instanceof JSONArray){
-                    writableArray.pushArray((ReadableArray) value);
-                } else if (value == JSONObject.NULL){
-                    writableArray.pushNull();
-                }
+                writableArray.pushString((String)tArray[i]);
             }
             promise.resolve(writableArray);
         } catch (Exception e) {
@@ -418,11 +372,134 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-
     @ReactMethod
     public void addProperty(String str, ReadableArray property, Promise promise) {
         try {
-            WonderPush.addProperty(str, toJsonArray(property));
+            String[] arrOfStr = str.split("_", 2);
+            if(arrOfStr.length > 0){
+                switch (arrOfStr[0]){
+                    case "byte":
+                        List<Byte> byteList = new ArrayList<Byte> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    byteList.add((byte) property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, byteList);
+                        break;
+                    case "short":
+                        List<Short> shortList = new ArrayList<Short> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    shortList.add((short) property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, shortList);
+                        break;
+                    case "int":
+                        List<Integer> intList = new ArrayList<Integer> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    intList.add(property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, intList);
+                        break;
+                    case "long":
+                        break;
+                    case "float":
+                        List<Float> floatList = new ArrayList<Float> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    floatList.add((float) property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, floatList);
+                        break;
+                    case "double":
+                        List<Double> doubleList = new ArrayList<Double> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    doubleList.add(property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, doubleList);
+                        break;
+                    case "bool":
+                        List<Boolean> boolList = new ArrayList<Boolean> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Boolean:
+                                    boolList.add(property.getBoolean(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, boolList);
+                        break;
+                    case "string":
+                        List<String> stringList = new ArrayList<String> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case String:
+                                    stringList.add(property.getString(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, stringList);
+                        break;
+                    case "date":
+                        break;
+                    case "geoloc":
+                        break;
+                    default:
+                        break;
+                }
+            }
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -432,7 +509,131 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void removeProperty(String str, ReadableArray property, Promise promise) {
         try {
-            WonderPush.removeProperty(str, toJsonArray(property));
+            String[] arrOfStr = str.split("_", 2);
+            if(arrOfStr.length > 0){
+                switch (arrOfStr[0]){
+                    case "byte":
+                        List<Byte> byteList = new ArrayList<Byte> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    byteList.add((byte) property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, byteList);
+                        break;
+                    case "short":
+                        List<Short> shortList = new ArrayList<Short> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    shortList.add((short) property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, shortList);
+                        break;
+                    case "int":
+                        List<Integer> intList = new ArrayList<Integer> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    intList.add(property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, intList);
+                        break;
+                    case "long":
+                        break;
+                    case "float":
+                        List<Float> floatList = new ArrayList<Float> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    floatList.add((float) property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, floatList);
+                        break;
+                    case "double":
+                        List<Double> doubleList = new ArrayList<Double> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    doubleList.add(property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, doubleList);
+                        break;
+                    case "bool":
+                        List<Boolean> boolList = new ArrayList<Boolean> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Boolean:
+                                    boolList.add(property.getBoolean(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, boolList);
+                        break;
+                    case "string":
+                        List<String> stringList = new ArrayList<String> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case String:
+                                    stringList.add(property.getString(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, stringList);
+                        break;
+                    case "date":
+                        break;
+                    case "geoloc":
+                        break;
+                    default:
+                        break;
+                }
+            }
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -443,7 +644,131 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setProperty(String str, ReadableArray property, Promise promise) {
         try {
-            WonderPush.setProperty(str, toJsonArray(property));
+            String[] arrOfStr = str.split("_", 2);
+            if(arrOfStr.length > 0){
+                switch (arrOfStr[0]){
+                    case "byte":
+                        List<Byte> byteList = new ArrayList<Byte> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    byteList.add((byte) property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, byteList);
+                        break;
+                    case "short":
+                        List<Short> shortList = new ArrayList<Short> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    shortList.add((short) property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, shortList);
+                        break;
+                    case "int":
+                        List<Integer> intList = new ArrayList<Integer> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    intList.add(property.getInt(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, intList);
+                        break;
+                    case "long":
+                        break;
+                    case "float":
+                        List<Float> floatList = new ArrayList<Float> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    floatList.add((float) property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, floatList);
+                        break;
+                    case "double":
+                        List<Double> doubleList = new ArrayList<Double> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    doubleList.add(property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, doubleList);
+                        break;
+                    case "bool":
+                        List<Boolean> boolList = new ArrayList<Boolean> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Boolean:
+                                    boolList.add(property.getBoolean(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, boolList);
+                        break;
+                    case "string":
+                        List<String> stringList = new ArrayList<String> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case String:
+                                    stringList.add(property.getString(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, stringList);
+                        break;
+                    case "date":
+                        break;
+                    case "geoloc":
+                        break;
+                    default:
+                        break;
+                }
+            }
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
