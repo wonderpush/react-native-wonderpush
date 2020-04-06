@@ -1,241 +1,196 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
-const { WonderPushLib } = NativeModules;
+const { RNWonderPush } = NativeModules;
 
-class WonderPushPlugIn {
-    eventEmitterWonderPush = new NativeEventEmitter(WonderPushLib);
-
-    async checkNativeModuleInitialized() {
-        if(WonderPushLib === null) {
-            throw new Error("WonderPush native module not initialized");
-        }
-    }
+if(RNWonderPush === null) {
+    throw new Error("WonderPush native module not initialized");
+}
+export default class WonderPush {
+    static eventEmitterWonderPush = new NativeEventEmitter(RNWonderPush);
     
     //Initialization
-    async setLogging(enable) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setLogging(enable);
+    static async setLogging(enable) {
+        return RNWonderPush.setLogging(enable);
     }
 
-    async isReady() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.isReady();
+    static async isReady() {
+        return RNWonderPush.isReady();
     }
 
     // Subscribing users
-    async subscribeToNotifications() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.subscribeToNotifications();
+   static async subscribeToNotifications() {
+        return RNWonderPush.subscribeToNotifications();
     }
 
-    async unsubscribeFromNotifications() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.unsubscribeFromNotifications();
+    static async unsubscribeFromNotifications() {
+        return RNWonderPush.unsubscribeFromNotifications();
     }
     
-    async isSubscribedToNotifications() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.isSubscribedToNotifications();
+    static async isSubscribedToNotifications() {
+        return RNWonderPush.isSubscribedToNotifications();
     }
 
     // Segmentation
-    async trackEvent(type, attributes) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.trackEvent(type, attributes);
+    static async trackEvent(type, attributes) {
+        return RNWonderPush.trackEvent(type, attributes);
     }
 
-    async addTag(...tags) {
-        this.checkNativeModuleInitialized();
+    static async addTag(...tags) {
         if(tags.length > 0 && Array.isArray(tags[0])){
-            return WonderPushLib.addTag(tags[0]);
+            return RNWonderPush.addTag(tags[0]);
         }else{
-            return WonderPushLib.addTag(tags);
+            return RNWonderPush.addTag(tags);
         }
     }
 
-    async removeTag(...tags) {
-        this.checkNativeModuleInitialized();
+    static async removeTag(...tags) {
         if(tags.length > 0 && Array.isArray(tags[0])){
-            return WonderPushLib.removeTag(tags[0]);
+            return RNWonderPush.removeTag(tags[0]);
         }else{
-            return WonderPushLib.removeTag(tags);
+            return RNWonderPush.removeTag(tags);
         }
     }
 
-    async removeAllTags() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.removeAllTags();
+    static async removeAllTags() {
+        return RNWonderPush.removeAllTags();
     }
 
-    async hasTag(tag) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.hasTag(tag);
+    static async hasTag(tag) {
+        return RNWonderPush.hasTag(tag);
     }
 
-    async getPropertyValue(property) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getPropertyValue(property);
+    static async getPropertyValue(property) {
+        return RNWonderPush.getPropertyValue(property);
     }
 
-    async getPropertyValues(property) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getPropertyValues(property);
+    static async getPropertyValues(property) {
+        return RNWonderPush.getPropertyValues(property);
     }
 
-    async addProperty(str, property) {
-        this.checkNativeModuleInitialized();
+    static async addProperty(str, property) {
         if(!Array.isArray(property)) {
             property = [property];
         }
-        return WonderPushLib.addProperty(str, property);
+        return RNWonderPush.addProperty(str, property);
     }
 
-    async removeProperty(str, property) {
-        this.checkNativeModuleInitialized();
+    static async removeProperty(str, property) {
         if(!Array.isArray(property)) {
             property = [property];
         }
-        return WonderPushLib.removeProperty(str, property);
+        return RNWonderPush.removeProperty(str, property);
     }
 
-    async setProperty(str, property) {
-        this.checkNativeModuleInitialized();
+    static async setProperty(str, property) {
         if(!Array.isArray(property)) {
             property = [property];
         }
-        return WonderPushLib.setProperty(str, property);
+        return RNWonderPush.setProperty(str, property);
     }
     
-    async unsetProperty(property) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.unsetProperty(property);
+    static async unsetProperty(property) {
+        return RNWonderPush.unsetProperty(property);
     }
 
-    async putProperties(property) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.putProperties(property);
+    static async putProperties(property) {
+        return RNWonderPush.putProperties(property);
     }
     
-    async getProperties() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getProperties();
+    static async getProperties() {
+        return RNWonderPush.getProperties();
     }
 
-    async getTags() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getTags();
+    static async getTags() {
+        return RNWonderPush.getTags();
     }
 
-    async getCountry() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getCountry();
+    static async getCountry() {
+        return RNWonderPush.getCountry();
     }
 
-    async setCountry(country) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setCountry(country);
+    static async setCountry(country) {
+        return RNWonderPush.setCountry(country);
     }
 
-    async getCurrency() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getCurrency();
+    static async getCurrency() {
+        return RNWonderPush.getCurrency();
     }
 
-    async setCurrency(currency) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setCurrency(currency);
+    static async setCurrency(currency) {
+        return RNWonderPush.setCurrency(currency);
     }
 
-    async getLocale() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getLocale();
+    static async getLocale() {
+        return RNWonderPush.getLocale();
     }
 
-    async setLocale(locale) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setLocale(locale);
+    static async setLocale(locale) {
+        return RNWonderPush.setLocale(locale);
     }
 
-    async getTimeZone() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getTimeZone();
+    static async getTimeZone() {
+        return RNWonderPush.getTimeZone();
     }
 
-    async setTimeZone(timeZone) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setTimeZone(timeZone);
+    static async setTimeZone(timeZone) {
+        return RNWonderPush.setTimeZone(timeZone);
     }
 
     // User IDs
-    async getUserId() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getUserId();
+    static async getUserId() {
+        return RNWonderPush.getUserId();
     }
 
-    async setUserId(userId) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setUserId(userId);
+    static async setUserId(userId) {
+        return RNWonderPush.setUserId(userId);
     }
 
     // Installation info
-    async getInstallationId() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getInstallationId();
+    static async getInstallationId() {
+        return RNWonderPush.getInstallationId();
     }
 
-    async getPushToken() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.getPushToken();
+    static async getPushToken() {
+        return RNWonderPush.getPushToken();
     }
 
     // Privacy
 
-    async setRequiresUserConsent(isConsent){
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setRequiresUserConsent(isConsent);
+    static async setRequiresUserConsent(isConsent){
+        return RNWonderPush.setRequiresUserConsent(isConsent);
     }
 
-    async setUserConsent(isConsent){
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setUserConsent(isConsent);
+    static async setUserConsent(isConsent){
+        return RNWonderPush.setUserConsent(isConsent);
     }
 
-    async disableGeolocation() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.disableGeolocation();
+    static async disableGeolocation() {
+        return RNWonderPush.disableGeolocation();
     }
 
-    async enableGeolocation() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.enableGeolocation();
+    static async enableGeolocation() {
+        return RNWonderPush.enableGeolocation();
     }
 
-    async setGeolocation(lat, lon) {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.setGeolocation(lat, lon);
+    static async setGeolocation(lat, lon) {
+        return RNWonderPush.setGeolocation(lat, lon);
     }
 
-
-    async clearEventsHistory() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.clearEventsHistory();
+    static  async clearEventsHistory() {
+        return RNWonderPush.clearEventsHistory();
     }
 
-    async clearPreferences() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.clearPreferences();
+    static  async clearPreferences() {
+        return RNWonderPush.clearPreferences();
     }
 
-    async clearAllData() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.clearAllData();
+    static  async clearAllData() {
+        return RNWonderPush.clearAllData();
     }
 
-    async downloadAllData() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.downloadAllData();
+    static async downloadAllData() {
+        return RNWonderPush.downloadAllData();
     }
 
 }
-const WonderPush = new WonderPushPlugIn();
-export default WonderPush;
+

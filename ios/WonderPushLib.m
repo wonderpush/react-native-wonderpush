@@ -33,7 +33,7 @@
     return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_MODULE()
+RCT_EXPORT_MODULE(RNWonderPush)
 
 //Initialization
 RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)

@@ -66,7 +66,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "WonderPushLib";
+        return "RNWonderPush";
     }
 
     private JSONObject toJsonObject(ReadableMap readableMap) throws JSONException {
