@@ -3,9 +3,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.location.Geocoder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.location.Location;
 
@@ -207,16 +207,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
-    @ReactMethod
-    public void isInitialized(Promise promise) {
-        try {
-            boolean status =  WonderPush.isReady();
-            promise.resolve(status);
-        } catch (Exception e) {
-            promise.reject(e);
-        }
-    }
-
     // Subscribing users
     @ReactMethod
     public void subscribeToNotifications(Promise promise) {
@@ -265,7 +255,13 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         try {
             String[] array = new String[tags.size()];
             for (int i = 0; i < tags.size(); i++) {
-                array[i] = tags.getString(i);
+                switch (tags.getType(i)) {
+                    case String:
+                        array[i] = tags.getString(i);
+                        break;
+                    default:
+                        break;
+                }
             }
             WonderPush.addTag(array);
             promise.resolve(null);
@@ -279,7 +275,13 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         try {
             String[] array = new String[tags.size()];
             for (int i = 0; i < tags.size(); i++) {
-                array[i] = tags.getString(i);
+                switch (tags.getType(i)) {
+                    case String:
+                        array[i] = tags.getString(i);
+                        break;
+                    default:
+                        break;
+                }
             }
             WonderPush.removeTag(array);
             promise.resolve(null);
@@ -316,7 +318,20 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
             WritableArray writableArray = Arguments.createArray();
             for(int i=0; i < tArray.length; i++) {
-                writableArray.pushString((String)tArray[i]);
+                Object value = tArray[i];
+                if (value instanceof Float || value instanceof Double) {
+                    writableArray.pushDouble((Double) value);
+                } else if (value instanceof Number) {
+                    writableArray.pushInt((Integer) value);
+                } else if (value instanceof String) {
+                    writableArray.pushString((String) value);
+                } else if (value instanceof JSONObject) {
+                    writableArray.pushMap((ReadableMap) value);
+                } else if (value instanceof JSONArray){
+                    writableArray.pushArray((ReadableArray) value);
+                } else if (value == JSONObject.NULL){
+                    writableArray.pushNull();
+                }
             }
             promise.resolve(writableArray);
         } catch (Exception e) {
@@ -338,6 +353,8 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 promise.resolve((ReadableMap) value);
             } else if (value instanceof Array) {
                 promise.resolve((ReadableArray) value);
+            } else if(value instanceof JSONObject) {
+                promise.resolve(jsonToReact((JSONObject) value));
             } else {
                 promise.resolve(null);
             }
@@ -364,6 +381,8 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     writableArray.pushArray((WritableArray) obj);
                 }else if(obj == null) {
                     writableArray.pushNull();
+                }else if(obj instanceof JSONObject) {
+                    writableArray.pushMap(jsonToReact((JSONObject) obj));
                 }
             }
             promise.resolve(writableArray);
@@ -495,6 +514,20 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     case "date":
                         break;
                     case "geoloc":
+                        List<JSONObject> mapList = new ArrayList<JSONObject> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Array:
+                                    mapList.add(toJsonObject(property.getMap(idx)));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.addProperty(str, mapList);
                         break;
                     default:
                         break;
@@ -629,6 +662,20 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     case "date":
                         break;
                     case "geoloc":
+                        List<JSONObject> mapList = new ArrayList<JSONObject> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Map:
+                                    mapList.add(toJsonObject(property.getMap(idx)));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.removeProperty(str, mapList);
                         break;
                     default:
                         break;
@@ -764,6 +811,20 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     case "date":
                         break;
                     case "geoloc":
+                        List<JSONObject> mapList = new ArrayList<JSONObject> ();
+
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Map:
+                                    mapList.add(toJsonObject(property.getMap(idx)));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        WonderPush.setProperty(str, mapList);
                         break;
                     default:
                         break;

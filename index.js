@@ -22,11 +22,6 @@ class WonderPushPlugIn {
         return WonderPushLib.isReady();
     }
 
-    async isInitialized() {
-        this.checkNativeModuleInitialized();
-        return WonderPushLib.isInitialized();
-    }
-
     // Subscribing users
     async subscribeToNotifications() {
         this.checkNativeModuleInitialized();

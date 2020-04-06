@@ -61,20 +61,6 @@ RCT_EXPORT_METHOD(isReady:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
     }
 }
 
-RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    @try{
-        if([WonderPush isInitialized]){
-            resolve(@TRUE);
-        }else{
-            resolve(@FALSE);
-        }
-    }
-    @catch(NSError *e){
-        reject(nil, nil, e);
-    }
-}
-
 // Subscribing users
 RCT_EXPORT_METHOD(subscribeToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
