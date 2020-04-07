@@ -326,9 +326,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 } else if (value instanceof String) {
                     writableArray.pushString((String) value);
                 } else if (value instanceof JSONObject) {
-                    writableArray.pushMap((ReadableMap) value);
+                    writableArray.pushMap((WritableMap) value);
                 } else if (value instanceof JSONArray){
-                    writableArray.pushArray((ReadableArray) value);
+                    writableArray.pushArray((WritableArray) value);
                 } else if (value == JSONObject.NULL){
                     writableArray.pushNull();
                 }
@@ -446,10 +446,21 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         WonderPush.addProperty(str, intList);
                         break;
                     case "long":
+                        List<Long> longList = new ArrayList<Long> ();
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    longList.add((long)property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        WonderPush.addProperty(str, longList);
                         break;
                     case "float":
                         List<Float> floatList = new ArrayList<Float> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -465,7 +476,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         break;
                     case "double":
                         List<Double> doubleList = new ArrayList<Double> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -476,7 +486,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.addProperty(str, doubleList);
                         break;
                     case "bool":
@@ -512,6 +521,18 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         WonderPush.addProperty(str, stringList);
                         break;
                     case "date":
+                        List<Long> dateList = new ArrayList<Long> ();
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    dateList.add((long)property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        WonderPush.addProperty(str, dateList);
                         break;
                     case "geoloc":
                         List<JSONObject> mapList = new ArrayList<JSONObject> ();
@@ -547,7 +568,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 switch (arrOfStr[0]){
                     case "byte":
                         List<Byte> byteList = new ArrayList<Byte> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -558,12 +578,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, byteList);
                         break;
                     case "short":
                         List<Short> shortList = new ArrayList<Short> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -574,12 +592,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, shortList);
                         break;
                     case "int":
                         List<Integer> intList = new ArrayList<Integer> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -590,14 +606,24 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, intList);
                         break;
                     case "long":
+                        List<Long> longList = new ArrayList<Long> ();
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    longList.add((long)property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        WonderPush.removeProperty(str, longList);
                         break;
                     case "float":
                         List<Float> floatList = new ArrayList<Float> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -608,12 +634,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, floatList);
                         break;
                     case "double":
                         List<Double> doubleList = new ArrayList<Double> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -624,12 +648,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, doubleList);
                         break;
                     case "bool":
                         List<Boolean> boolList = new ArrayList<Boolean> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -640,12 +662,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, boolList);
                         break;
                     case "string":
                         List<String> stringList = new ArrayList<String> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -656,14 +676,24 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, stringList);
                         break;
                     case "date":
+                        List<Long> dateList = new ArrayList<Long> ();
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    dateList.add((long)property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        WonderPush.removeProperty(str, dateList);
                         break;
                     case "geoloc":
                         List<JSONObject> mapList = new ArrayList<JSONObject> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -674,7 +704,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.removeProperty(str, mapList);
                         break;
                     default:
@@ -696,7 +725,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 switch (arrOfStr[0]){
                     case "byte":
                         List<Byte> byteList = new ArrayList<Byte> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -707,12 +735,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, byteList);
                         break;
                     case "short":
                         List<Short> shortList = new ArrayList<Short> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -723,12 +749,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, shortList);
                         break;
                     case "int":
                         List<Integer> intList = new ArrayList<Integer> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -739,14 +763,24 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, intList);
                         break;
                     case "long":
+                        List<Long> longList = new ArrayList<Long> ();
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    longList.add((long)property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        WonderPush.setProperty(str, longList);
                         break;
                     case "float":
                         List<Float> floatList = new ArrayList<Float> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -757,12 +791,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, floatList);
                         break;
                     case "double":
                         List<Double> doubleList = new ArrayList<Double> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -773,12 +805,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, doubleList);
                         break;
                     case "bool":
                         List<Boolean> boolList = new ArrayList<Boolean> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -789,12 +819,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, boolList);
                         break;
                     case "string":
                         List<String> stringList = new ArrayList<String> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -805,14 +833,24 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, stringList);
                         break;
                     case "date":
+                        List<Long> dateList = new ArrayList<Long> ();
+                        for (int idx = 0; idx < property.size(); idx++) {
+                            ReadableType type = property.getType(idx);
+                            switch(type) {
+                                case Number:
+                                    dateList.add((long)property.getDouble(idx));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        WonderPush.setProperty(str, dateList);
                         break;
                     case "geoloc":
                         List<JSONObject> mapList = new ArrayList<JSONObject> ();
-
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
@@ -823,7 +861,6 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                                     break;
                             }
                         }
-
                         WonderPush.setProperty(str, mapList);
                         break;
                     default:

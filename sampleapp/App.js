@@ -282,7 +282,7 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.addProperty('date_interests', new Date().getTime());
+              const response = await WonderPush.addProperty('date_interests', 1586279937);
               console.log(response);
               const response2 = await WonderPush.addProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -290,6 +290,8 @@ export default class App extends Component {
               console.log(response3);
               const response4 = await WonderPush.addProperty('string_likes', 'foo');
               console.log(response4);
+              const response5 = await WonderPush.addProperty('long_value', 5);
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
@@ -301,7 +303,7 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.removeProperty('date_interests', new Date().getTime());
+              const response = await WonderPush.removeProperty('date_interests', 1586279937);
               console.log(response);
               const response2 = await WonderPush.removeProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -309,6 +311,8 @@ export default class App extends Component {
               console.log(response3);
               const response4 = await WonderPush.removeProperty('string_likes', 'foo');
               console.log(response4);
+              const response5 = await WonderPush.removeProperty('long_value', 5);
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
@@ -328,6 +332,8 @@ export default class App extends Component {
               console.log(response2);
               const response4 = await WonderPush.getPropertyValue('string_likes');
               console.log(response4);
+              const response5 = await WonderPush.getPropertyValue('long_value');
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
@@ -339,14 +345,16 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.getPropertyValues('string_interests');
+              const response = await WonderPush.getPropertyValues('date_interests');
               console.log(response);
-              const response1 = await WonderPush.getPropertyValues('int_interests');
+              const response1 = await WonderPush.getPropertyValues('string_interests');
               console.log(response1);
-              const response2 = await WonderPush.getPropertyValues('date_interests');
+              const response2 = await WonderPush.getPropertyValues('int_interests');
               console.log(response2);
               const response4 = await WonderPush.getPropertyValues('string_likes');
               console.log(response4);
+              const response5 = await WonderPush.getPropertyValues('long_value');
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
@@ -358,14 +366,16 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.setProperty('int_interests', 1);
+              const response = await WonderPush.setProperty('date_interests', 1586279937);
               console.log(response);
               const response2 = await WonderPush.setProperty('string_interests', ['sport', 'test']);
               console.log(response2);
-              const response3 = await WonderPush.setProperty('string_likes', 'foo');
+              const response3 = await WonderPush.setProperty('int_interests', 1);
               console.log(response3);
-              const response4 = await WonderPush.setProperty('date_interests', new Date().getTime());
+              const response4 = await WonderPush.setProperty('string_likes', 'foo');
               console.log(response4);
+              const response5 = await WonderPush.setProperty('long_value',5);
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
@@ -377,15 +387,16 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.unsetProperty('int_interests');
+              const response = await WonderPush.unsetProperty('date_interests');
               console.log(response);
               const response2 = await WonderPush.unsetProperty('string_interests');
               console.log(response2);
-              const response3 = await WonderPush.unsetProperty('string_likes');
+              const response3 = await WonderPush.unsetProperty('int_interests');
               console.log(response3);
-              const response4 = await WonderPush.unsetProperty('date_interests');
+              const response4 = await WonderPush.unsetProperty('string_likes');
               console.log(response4);
-
+              const response5 = await WonderPush.unsetProperty('long_value');
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
@@ -397,14 +408,16 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.putProperties({ 'int_interests': 23 });
+              const response = await WonderPush.putProperties({ 'date_interests': 1586279937 });
               console.log(response);
               const response2 = await WonderPush.putProperties({ 'string_interests': ['sport', 'test'] });
               console.log(response2);
-              const response3 = await WonderPush.putProperties({ 'string_likes': 'foo' });
+              const response3 = await WonderPush.putProperties({ 'int_interests': 1 });
               console.log(response3);
-              const response4 = await WonderPush.putProperties({ 'date_interests': new Date().getTime() });
+              const response4 = await WonderPush.putProperties({ 'string_likes': 'foo' });
               console.log(response4);
+              const response5 = await WonderPush.putProperties({ 'long_value': 5 });
+              console.log(response5);
             } catch (error) {
               console.log(error);
             }
