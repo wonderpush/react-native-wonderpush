@@ -521,12 +521,12 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         WonderPush.addProperty(str, stringList);
                         break;
                     case "date":
-                        List<Long> dateList = new ArrayList<Long> ();
+                        List<String> dateList = new ArrayList<String> ();
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
                                 case Number:
-                                    dateList.add((long)property.getDouble(idx));
+                                    dateList.add(property.getString(idx));
                                     break;
                                 default:
                                     break;
@@ -679,12 +679,12 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         WonderPush.removeProperty(str, stringList);
                         break;
                     case "date":
-                        List<Long> dateList = new ArrayList<Long> ();
+                        List<String> dateList = new ArrayList<String> ();
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
                                 case Number:
-                                    dateList.add((long)property.getDouble(idx));
+                                    dateList.add(property.getString(idx));
                                     break;
                                 default:
                                     break;
@@ -836,12 +836,12 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         WonderPush.setProperty(str, stringList);
                         break;
                     case "date":
-                        List<Long> dateList = new ArrayList<Long> ();
+                        List<String> dateList = new ArrayList<String> ();
                         for (int idx = 0; idx < property.size(); idx++) {
                             ReadableType type = property.getType(idx);
                             switch(type) {
-                                case Number:
-                                    dateList.add((long)property.getDouble(idx));
+                                case String:
+                                    dateList.add(property.getString(idx));
                                     break;
                                 default:
                                     break;

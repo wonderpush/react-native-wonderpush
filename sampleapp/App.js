@@ -282,7 +282,9 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.addProperty('date_interests', 1586279937);
+              const response0 = await WonderPush.addProperty('date_interests1', '2020-04-14T06:51:57+0000');
+              console.log(response0);
+              const response = await WonderPush.addProperty('date_interests', '1586279937');
               console.log(response);
               const response2 = await WonderPush.addProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -303,7 +305,9 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.removeProperty('date_interests', 1586279937);
+              const response0 = await WonderPush.removeProperty('date_interests1', '2020-04-14T06:51:57+0000' );
+              console.log(response0);
+              const response = await WonderPush.removeProperty('date_interests', '1586279937');
               console.log(response);
               const response2 = await WonderPush.removeProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -324,6 +328,8 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
+              const response0 = await WonderPush.getPropertyValue('date_interests1');
+              console.log(response0);
               const response = await WonderPush.getPropertyValue('date_interests');
               console.log(response);
               const response1 = await WonderPush.getPropertyValue('string_interests');
@@ -345,6 +351,8 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
+              const response0 = await WonderPush.getPropertyValues('date_interests1');
+              console.log(response0);
               const response = await WonderPush.getPropertyValues('date_interests');
               console.log(response);
               const response1 = await WonderPush.getPropertyValues('string_interests');
@@ -366,7 +374,9 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.setProperty('date_interests', 1586279937);
+              const response0 = await WonderPush.setProperty('date_interests1', '2020-04-14T06:51:57+0000');
+              console.log(response0);
+              const response = await WonderPush.setProperty('date_interests', '1586279937');
               console.log(response);
               const response2 = await WonderPush.setProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -387,6 +397,8 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
+              const response0 = await WonderPush.unsetProperty('date_interests1');
+              console.log(response0);
               const response = await WonderPush.unsetProperty('date_interests');
               console.log(response);
               const response2 = await WonderPush.unsetProperty('string_interests');
@@ -408,7 +420,9 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response = await WonderPush.putProperties({ 'date_interests': 1586279937 });
+              const response0 = await WonderPush.putProperties({ 'date_interests1': '2020-04-14T06:51:57+0000' });
+              console.log(response0);
+              const response = await WonderPush.putProperties({ 'date_interests': '1586279937' });
               console.log(response);
               const response2 = await WonderPush.putProperties({ 'string_interests': ['sport', 'test'] });
               console.log(response2);
