@@ -236,12 +236,18 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
+              const response0 = await WonderPush.addTag();
+              console.log(response0);
+              console.log(await WonderPush.getTags());
               const response = await WonderPush.addTag('test');
               console.log(response);
-              const response1 = await WonderPush.addTag(['test', 'test123']);
+                console.log(await WonderPush.getTags());
+              const response1 = await WonderPush.addTag(['test123']);
               console.log(response1);
-              const response2 = await WonderPush.addTag('test', 'test123', 'tesdf');
+                console.log(await WonderPush.getTags());
+              const response2 = await WonderPush.addTag('test123', 'tesdf');
               console.log(response2);
+                console.log(await WonderPush.getTags());
             } catch (error) {
               console.log(error);
             }
@@ -259,6 +265,7 @@ export default class App extends Component {
               console.log(response1);
               const response2 = await WonderPush.removeTag('test', 'test123', 'tesdf');
               console.log(response2);
+                console.log(await WonderPush.getTags());
             } catch (error) {
               console.log(error);
             }
@@ -298,7 +305,7 @@ export default class App extends Component {
             try {
               const response0 = await WonderPush.addProperty('date_interests1', '2020-04-14T06:51:57+0000');
               console.log(response0);
-              const response = await WonderPush.addProperty('date_interests', '1586279937');
+              const response = await WonderPush.addProperty('date_interests', 1586279937000);
               console.log(response);
               const response2 = await WonderPush.addProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -321,7 +328,7 @@ export default class App extends Component {
             try {
               const response0 = await WonderPush.removeProperty('date_interests1', '2020-04-14T06:51:57+0000' );
               console.log(response0);
-              const response = await WonderPush.removeProperty('date_interests', '1586279937');
+              const response = await WonderPush.removeProperty('date_interests', 1586279937000);
               console.log(response);
               const response2 = await WonderPush.removeProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -343,17 +350,17 @@ export default class App extends Component {
           onPress={async () => {
             try {
               const response0 = await WonderPush.getPropertyValue('date_interests1');
-              console.log(response0);
+              console.log(typeof response0, response0);
               const response = await WonderPush.getPropertyValue('date_interests');
-              console.log(response);
+              console.log(typeof response, response);
               const response1 = await WonderPush.getPropertyValue('string_interests');
-              console.log(response1);
+              console.log(typeof response1, response1);
               const response2 = await WonderPush.getPropertyValue('int_interests');
-              console.log(response2);
+              console.log(typeof response2, response2);
               const response4 = await WonderPush.getPropertyValue('string_likes');
-              console.log(response4);
+              console.log(typeof response4, response4);
               const response5 = await WonderPush.getPropertyValue('long_value');
-              console.log(response5);
+              console.log(typeof response5, response5);
             } catch (error) {
               console.log(error);
             }
@@ -366,17 +373,17 @@ export default class App extends Component {
           onPress={async () => {
             try {
               const response0 = await WonderPush.getPropertyValues('date_interests1');
-              console.log(response0);
+              console.log(typeof response0, response0);
               const response = await WonderPush.getPropertyValues('date_interests');
-              console.log(response);
+              console.log(typeof response, response);
               const response1 = await WonderPush.getPropertyValues('string_interests');
-              console.log(response1);
+              console.log(typeof response1, response1);
               const response2 = await WonderPush.getPropertyValues('int_interests');
-              console.log(response2);
+              console.log(typeof response2, response2);
               const response4 = await WonderPush.getPropertyValues('string_likes');
-              console.log(response4);
+              console.log(typeof response4, response4);
               const response5 = await WonderPush.getPropertyValues('long_value');
-              console.log(response5);
+              console.log(typeof response5, response5);
             } catch (error) {
               console.log(error);
             }
@@ -390,7 +397,7 @@ export default class App extends Component {
             try {
               const response0 = await WonderPush.setProperty('date_interests1', '2020-04-14T06:51:57+0000');
               console.log(response0);
-              const response = await WonderPush.setProperty('date_interests', '1586279937');
+              const response = await WonderPush.setProperty('date_interests', 1586279937000);
               console.log(response);
               const response2 = await WonderPush.setProperty('string_interests', ['sport', 'test']);
               console.log(response2);
@@ -434,9 +441,19 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
-              const response0 = await WonderPush.putProperties({ 'date_interests1': '2020-04-14T06:51:57+0000' });
-              console.log(response0);
-              const response = await WonderPush.putProperties({ 'date_interests': '1586279937' });
+              const response = await WonderPush.putProperties({
+                  int_age: 1,
+                  string_foo: 'bar',
+                  byte_foo: 1,
+                  short_foo: 1,
+                  long_foo: 1,
+                  float_foo: 1,
+                  double_foo: 1,
+                  bool_foo: true,
+                  date_foo: '2015-10-21T16:29:00-07:00',
+                  date_bar: 1445470140000,
+                  geoloc_foo: {lat: 0, lon: 0},
+              });
               console.log(response);
               const response2 = await WonderPush.putProperties({ 'string_interests': ['sport', 'test'] });
               console.log(response2);
@@ -458,7 +475,7 @@ export default class App extends Component {
           onPress={async () => {
             try {
               const response = await WonderPush.getProperties();
-              console.log(response);
+              console.log(typeof response, response);
             } catch (error) {
               console.log(error);
             }
