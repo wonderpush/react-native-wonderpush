@@ -136,6 +136,7 @@ android {
         buildConfigField 'String', 'WONDERPUSH_CLIENT_ID', '"fd49eef17401e6b2916e9101fa48c9c2f15ec330"'
         buildConfigField 'String', 'WONDERPUSH_CLIENT_SECRET', '"fd9b63c4c77c9a66d00aa64e5aed8d25e8ccb510e96baff8b08a8a980777e1c6"'
         buildConfigField 'String', 'WONDERPUSH_SENDER_ID', '"227914050568"'
+        buildConfigField 'boolean', 'WONDERPUSH_LOGGING', 'true'
     }
     splits {
         abi {
