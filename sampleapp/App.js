@@ -283,6 +283,19 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
+              const response = await WonderPush.hasTag('test');
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Has Tag"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
               const response0 = await WonderPush.addProperty('date_interests1', '2020-04-14T06:51:57+0000');
               console.log(response0);
               const response = await WonderPush.addProperty('date_interests', '1586279937');
