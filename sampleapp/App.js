@@ -571,7 +571,20 @@ export default class App extends Component {
           color="#841584"
         />
 
-        <Button
+          <Button
+              onPress={async () => {
+                  try {
+                      const response = await WonderPush.setUserId(null);
+                      console.log(response);
+                  } catch (error) {
+                      console.log(error);
+                  }
+              }}
+              title="Unset UserId"
+              color="#841584"
+          />
+
+          <Button
           onPress={async () => {
             try {
               const response = await WonderPush.setUserId('USA_123');
