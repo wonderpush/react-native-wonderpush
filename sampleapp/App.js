@@ -223,6 +223,7 @@ export default class App extends Component {
           onPress={async () => {
             try {
               const response = await WonderPush.trackEvent('purchase', { 'product': 123 });
+              const response = await WonderPush.trackEvent('visit');
               console.log(response);
             } catch (error) {
               console.log(error);

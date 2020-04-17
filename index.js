@@ -31,7 +31,7 @@ export default class WonderPush {
     }
 
     // Segmentation
-    static async trackEvent(type, attributes) {
+    static async trackEvent(type, attributes = {}) {
         return RNWonderPush.trackEvent(type, attributes);
     }
 
