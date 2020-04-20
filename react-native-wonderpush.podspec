@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency 'React',  '>= 0.13.0', '< 1.0.0'
-  s.dependency 'WonderPush', '~> 3.0'
+  s.dependency 'WonderPush', '3.3.3'
 
   # ...
   # s.dependency "..."

@@ -73,7 +73,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.wonderpush:wonderpush-android-sdk:3.+'
+    implementation 'com.wonderpush:wonderpush-android-sdk:3.2.0'
 
 }
 
