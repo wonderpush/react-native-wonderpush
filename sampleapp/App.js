@@ -278,6 +278,20 @@ export default class App extends Component {
         <Button
           onPress={async () => {
             try {
+              const response = await WonderPush.removeAllTags();
+              console.log(response);
+              console.log(await WonderPush.getTags());
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          title="Remove All Tags"
+          color="#841584"
+        />
+
+        <Button
+          onPress={async () => {
+            try {
               const response = await WonderPush.getTags();
               console.log(response);
             } catch (error) {
