@@ -51,9 +51,9 @@ RCT_EXPORT_METHOD(isReady:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
 {
     @try{
         if([WonderPush isReady]){
-            resolve(@TRUE);
+            resolve(@YES);
         }else{
-            resolve(@FALSE);
+            resolve(@NO);
         }
     }
     @catch(NSError *e){
@@ -88,9 +88,9 @@ RCT_EXPORT_METHOD(isSubscribedToNotifications:(RCTPromiseResolveBlock)resolve re
 {
     @try{
         if([WonderPush isSubscribedToNotifications]){
-            resolve(@TRUE);
+            resolve(@YES);
         }else{
-            resolve(@FALSE);
+            resolve(@NO);
         }
     }
     @catch(NSError *e){
@@ -148,9 +148,9 @@ RCT_EXPORT_METHOD(hasTag:(NSString *)tag resolver:(RCTPromiseResolveBlock)resolv
 {
     @try{
         if([WonderPush hasTag:tag]){
-            resolve(@TRUE);
+            resolve(@YES);
         }else{
-            resolve(@FALSE);
+            resolve(@NO);
         }
     }
     @catch(NSError *e){
