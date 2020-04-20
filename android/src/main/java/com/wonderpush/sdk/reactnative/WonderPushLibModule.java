@@ -523,7 +523,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setTimeZone(String timeZone, Promise promise) {
         try {
-            WonderPush.setLocale(timeZone);
+            WonderPush.setTimeZone(timeZone);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
