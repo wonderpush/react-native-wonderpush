@@ -19,8 +19,7 @@
     "name": "WonderPush",
     "email": "dev@wonderpush.com"
   },
-  "license": "MIT",
-  "licenseFilename": "LICENSE",
+  "license": "Apache-2.0",
   "readmeFilename": "README.md",
   "peerDependencies": {
     "react": "^16.8.1",
