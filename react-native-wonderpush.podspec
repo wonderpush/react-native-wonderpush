@@ -20,8 +20,4 @@ Pod::Spec.new do |s|
 
   s.dependency 'React',  '>= 0.13.0', '< 1.0.0'
   s.dependency 'WonderPush', '3.3.3'
-
-  # ...
-  # s.dependency "..."
 end
-

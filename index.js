@@ -1,13 +1,15 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeEventEmitter, NativeModules } from 'react-native';
 
-const { RNWonderPush } = NativeModules;
+const {RNWonderPush} = NativeModules;
 
-if(RNWonderPush === null) {
+if (RNWonderPush === null) {
     throw new Error("WonderPush native module not initialized");
 }
+
 export default class WonderPush {
+
     static eventEmitterWonderPush = new NativeEventEmitter(RNWonderPush);
-    
+
     //Initialization
     static async setLogging(enable) {
         return RNWonderPush.setLogging(enable);
@@ -18,14 +20,14 @@ export default class WonderPush {
     }
 
     // Subscribing users
-   static async subscribeToNotifications() {
+    static async subscribeToNotifications() {
         return RNWonderPush.subscribeToNotifications();
     }
 
     static async unsubscribeFromNotifications() {
         return RNWonderPush.unsubscribeFromNotifications();
     }
-    
+
     static async isSubscribedToNotifications() {
         return RNWonderPush.isSubscribedToNotifications();
     }
@@ -36,17 +38,17 @@ export default class WonderPush {
     }
 
     static async addTag(...tags) {
-        if(tags.length > 0 && Array.isArray(tags[0])){
+        if (tags.length > 0 && Array.isArray(tags[0])) {
             return RNWonderPush.addTag(tags[0]);
-        }else{
+        } else {
             return RNWonderPush.addTag(tags);
         }
     }
 
     static async removeTag(...tags) {
-        if(tags.length > 0 && Array.isArray(tags[0])){
+        if (tags.length > 0 && Array.isArray(tags[0])) {
             return RNWonderPush.removeTag(tags[0]);
-        }else{
+        } else {
             return RNWonderPush.removeTag(tags);
         }
     }
@@ -68,26 +70,26 @@ export default class WonderPush {
     }
 
     static async addProperty(str, property) {
-        if(!Array.isArray(property)) {
+        if (!Array.isArray(property)) {
             property = [property];
         }
         return RNWonderPush.addProperty(str, property);
     }
 
     static async removeProperty(str, property) {
-        if(!Array.isArray(property)) {
+        if (!Array.isArray(property)) {
             property = [property];
         }
         return RNWonderPush.removeProperty(str, property);
     }
 
     static async setProperty(str, property) {
-        if(!Array.isArray(property)) {
+        if (!Array.isArray(property)) {
             property = [property];
         }
         return RNWonderPush.setProperty(str, property);
     }
-    
+
     static async unsetProperty(property) {
         return RNWonderPush.unsetProperty(property);
     }
@@ -95,7 +97,7 @@ export default class WonderPush {
     static async putProperties(property) {
         return RNWonderPush.putProperties(property);
     }
-    
+
     static async getProperties() {
         return RNWonderPush.getProperties();
     }
@@ -156,11 +158,11 @@ export default class WonderPush {
 
     // Privacy
 
-    static async setRequiresUserConsent(isConsent){
+    static async setRequiresUserConsent(isConsent) {
         return RNWonderPush.setRequiresUserConsent(isConsent);
     }
 
-    static async setUserConsent(isConsent){
+    static async setUserConsent(isConsent) {
         return RNWonderPush.setUserConsent(isConsent);
     }
 
@@ -176,15 +178,15 @@ export default class WonderPush {
         return RNWonderPush.setGeolocation(lat, lon);
     }
 
-    static  async clearEventsHistory() {
+    static async clearEventsHistory() {
         return RNWonderPush.clearEventsHistory();
     }
 
-    static  async clearPreferences() {
+    static async clearPreferences() {
         return RNWonderPush.clearPreferences();
     }
 
-    static  async clearAllData() {
+    static async clearAllData() {
         return RNWonderPush.clearAllData();
     }
 
@@ -193,4 +195,3 @@ export default class WonderPush {
     }
 
 }
-

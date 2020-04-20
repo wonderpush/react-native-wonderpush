@@ -1,49 +1,30 @@
 package com.wonderpush.sdk.reactnative;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import android.location.Geocoder;
-import android.util.Log;
 import android.location.Location;
-
-
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Promise;
-import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableMapKeySetIterator;
-import com.facebook.react.bridge.ReadableType;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
+import android.util.Log;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import com.facebook.react.bridge.*;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.wonderpush.sdk.WonderPush;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
-
+import java.util.Set;
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
 
-   public WonderPushLibModule(final ReactApplicationContext reactContext) {
+    public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         WonderPush.setIntegrator("react-native-wonderpush-1.0.0");
@@ -72,10 +53,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     private JSONObject toJsonObject(ReadableMap readableMap) throws JSONException {
         JSONObject object = new JSONObject();
         ReadableMapKeySetIterator iter = readableMap.keySetIterator();
-        while(iter.hasNextKey()) {
+        while (iter.hasNextKey()) {
             String key = iter.nextKey();
             ReadableType type = readableMap.getType(key);
-            switch(type) {
+            switch (type) {
                 case Boolean:
                     object.put(key, readableMap.getBoolean(key));
                     break;
@@ -105,7 +86,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         JSONArray array = new JSONArray();
         for (int idx = 0; idx < readableArray.size(); idx++) {
             ReadableType type = readableArray.getType(idx);
-            switch(type) {
+            switch (type) {
                 case Boolean:
                     array.put(readableArray.getBoolean(idx));
                     break;
@@ -120,7 +101,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     break;
                 case Array:
                     array.put(toJsonArray(readableArray.getArray(idx)));
-                    break;  
+                    break;
                 case Null:
                     array.put(JSONObject.NULL);
                     break;
@@ -134,7 +115,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public static WritableMap jsonToReact(JSONObject jsonObject) throws JSONException {
         WritableMap writableMap = Arguments.createMap();
         Iterator iterator = jsonObject.keys();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             String key = (String) iterator.next();
             Object value = jsonObject.get(key);
             if (value instanceof Boolean) {
@@ -145,9 +126,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 writableMap.putString(key, (String) value);
             } else if (value instanceof JSONObject) {
                 writableMap.putMap(key, jsonToReact((JSONObject) value));
-            } else if (value instanceof JSONArray){
+            } else if (value instanceof JSONArray) {
                 writableMap.putArray(key, jsonToReact((JSONArray) value));
-            } else if (value == JSONObject.NULL){
+            } else if (value == JSONObject.NULL) {
                 writableMap.putNull(key);
             }
         }
@@ -157,7 +138,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     public static WritableArray jsonToReact(JSONArray jsonArray) throws JSONException {
         WritableArray writableArray = Arguments.createArray();
-        for(int i=0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             Object value = jsonArray.get(i);
             if (value instanceof Boolean) {
                 writableArray.pushBoolean(((Boolean) value).booleanValue());
@@ -167,9 +148,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 writableArray.pushString((String) value);
             } else if (value instanceof JSONObject) {
                 writableArray.pushMap(jsonToReact((JSONObject) value));
-            } else if (value instanceof JSONArray){
+            } else if (value instanceof JSONArray) {
                 writableArray.pushArray(jsonToReact((JSONArray) value));
-            } else if (value == JSONObject.NULL){
+            } else if (value == JSONObject.NULL) {
                 writableArray.pushNull();
             }
         }
@@ -180,7 +161,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setClientId(String clientId, String clientSecret, Promise promise) {
         try {
-            WonderPush.initialize(this.reactContext,clientId,clientSecret);
+            WonderPush.initialize(this.reactContext, clientId, clientSecret);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
@@ -188,7 +169,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setLogging(boolean enable, Promise promise){
+    public void setLogging(boolean enable, Promise promise) {
         try {
             WonderPush.setLogging(enable);
             promise.resolve(null);
@@ -200,7 +181,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isReady(Promise promise) {
         try {
-            boolean status =  WonderPush.isReady();
+            boolean status = WonderPush.isReady();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
@@ -231,7 +212,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isSubscribedToNotifications(Promise promise) {
         try {
-            boolean status =  WonderPush.isSubscribedToNotifications();
+            boolean status = WonderPush.isSubscribedToNotifications();
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
@@ -241,7 +222,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     // Segmentation
     @ReactMethod
     public void trackEvent(String type, ReadableMap attributes, Promise promise) {
-        try{
+        try {
             JSONObject jObject = toJsonObject(attributes);
             WonderPush.trackEvent(type, jObject);
             promise.resolve(null);
@@ -303,7 +284,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void hasTag(String tag, Promise promise) {
         try {
-            boolean status =  WonderPush.hasTag(tag);
+            boolean status = WonderPush.hasTag(tag);
             promise.resolve(status);
         } catch (Exception e) {
             promise.reject(e);
@@ -338,9 +319,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 promise.resolve((ReadableMap) value);
             } else if (value instanceof Array) {
                 promise.resolve((ReadableArray) value);
-            } else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 promise.resolve(jsonToReact((JSONObject) value));
-            } else if(value instanceof JSONArray) {
+            } else if (value instanceof JSONArray) {
                 promise.resolve(jsonToReact((JSONArray) value));
             } else if (value == null || value == JSONObject.NULL) {
                 promise.resolve(null);
@@ -355,25 +336,25 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getPropertyValues(String property, Promise promise) {
-        try{
+        try {
             List<Object> values = WonderPush.getPropertyValues(property);
             WritableArray writableArray = Arguments.createArray();
-            for(Object obj : values){
-                if(obj instanceof Boolean) {
+            for (Object obj : values) {
+                if (obj instanceof Boolean) {
                     writableArray.pushBoolean((Boolean) obj);
-                }else if(obj instanceof Number){
+                } else if (obj instanceof Number) {
                     writableArray.pushDouble(((Number) obj).doubleValue());
-                }else if(obj instanceof String){
+                } else if (obj instanceof String) {
                     writableArray.pushString((String) obj);
-                }else if(obj instanceof Map) {
+                } else if (obj instanceof Map) {
                     writableArray.pushMap((WritableMap) obj);
-                }else if(obj instanceof Array) {
+                } else if (obj instanceof Array) {
                     writableArray.pushArray((WritableArray) obj);
-                }else if(obj instanceof JSONObject) {
+                } else if (obj instanceof JSONObject) {
                     writableArray.pushMap(jsonToReact((JSONObject) obj));
-                } else if(obj instanceof JSONArray) {
+                } else if (obj instanceof JSONArray) {
                     writableArray.pushArray(jsonToReact((JSONArray) obj));
-                } else if(obj == null || obj == JSONObject.NULL) {
+                } else if (obj == null || obj == JSONObject.NULL) {
                     writableArray.pushNull();
                 }
             }
@@ -426,7 +407,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void putProperties(ReadableMap properties, Promise promise) {
-        try{
+        try {
             JSONObject jObject = toJsonObject(properties);
             WonderPush.putProperties(jObject);
             promise.resolve(null);
@@ -525,7 +506,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
             promise.reject(e);
         }
     }
-    
+
     // User IDs
     @ReactMethod
     public void getUserId(Promise promise) {
@@ -662,4 +643,5 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
             promise.reject(e);
         }
     }
+
 }
