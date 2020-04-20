@@ -137,14 +137,16 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         while(iterator.hasNext()) {
             String key = (String) iterator.next();
             Object value = jsonObject.get(key);
-            if (value instanceof Number) {
-                writableMap.putDouble(key, jsonObject.getDouble(key));
+            if (value instanceof Boolean) {
+                writableMap.putBoolean(key, ((Boolean) value).booleanValue());
+            } else if (value instanceof Number) {
+                writableMap.putDouble(key, ((Number) value).doubleValue());
             } else if (value instanceof String) {
-                writableMap.putString(key, jsonObject.getString(key));
+                writableMap.putString(key, (String) value);
             } else if (value instanceof JSONObject) {
-                writableMap.putMap(key, jsonToReact(jsonObject.getJSONObject(key)));
+                writableMap.putMap(key, jsonToReact((JSONObject) value));
             } else if (value instanceof JSONArray){
-                writableMap.putArray(key, jsonToReact(jsonObject.getJSONArray(key)));
+                writableMap.putArray(key, jsonToReact((JSONArray) value));
             } else if (value == JSONObject.NULL){
                 writableMap.putNull(key);
             }
@@ -157,14 +159,16 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         WritableArray writableArray = Arguments.createArray();
         for(int i=0; i < jsonArray.length(); i++) {
             Object value = jsonArray.get(i);
-            if (value instanceof Number) {
-                writableArray.pushDouble(jsonArray.getDouble(i));
+            if (value instanceof Boolean) {
+                writableArray.pushBoolean(((Boolean) value).booleanValue());
+            } else if (value instanceof Number) {
+                writableArray.pushDouble(((Number) value).doubleValue());
             } else if (value instanceof String) {
-                writableArray.pushString(jsonArray.getString(i));
+                writableArray.pushString((String) value);
             } else if (value instanceof JSONObject) {
-                writableArray.pushMap(jsonToReact(jsonArray.getJSONObject(i)));
+                writableArray.pushMap(jsonToReact((JSONObject) value));
             } else if (value instanceof JSONArray){
-                writableArray.pushArray(jsonToReact(jsonArray.getJSONArray(i)));
+                writableArray.pushArray(jsonToReact((JSONArray) value));
             } else if (value == JSONObject.NULL){
                 writableArray.pushNull();
             }
@@ -351,7 +355,12 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                 promise.resolve((ReadableArray) value);
             } else if(value instanceof JSONObject) {
                 promise.resolve(jsonToReact((JSONObject) value));
+            } else if(value instanceof JSONArray) {
+                promise.resolve(jsonToReact((JSONArray) value));
+            } else if (value == null || value == JSONObject.NULL) {
+                promise.resolve(null);
             } else {
+                Log.d("WonderPush", "Unexpected type " + value.getClass().getCanonicalName());
                 promise.resolve(null);
             }
         } catch (Exception e) {
@@ -375,10 +384,12 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                     writableArray.pushMap((WritableMap) obj);
                 }else if(obj instanceof Array) {
                     writableArray.pushArray((WritableArray) obj);
-                }else if(obj == null) {
-                    writableArray.pushNull();
                 }else if(obj instanceof JSONObject) {
                     writableArray.pushMap(jsonToReact((JSONObject) obj));
+                } else if(obj instanceof JSONArray) {
+                    writableArray.pushArray(jsonToReact((JSONArray) obj));
+                } else if(obj == null || obj == JSONObject.NULL) {
+                    writableArray.pushNull();
                 }
             }
             promise.resolve(writableArray);
