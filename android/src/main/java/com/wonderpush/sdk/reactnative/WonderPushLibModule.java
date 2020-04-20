@@ -314,24 +314,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getTags(Promise promise) {
         try {
             Set<String> tags = WonderPush.getTags();
-            Object[] tArray = tags.toArray();
-
             WritableArray writableArray = Arguments.createArray();
-            for(int i=0; i < tArray.length; i++) {
-                Object value = tArray[i];
-                if (value instanceof Float || value instanceof Double) {
-                    writableArray.pushDouble((Double) value);
-                } else if (value instanceof Number) {
-                    writableArray.pushInt((Integer) value);
-                } else if (value instanceof String) {
-                    writableArray.pushString((String) value);
-                } else if (value instanceof JSONObject) {
-                    writableArray.pushMap((WritableMap) value);
-                } else if (value instanceof JSONArray){
-                    writableArray.pushArray((WritableArray) value);
-                } else if (value == JSONObject.NULL){
-                    writableArray.pushNull();
-                }
+            for (String tag : tags) {
+                writableArray.pushString(tag);
             }
             promise.resolve(writableArray);
         } catch (Exception e) {
