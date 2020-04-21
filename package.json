@@ -13,7 +13,21 @@
     "baseUrl": "https://github.com/wonderpush/react-native-wonderpush"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "wonderpush",
+    "push",
+    "mobile push",
+    "mobile push notifications",
+    "GDPR",
+    "RGPD",
+    "notification",
+    "notifications",
+    "push notification",
+    "push notifications",
+    "apn",
+    "apns",
+    "gcm",
+    "fcm"
   ],
   "author": {
     "name": "WonderPush",
