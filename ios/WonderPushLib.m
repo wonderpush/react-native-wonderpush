@@ -39,8 +39,8 @@
     });
     return sharedInstance;
 }
--(void)wonderPushWillOpenURL:(NSString *)URL{
-    [self sendEventWithName:@"wonderPushWillOpenURL" body:URL];
+-(void)wonderPushWillOpenURL:(NSURL *)URL{
+    [self sendEventWithName:@"wonderPushWillOpenURL" body:[URL absoluteString]];
 }
 
 RCT_EXPORT_MODULE(RNWonderPush)
