@@ -10,6 +10,7 @@
 - (NSArray<NSString *> *)supportedEvents {
   return @[
     @"wonderpushNotificationWillOpen",
+    @"wonderPushWillOpenURL",
   ];
 }
 
@@ -29,6 +30,17 @@
 
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
+}
++ (WonderPushLib *)sharedInstance {
+    static WonderPushLib *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [super init];
+    });
+    return sharedInstance;
+}
+-(void)wonderPushWillOpenURL:(NSURL *)URL{
+    [self sendEventWithName:@"wonderPushWillOpenURL" body:nil];
 }
 
 RCT_EXPORT_MODULE(RNWonderPush)

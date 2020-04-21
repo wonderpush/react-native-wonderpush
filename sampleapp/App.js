@@ -41,7 +41,7 @@ export default class App extends Component {
   }
 
   wonderPushWillOpenURL = (event) => {
-    alert(event);
+    alert(JSON.stringify(event));
   }
 
   _doTest = async () => {
