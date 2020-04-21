@@ -25,14 +25,22 @@ export default class App extends Component {
 
   componentDidMount() {
     WonderPush.eventEmitterWonderPush.addListener('wonderpushNotificationWillOpen', this.wonderpushNotificationWillOpen);
+    WonderPush.eventEmitterWonderPush.addListener('wonderPushWillOpenURL', this.wonderPushWillOpenURL);
+
 
   }
 
   componentWillUnmount() {
     WonderPush.eventEmitterWonderPush.removeListener('wonderpushNotificationWillOpen', this.wonderpushNotificationWillOpen);
+    WonderPush.eventEmitterWonderPush.removeListener('wonderPushWillOpenURL', this.wonderPushWillOpenURL);
+
   }
 
   wonderpushNotificationWillOpen = (event) => {
+    alert(event);
+  }
+
+  wonderPushWillOpenURL = (event) => {
     alert(event);
   }
 

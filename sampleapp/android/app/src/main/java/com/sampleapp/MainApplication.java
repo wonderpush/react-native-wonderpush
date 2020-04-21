@@ -12,7 +12,7 @@ import java.util.List;
 //import com.reac;
 
 import com.facebook.react.bridge.ReactApplicationContext;
-
+import com.wonderpush.sdk.reactnative.WonderPushLibModule;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -47,6 +47,8 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    WonderPushLibModule.setDelegate();
+
   }
 
   /**

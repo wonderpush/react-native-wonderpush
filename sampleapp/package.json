@@ -13,7 +13,7 @@
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-wonderpush": "./.."
+    "react-native-wonderpush": "../../react-native-wonderpush"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

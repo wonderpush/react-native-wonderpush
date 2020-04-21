@@ -19,14 +19,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.wonderpush.sdk.DeepLinkEvent;
+import com.wonderpush.sdk.WonderPushAbstractDelegate;
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
+    private static ReactApplicationContext baseContext;
+    private String WONDERPUSH_WILL_OPEN_URL = "wonderPushWillOpenURL";
 
     public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+         baseContext = reactContext;
         WonderPush.setIntegrator("react-native-wonderpush-1.0.0");
 
         LocalBroadcastManager.getInstance(reactContext).registerReceiver(new BroadcastReceiver() {
@@ -45,6 +50,22 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }, new IntentFilter(WonderPush.INTENT_NOTIFICATION_WILL_OPEN));
     }
 
+    public static void setDelegate(){
+        WonderPush.setDelegate(new WonderPushAbstractDelegate() {
+            @Override
+            public String urlForDeepLink(DeepLinkEvent event) {
+                new WonderPushLibModule(baseContext).wonderPushWillOpenURL(event.getUrl());
+                return event.getUrl();
+            }
+        });
+    }
+
+    public void wonderPushWillOpenURL(String URL){
+        this.reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(WONDERPUSH_WILL_OPEN_URL, URL);
+    }
+    
     @Override
     public String getName() {
         return "RNWonderPush";

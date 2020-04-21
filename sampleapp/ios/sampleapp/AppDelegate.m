@@ -11,6 +11,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <WonderPush/WonderPush.h>
+#import "WonderPushLib.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -42,6 +43,10 @@
   return YES;
 }
 
+- (void) wonderPushWillOpenURL:(NSURL *)URL withCompletionHandler:(void (^)(NSURL *))completionHandler {
+  // Decide what URL to use
+  [[[WonderPushLib alloc] init] wonderPushWillOpenURL:URL];
+}
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
