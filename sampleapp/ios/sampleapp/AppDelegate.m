@@ -45,7 +45,7 @@
 
 - (void) wonderPushWillOpenURL:(NSURL *)URL withCompletionHandler:(void (^)(NSURL *))completionHandler {
   // Decide what URL to use
-  [[WonderPushLib sharedInstance] wonderPushWillOpenURL:URL];
+  [[WonderPushLib sharedInstance] wonderPushWillOpenURL:[URL absoluteString]];
 }
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
