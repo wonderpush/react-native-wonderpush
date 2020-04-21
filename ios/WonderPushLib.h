@@ -3,6 +3,6 @@
 #import <React/RCTEventEmitter.h>
 
 @interface WonderPushLib : RCTEventEmitter <RCTBridgeModule>
--(void)wonderPushWillOpenURL:(NSString *)URL;
+-(void)wonderPushWillOpenURL:(NSURL *)URL;
 + (WonderPushLib *)sharedInstance;
 @end
