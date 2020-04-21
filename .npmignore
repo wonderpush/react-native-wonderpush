@@ -1,6 +1,14 @@
+# OSX
+.DS_Store
+
+# IDE
+.idea
+*.iml
+
 # Logs
 *.log
 npm-debug.log
+yarn-error.log
 
 # Dependency directory
 node_modules
