@@ -1,7 +1,7 @@
 {
   "name": "react-native-wonderpush",
   "title": "React Native Wonderpush",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Mobile push notification delivery with the WonderPush service. The WonderPush ReactNative SDK is compatible with iOS and Android.",
   "main": "index.js",
   "scripts": {

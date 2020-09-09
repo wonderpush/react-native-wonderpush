@@ -27,7 +27,7 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        WonderPush.setIntegrator("react-native-wonderpush-1.0.1");
+        WonderPush.setIntegrator("react-native-wonderpush-1.1.0");
 
         LocalBroadcastManager.getInstance(reactContext).registerReceiver(new BroadcastReceiver() {
             @Override
