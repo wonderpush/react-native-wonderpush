@@ -1,0 +1,20 @@
+{
+  "name": "react-native-wonderpush-fcm",
+  "version": "1.0.1",
+  "description": "WonderPush React Native SDK. FCM compatibility module.",
+  "repository": "https://github.com/wonderpush/react-native-wonderpush",
+  "author": "WonderPush <dev@wonderpush.com> (https://www.wonderpush.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wonderpush/react-native-wonderpush/issues"
+  },
+  "homepage": "https://github.com/wonderpush/react-native-wonderpush#readme",
+  "devDependencies": {
+    "react": "16.11.0",
+    "react-native": "0.62.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}
