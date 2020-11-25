@@ -15,10 +15,6 @@ export default class WonderPush {
         return RNWonderPush.setLogging(enable);
     }
 
-    static async isReady() {
-        return RNWonderPush.isReady();
-    }
-
     // Subscribing users
     static async subscribeToNotifications() {
         return RNWonderPush.subscribeToNotifications();

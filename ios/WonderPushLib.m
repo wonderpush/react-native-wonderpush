@@ -14,7 +14,7 @@
 }
 
 + (void)initialize {
-    [WonderPush setIntegrator:@"react-native-wonderpush-1.1.0"];
+    [WonderPush setIntegrator:@"react-native-wonderpush-2.0.0"];
     __block WonderPushLib *blocksafeSelf = self;
     
     [[NSNotificationCenter defaultCenter] addObserverForName:WP_NOTIFICATION_OPENED_BROADCAST object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -39,18 +39,6 @@ RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resol
     @try {
         [WonderPush setLogging:enable];
         resolve(nil);
-    } @catch (NSError *e) {
-        reject(nil, nil, e);
-    }
-}
-
-RCT_EXPORT_METHOD(isReady:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    @try {
-        if ([WonderPush isReady]) {
-            resolve(@YES);
-        } else {
-            resolve(@NO);
-        }
     } @catch (NSError *e) {
         reject(nil, nil, e);
     }
