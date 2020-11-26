@@ -127,4 +127,5 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation 'com.wonderpush:wonderpush-android-sdk-fcm:1.0.1'
 }
