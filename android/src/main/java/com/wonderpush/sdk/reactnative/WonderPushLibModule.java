@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.facebook.react.bridge.*;
@@ -15,10 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
@@ -36,10 +34,27 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
                         intent.getStringExtra(WonderPush.INTENT_NOTIFICATION_WILL_OPEN_EXTRA_NOTIFICATION_TYPE))) {
 
                     Intent pushNotif = intent.getParcelableExtra(WonderPush.INTENT_NOTIFICATION_WILL_OPEN_EXTRA_RECEIVED_PUSH_NOTIFICATION);
-                    Log.d("WonderPush", pushNotif.toString());
-                    reactContext
-                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit(WonderPush.INTENT_NOTIFICATION_WILL_OPEN, pushNotif);
+                    Bundle bundle = pushNotif != null ? pushNotif.getExtras() : null;
+                    if (null != bundle) {
+                        WritableMap notificationData = new WritableNativeMap();
+                        Set<String> keys = bundle.keySet();
+                        for (String key : keys) {
+                            if (key.equals("_wp")) {
+                                String jsonString = bundle.getString("_wp");
+                                try {
+                                    JSONObject jsonObject = new JSONObject(jsonString);
+                                    notificationData.putMap("_wp", jsonToReact(jsonObject));
+                                } catch (JSONException e) {
+                                }
+                                continue;
+                            }
+                            notificationData.putString(key, bundle.getString(key));
+                        }
+                        Log.d("WonderPush", notificationData.toString());
+                        reactContext
+                                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit(WonderPush.INTENT_NOTIFICATION_WILL_OPEN, notificationData);
+                    }
                 }
             }
         }, new IntentFilter(WonderPush.INTENT_NOTIFICATION_WILL_OPEN));
