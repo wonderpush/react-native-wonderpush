@@ -14,7 +14,7 @@
 }
 
 + (void)initialize {
-    [WonderPush setIntegrator:@"react-native-wonderpush-2.0.6"];
+    [WonderPush setIntegrator:@"react-native-wonderpush-2.0.7"];
     __block WonderPushLib *blocksafeSelf = self;
     
     [[NSNotificationCenter defaultCenter] addObserverForName:WP_NOTIFICATION_OPENED_BROADCAST object:nil queue:nil usingBlock:^(NSNotification *note) {
