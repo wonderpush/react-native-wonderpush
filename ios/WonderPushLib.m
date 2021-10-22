@@ -14,7 +14,7 @@
 }
 
 + (void)initialize {
-    [WonderPush setIntegrator:@"react-native-wonderpush-2.0.8"];
+    [WonderPush setIntegrator:@"react-native-wonderpush-2.0.9"];
 }
 
 - (instancetype) init {
