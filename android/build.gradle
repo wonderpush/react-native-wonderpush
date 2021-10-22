@@ -73,7 +73,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.wonderpush:wonderpush-android-sdk:4.0.7'
+    implementation 'com.wonderpush:wonderpush-android-sdk:4.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 
 }
