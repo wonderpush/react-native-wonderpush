@@ -1,0 +1,20 @@
+{
+  "name": "react-native-wonderpush-hcm",
+  "version": "1.0.2",
+  "description": "WonderPush React Native SDK. Huawei Mobile Services HCM compatibility module.",
+  "repository": "https://github.com/wonderpush/react-native-wonderpush",
+  "author": "WonderPush <dev@wonderpush.com> (https://www.wonderpush.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wonderpush/react-native-wonderpush/issues"
+  },
+  "homepage": "https://github.com/wonderpush/react-native-wonderpush#readme",
+  "devDependencies": {
+    "react": "16.11.0",
+    "react-native": "0.62.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}

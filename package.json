@@ -27,7 +27,8 @@
     "apn",
     "apns",
     "gcm",
-    "fcm"
+    "fcm",
+    "hcm"
   ],
   "author": {
     "name": "WonderPush",
