@@ -182,9 +182,9 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-wonderpush (1.0.0):
+  - react-native-wonderpush (2.0.11):
     - React (< 1.0.0, >= 0.13.0)
-    - WonderPush (= 3.3.3)
+    - WonderPush (= 4.0.9)
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
   - React-RCTAnimation (0.61.5):
@@ -220,9 +220,9 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - WonderPush (3.3.3):
-    - WonderPush/Core (= 3.3.3)
-  - WonderPush/Core (3.3.3)
+  - WonderPush (4.0.9):
+    - WonderPush/Core (= 4.0.9)
+  - WonderPush/Core (4.0.9)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -331,7 +331,7 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-wonderpush: b9c5481eda0f5a70f75fe699e1f860f451195ce7
+  react-native-wonderpush: 1b3a3e859764bd96e454103c126dd07c1e7be9bd
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -342,9 +342,9 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  WonderPush: 645fb3bd8d07a12eb3d48b3d71b7ee8f5a878535
+  WonderPush: 0516cbd98b9e2368dd09819f2108fbb7825096e1
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: 43b52058c331fdd1d6e4ebc1ed3973d271745327
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1
