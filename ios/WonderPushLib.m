@@ -2,7 +2,7 @@
 #import <WonderPush/WonderPush.h>
 
 @interface WonderPushLib()
-
+@property (nonatomic, strong) NSURL *initialDeepLinkURL;
 @end
 
 @implementation WonderPushLib
@@ -23,6 +23,12 @@
             NSDictionary *notification = note.userInfo;
             [self sendEventWithName:@"wonderpushNotificationWillOpen" body:notification];
         }];
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(deeplinkOpened:) name:WP_DEEPLINK_OPENED object:nil];
+        // Stop listening after 10 seconds
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:WP_DEEPLINK_OPENED object:nil];
+        });
+
     }
     return self;
 }
@@ -30,6 +36,13 @@
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+- (void) deeplinkOpened:(NSNotification *) notification {
+    if (!self.initialDeepLinkURL) {
+        self.initialDeepLinkURL = notification.userInfo[WP_DEEPLINK_OPENED_URL_USERINFO_KEY];
+    }
+}
+
 
 + (BOOL)requiresMainQueueSetup {
     return YES;
@@ -410,6 +423,23 @@ RCT_EXPORT_METHOD(downloadAllData:(RCTPromiseResolveBlock)resolve rejecter:(RCTP
         }
         resolve(data);
     }];
+}
+
+RCT_EXPORT_METHOD(getInitialURL:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    // Stop listening for deeplinks
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:WP_DEEPLINK_OPENED object:nil];
+
+    NSDictionary *remoteNotification = self.bridge.launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotification && remoteNotification[@"_wp"][@"targetUrl"]) {
+        resolve(remoteNotification[@"_wp"][@"targetUrl"]);
+        return;
+    }
+    if (self.initialDeepLinkURL) {
+        resolve(self.initialDeepLinkURL.absoluteString);
+        return;
+    }
+
+    resolve(nil);
 }
 
 @end

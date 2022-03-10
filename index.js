@@ -190,4 +190,13 @@ export default class WonderPush {
         return RNWonderPush.downloadAllData();
     }
 
+    /**
+     * If the application was launched by clicking a notification
+     * whose targetUrl is a deeplink, this method will return that targetUrl, null otherwise
+     * @returns {Promise<string>}
+     */
+    static async getInitialURL() {
+        return RNWonderPush.getInitialURL();
+    }
+
 }

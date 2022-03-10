@@ -649,4 +649,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void getInitialURL(Promise promise) {
+        // This method isn't implemented in Android, as Linking.getInitialURL works perfectly on that platform
+        promise.resolve(null);
+    }
+
 }
