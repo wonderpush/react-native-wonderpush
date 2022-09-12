@@ -14,7 +14,9 @@
 }
 
 + (void)initialize {
-    [WonderPush setIntegrator:@"react-native-wonderpush-2.2.2"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [WonderPush setIntegrator:@"react-native-wonderpush-2.2.2"];
+    });
 }
 
 - (instancetype) init {
