@@ -8,8 +8,6 @@ if (RNWonderPush === null) {
 
 export default class WonderPush {
 
-    static eventEmitterWonderPush = new NativeEventEmitter(RNWonderPush);
-
     //Initialization
     static async setLogging(enable) {
         return RNWonderPush.setLogging(enable);
