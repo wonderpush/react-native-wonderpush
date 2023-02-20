@@ -325,6 +325,15 @@ RCT_EXPORT_METHOD(setUserId:(NSString *)userId resolver:(RCTPromiseResolveBlock)
 
 #pragma mark - Installation info
 
+RCT_EXPORT_METHOD(getDeviceId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        NSString *deviceId = [WonderPush deviceId];
+        resolve(deviceId);
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
 RCT_EXPORT_METHOD(getInstallationId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     @try {
         NSString *installationId = [WonderPush installationId];
@@ -343,12 +352,30 @@ RCT_EXPORT_METHOD(getPushToken:(RCTPromiseResolveBlock)resolve rejecter:(RCTProm
     }
 }
 
+RCT_EXPORT_METHOD(getAccessToken:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        NSString *accessToken = [WonderPush accessToken];
+        resolve(accessToken);
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
 #pragma mark - Privacy
 
 RCT_EXPORT_METHOD(setRequiresUserConsent:(BOOL)isConsent resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     @try {
         [WonderPush setRequiresUserConsent:isConsent];
         resolve(nil);
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(getUserConsent:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        BOOL userConsent = [WonderPush getUserConsent];
+        resolve([NSNumber numberWithBool:userConsent]);
     } @catch (NSError *e) {
         reject(nil, nil, e);
     }

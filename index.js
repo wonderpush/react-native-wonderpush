@@ -142,6 +142,10 @@ export default class WonderPush {
     }
 
     // Installation info
+    static async getDeviceId() {
+        return RNWonderPush.getDeviceId();
+    }
+
     static async getInstallationId() {
         return RNWonderPush.getInstallationId();
     }
@@ -150,10 +154,18 @@ export default class WonderPush {
         return RNWonderPush.getPushToken();
     }
 
+    static async getAccessToken() {
+        return RNWonderPush.getAccessToken();
+    }
+
     // Privacy
 
     static async setRequiresUserConsent(isConsent) {
         return RNWonderPush.setRequiresUserConsent(isConsent);
+    }
+
+    static async getUserConsent() {
+        return RNWonderPush.getUserConsent();
     }
 
     static async setUserConsent(isConsent) {

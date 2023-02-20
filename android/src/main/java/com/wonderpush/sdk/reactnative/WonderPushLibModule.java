@@ -535,6 +535,16 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     // Installation info
     @ReactMethod
+    public void getDeviceId(Promise promise) {
+        try {
+            String deviceId = WonderPush.getDeviceId();
+            promise.resolve(deviceId);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
     public void getInstallationId(Promise promise) {
         try {
             String installationId = WonderPush.getInstallationId();
@@ -554,12 +564,32 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void getAccessToken(Promise promise) {
+        try {
+            String accessToken = WonderPush.getAccessToken();
+            promise.resolve(accessToken);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
     // Privacy
     @ReactMethod
     public void setRequiresUserConsent(Boolean isConsent, Promise promise) {
         try {
             WonderPush.setRequiresUserConsent(isConsent);
             promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void getUserConsent(Promise promise) {
+        try {
+            boolean userConsent = WonderPush.getUserConsent();
+            promise.resolve(userConsent);
         } catch (Exception e) {
             promise.reject(e);
         }
