@@ -69,7 +69,7 @@ RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resol
 
 #pragma mark - Subscribing users
 
-RCT_EXPORT_METHOD(subscribeToNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(subscribeToNotifications:(BOOL)fallbackToSettings resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     @try {
         [WonderPush subscribeToNotifications];
         resolve(nil);

@@ -14,8 +14,8 @@ export default class WonderPush {
     }
 
     // Subscribing users
-    static async subscribeToNotifications() {
-        return RNWonderPush.subscribeToNotifications();
+    static async subscribeToNotifications(fallbackToSettings) {
+        return RNWonderPush.subscribeToNotifications(!!fallbackToSettings);
     }
 
     static async unsubscribeFromNotifications() {

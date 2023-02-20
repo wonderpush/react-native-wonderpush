@@ -195,9 +195,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
 
     // Subscribing users
     @ReactMethod
-    public void subscribeToNotifications(Promise promise) {
+    public void subscribeToNotifications(boolean fallbackToSettings, Promise promise) {
         try {
-            WonderPush.subscribeToNotifications();
+            WonderPush.subscribeToNotifications(fallbackToSettings);
             promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
