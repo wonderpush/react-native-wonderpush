@@ -15,7 +15,7 @@
 
 + (void)initialize {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [WonderPush setIntegrator:@"react-native-wonderpush-2.2.5"];
+      [WonderPush setIntegrator:@"react-native-wonderpush-2.2.6"];
     });
 }
 
