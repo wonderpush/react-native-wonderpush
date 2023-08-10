@@ -7,10 +7,15 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.facebook.react.bridge.*;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.wonderpush.sdk.DeepLinkEvent;
 import com.wonderpush.sdk.WonderPush;
+import com.wonderpush.sdk.WonderPushDelegate;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,13 +23,17 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class WonderPushLibModule extends ReactContextBaseJavaModule {
+public class WonderPushLibModule extends ReactContextBaseJavaModule implements WonderPushDelegate {
 
     private final ReactApplicationContext reactContext;
+
+    private Callback notificationOpenedCallback;
+    private Callback notificationReceivedCallback;
 
     public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        Delegate.addSubDelegate(this);
         WonderPush.setIntegrator("react-native-wonderpush-2.2.6");
 
         LocalBroadcastManager.getInstance(reactContext).registerReceiver(new BroadcastReceiver() {
@@ -685,4 +694,44 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
         promise.resolve(null);
     }
 
+    @ReactMethod
+    public void setNotificationOpenedCallback(Callback cb) {
+        this.notificationOpenedCallback = cb;
+        if (cb != null) {
+            for (Pair<JSONObject, Integer> notif : Delegate.consumeSavedOpenedNotifications()) {
+                cb.invoke(notif.first.toString(), notif.second);
+            }
+        }
+    }
+
+    @ReactMethod
+    public void setNotificationReceivedCallback(Callback cb) {
+        this.notificationReceivedCallback = cb;
+        if (cb != null) {
+            for (JSONObject notif : Delegate.consumeSavedReceivedNotifications()) {
+                cb.invoke(notif.toString());
+            }
+        }
+    }
+
+    @Override
+    public String urlForDeepLink(DeepLinkEvent event) {
+        return event.getUrl();
+    }
+
+    @Override
+    public void onNotificationOpened(JSONObject notif, int buttonIndex) {
+        Log.d("WonderPush" , "Notification opened " + notif.toString());
+        if (this.notificationOpenedCallback != null) {
+            this.notificationOpenedCallback.invoke(notif.toString(), (Integer) buttonIndex);
+        }
+    }
+
+    @Override
+    public void onNotificationReceived(JSONObject notif) {
+        Log.d("WonderPush" , "Notification received " + notif.toString());
+        if (notificationReceivedCallback != null) {
+            this.notificationReceivedCallback.invoke(notif.toString());
+        }
+    }
 }
