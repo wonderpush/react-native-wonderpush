@@ -4,6 +4,7 @@ import static android.content.Context.POWER_SERVICE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
@@ -12,7 +13,6 @@ import android.util.Pair;
 import androidx.annotation.Nullable;
 
 import com.facebook.infer.annotation.Assertions;
-import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceEventListener;
 import com.facebook.react.ReactInstanceManager;
@@ -41,8 +41,13 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
     private BackgroundForwarder backgroundForwarder = new BackgroundForwarder();
 
     private static List<WeakReference<WonderPushDelegate>> subDelegates = new ArrayList<>();
+    private String headlessTaskName;
     private static final List<Pair<JSONObject, Integer>> savedOpenedNotifications = new ArrayList<>();
     private static final List<JSONObject> savedReceivedNotifications = new ArrayList<>();
+
+    private static final String HEADLESS_TASK_NAME_METADATA = "com.wonderpush.sdk.headlessTaskName";
+
+    private static final String TAG = "WonderPush";
 
     protected static List<Pair<JSONObject, Integer>> consumeSavedOpenedNotifications() {
         synchronized (Delegate.class) {
@@ -69,6 +74,12 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
     @Override
     public void setContext(Context context) {
         this.context = context;
+        try {
+            Bundle metaData = this.context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData;
+            this.headlessTaskName = metaData != null ? metaData.getString(HEADLESS_TASK_NAME_METADATA) : null;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
     }
 
 
@@ -148,7 +159,7 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
             Bundle bundle = new Bundle();
             bundle.putString("notification", notif.toString());
             HeadlessJsTaskConfig taskConfig = new HeadlessJsTaskConfig(
-                    "WonderPushNotificationReceived",
+                    headlessTaskName != null ? headlessTaskName : "WonderPushNotificationReceived",
                     Arguments.fromBundle(bundle),
                     5000, // timeout in milliseconds for the task
                     false // optional: defines whether or not the task is allowed in foreground. Default is false
