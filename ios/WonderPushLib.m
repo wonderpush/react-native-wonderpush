@@ -1,21 +1,166 @@
 #import "WonderPushLib.h"
 #import <WonderPush/WonderPush.h>
 
+@interface SavedNotification: NSObject
+@property (nonatomic, strong) NSString *json;
+@property (nonatomic, assign) NSInteger buttonIndex;
+@end
+
+@implementation SavedNotification
+- (instancetype) initWithJson:(NSString *)json buttonIndex:(NSInteger) buttonIndex {
+    if (self = [super init]) {
+        self.json = json;
+        self.buttonIndex = buttonIndex;
+    }
+    return self;
+}
+@end
+
+@interface WonderPushLibDelegate : NSObject <WonderPushDelegate>
++ (instancetype) instance;
+@property (nonatomic, strong) NSMutableArray<SavedNotification *> *savedReceivedNotifications;
+@property (nonatomic, strong) NSMutableArray<SavedNotification *> *savedOpenedNotifications;
+@property (nonatomic, strong) RCTResponseSenderBlock notificationOpenedCallback;
+@property (nonatomic, strong) RCTResponseSenderBlock notificationReceivedCallback;
+- (void) saveOpenedNotification:(SavedNotification *) notification;
+- (void) saveReceivedNotification:(SavedNotification *) notification;
+- (SavedNotification *) consumeSavedReceivedNotification;
+- (SavedNotification *) consumeSavedOpenedNotification;
+@end
+
 @interface WonderPushLib()
 @property (nonatomic, strong) NSURL *initialDeepLinkURL;
 @end
 
-@implementation WonderPushLib
 
+@implementation WonderPushLibDelegate
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.savedOpenedNotifications = [NSMutableArray new];
+        self.savedReceivedNotifications = [NSMutableArray new];
+    }
+    return self;
+}
+
++ (instancetype)instance {
+    static dispatch_once_t onceToken;
+    static WonderPushLibDelegate *_instance = nil;
+    dispatch_once(&onceToken, ^{
+        _instance = [WonderPushLibDelegate new];
+    });
+    return _instance;
+}
+
+
+- (void)saveOpenedNotification:(SavedNotification *)notification {
+    @synchronized (self) {
+        [self.savedOpenedNotifications addObject:notification];
+    }
+}
+
+- (void)saveReceivedNotification:(SavedNotification *)notification {
+    @synchronized (self) {
+        [self.savedReceivedNotifications addObject:notification];
+    }
+}
+
+- (SavedNotification *)consumeSavedOpenedNotification {
+    @synchronized (self) {
+        if (self.savedOpenedNotifications.count) {
+
+            SavedNotification *notification = self.savedOpenedNotifications[0];
+            [self.savedOpenedNotifications removeObjectAtIndex:0];
+            return notification;
+        }
+        return nil;
+    }
+}
+
+- (SavedNotification *)consumeSavedReceivedNotification {
+    @synchronized (self) {
+        if (self.savedReceivedNotifications.count) {
+
+            SavedNotification *notification = self.savedReceivedNotifications[0];
+            [self.savedReceivedNotifications removeObjectAtIndex:0];
+            return notification;
+        }
+        return nil;
+    }
+}
+
+- (void) onNotificationReceived:(NSDictionary *)notification {
+#if DEBUG
+    NSLog(@"[WonderPush] onNotificationReceived: %@", notification);
+#endif
+    NSError *error = nil;
+    NSData *notificationJsonData = [NSJSONSerialization dataWithJSONObject:notification options:0 error:&error];
+    if (error) {
+        NSLog(@"[WonderPush] error serializing notification: %@", error);
+        return;
+    }
+    NSString *notificationJson = [[NSString alloc] initWithData:notificationJsonData encoding:NSUTF8StringEncoding];
+    if (self.notificationReceivedCallback) {
+        RCTResponseSenderBlock cb = self.notificationReceivedCallback;
+        self.notificationReceivedCallback = nil; // Single use
+        dispatch_async(dispatch_get_main_queue(), ^{
+#if DEBUG
+            NSLog(@"[WonderPush] callback React with received notification %@", notificationJson);
+#endif
+            cb(@[notificationJson]);
+        });
+    } else {
+#if DEBUG
+        NSLog(@"[WonderPush] save received notification for later %@", notificationJson);
+#endif
+        [self saveReceivedNotification:[[SavedNotification alloc] initWithJson:notificationJson buttonIndex:0]];
+    }
+
+}
+
+- (void) onNotificationOpened:(NSDictionary *)notification withButton:(NSInteger)buttonIndex {
+#if DEBUG
+    NSLog(@"[WonderPush] onNotificationOpened: %@", notification);
+#endif
+    NSError *error = nil;
+    NSData *notificationJsonData = [NSJSONSerialization dataWithJSONObject:notification options:0 error:&error];
+    if (error) {
+        NSLog(@"[WonderPush] error serializing notification: %@", error);
+        return;
+    }
+    NSString *notificationJson = [[NSString alloc] initWithData:notificationJsonData encoding:NSUTF8StringEncoding];
+    if (self.notificationOpenedCallback) {
+        RCTResponseSenderBlock cb = self.notificationOpenedCallback;
+        self.notificationOpenedCallback = nil; // Single use
+        dispatch_async(dispatch_get_main_queue(), ^{
+#if DEBUG
+        NSLog(@"[WonderPush] callback React with opened notification %@", notificationJson);
+#endif
+            cb(@[notificationJson, [NSNumber numberWithInteger:buttonIndex]]);
+        });
+    } else {
+#if DEBUG
+        NSLog(@"[WonderPush] Save opened notification for later: %@", notificationJson);
+#endif
+        [self saveOpenedNotification:[[SavedNotification alloc] initWithJson:notificationJson buttonIndex:buttonIndex]];
+    }
+}
+
+@end
+
+
+@implementation WonderPushLib
 - (NSArray<NSString *> *)supportedEvents {
-  return @[
-    @"wonderpushNotificationWillOpen",
-  ];
+    return @[
+        @"wonderpushNotificationWillOpen",
+    ];
 }
 
 + (void)initialize {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [WonderPush setIntegrator:@"react-native-wonderpush-2.2.6"];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [WonderPush setIntegrator:@"react-native-wonderpush-2.2.6"];
+        [WonderPush setDelegate:[WonderPushLibDelegate instance]];
     });
 }
 
@@ -30,7 +175,6 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] removeObserver:self name:WP_DEEPLINK_OPENED object:nil];
         });
-
     }
     return self;
 }
@@ -471,4 +615,39 @@ RCT_EXPORT_METHOD(getInitialURL:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
     resolve(nil);
 }
 
+
+RCT_EXPORT_METHOD(setNotificationOpenedCallback:(RCTResponseSenderBlock)callback) {
+
+    // Since we're repeatedly called, let's consume saved notifications one by one
+    SavedNotification *notification = [WonderPushLibDelegate.instance consumeSavedOpenedNotification];
+    if (notification && callback) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+#if DEBUG
+            NSLog(@"[WonderPush] Passing saved opened notification to React: %@", notification.json);
+#endif
+            callback(@[notification.json, [NSNumber numberWithInteger:notification.buttonIndex]]);
+        });
+        // Note: we're not keeping a reference on the callback, since it's consumed already
+        return;
+    }
+    WonderPushLibDelegate.instance.notificationOpenedCallback = callback;
+}
+
+RCT_EXPORT_METHOD(setNotificationReceivedCallback:(RCTResponseSenderBlock)callback) {
+
+    // Since we're repeatedly called, let's consume saved notifications one by one
+    SavedNotification *notification = [WonderPushLibDelegate.instance consumeSavedReceivedNotification];
+    if (notification && callback) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+#if DEBUG
+            NSLog(@"[WonderPush] Passing saved received notification to React: %@", notification.json);
+#endif
+            callback(@[notification.json]);
+        });
+
+        // Note: we're not keeping a reference on the callback, since it's consumed already
+        return;
+    }
+    WonderPushLibDelegate.instance.notificationReceivedCallback = callback;
+}
 @end

@@ -696,22 +696,34 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule implements D
 
     @ReactMethod
     public void setNotificationOpenedCallback(Callback cb) {
-        this.notificationOpenedCallback = cb;
-        if (cb != null) {
-            for (Pair<JSONObject, Integer> notif : Delegate.consumeSavedOpenedNotifications()) {
-                cb.invoke(notif.first.toString(), notif.second);
-            }
+        Pair<JSONObject, Integer> notification = Delegate.consumeSavedOpenedNotification();
+        if (notification != null && cb != null) {
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notification.first.toString(), notification.second);
+                }
+            });
+            // Note, we're not storing the callback as it's one-time use
+            return;
         }
+        this.notificationOpenedCallback = cb;
     }
 
     @ReactMethod
     public void setNotificationReceivedCallback(Callback cb) {
-        this.notificationReceivedCallback = cb;
-        if (cb != null) {
-            for (JSONObject notif : Delegate.consumeSavedReceivedNotifications()) {
-                cb.invoke(notif.toString());
-            }
+        JSONObject notification = Delegate.consumeSavedReceivedNotification();
+        if (notification != null && cb != null) {
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notification.toString());
+                }
+            });
+            // Note, we're not storing the callback as it's one-time use
+            return;
         }
+        this.notificationReceivedCallback = cb;
     }
 
     @Override
@@ -723,15 +735,29 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule implements D
     public void onNotificationOpened(JSONObject notif, int buttonIndex) {
         Log.d("WonderPush" , "Notification opened " + notif.toString());
         if (this.notificationOpenedCallback != null) {
-            this.notificationOpenedCallback.invoke(notif.toString(), (Integer) buttonIndex);
+            final Callback cb = this.notificationOpenedCallback;
+            this.notificationOpenedCallback = null; // One-time use only
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notif.toString(), (Integer) buttonIndex);
+                }
+            });
         }
     }
 
     @Override
     public void onNotificationReceived(JSONObject notif) {
         Log.d("WonderPush" , "Notification received " + notif.toString());
-        if (notificationReceivedCallback != null) {
-            this.notificationReceivedCallback.invoke(notif.toString());
+        if (this.notificationReceivedCallback != null) {
+            final Callback cb = this.notificationReceivedCallback;
+            this.notificationReceivedCallback = null; // It's one-time use only
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notif.toString());
+                }
+            });
         }
     }
 

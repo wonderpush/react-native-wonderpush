@@ -52,19 +52,25 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
 
     private static final String TAG = "WonderPush";
 
-    protected static List<Pair<JSONObject, Integer>> consumeSavedOpenedNotifications() {
+    protected static Pair<JSONObject, Integer> consumeSavedOpenedNotification() {
         synchronized (Delegate.class) {
-            ArrayList<Pair<JSONObject, Integer>> result = new ArrayList<>(savedOpenedNotifications);
-            savedOpenedNotifications.clear();
-            return result;
+            if (savedOpenedNotifications.size() > 0) {
+                Pair<JSONObject, Integer> result = savedOpenedNotifications.get(0);
+                savedOpenedNotifications.remove(0);
+                return result;
+            }
+            return null;
         }
     }
 
-    protected static List<JSONObject> consumeSavedReceivedNotifications() {
+    protected static JSONObject consumeSavedReceivedNotification() {
         synchronized (Delegate.class) {
-            ArrayList<JSONObject> result = new ArrayList<>(savedReceivedNotifications);
-            savedReceivedNotifications.clear();
-            return result;
+            if (savedReceivedNotifications.size() > 0) {
+                JSONObject result = savedReceivedNotifications.get(0);
+                savedReceivedNotifications.remove(0);
+                return result;
+            }
+            return null;
         }
     }
 
@@ -123,7 +129,12 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
         synchronized (Delegate.class) {
 
             // Forward to background task for listening to received notifications.
-            backgroundForwarder.startTask(notif);
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    backgroundForwarder.startTask(notif);
+                }
+            });
 
             if (!hasReadySubDelegates()) {
                 // Save for later

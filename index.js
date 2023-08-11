@@ -207,34 +207,46 @@ export default class WonderPush {
         RNWonderPush.setNotificationReceivedCallback(null);
         return;
       }
-      RNWonderPush.setNotificationReceivedCallback(function(notifJson) {
-        if (!delegate.onNotificationReceived)
-          return;
+      var receivedCb;
+      receivedCb = function(notifJson) {
 
-        var notif;
-        try {
-          notif = JSON.parse(notifJson);
-        }
-        catch (e) {
-          console.error("Could not parse notification JSON");
-          return;
-        }
-        delegate.onNotificationReceived(notif);
-      });
-      RNWonderPush.setNotificationOpenedCallback(function(notifJson, buttonIndex) {
-        if (!delegate.onNotificationOpened)
-          return;
+          // Circumvent single-use callbacks: re-register the callback each time it is called.
+          RNWonderPush.setNotificationReceivedCallback(receivedCb);
 
-        var notif;
-        try {
-          notif = JSON.parse(notifJson);
-        }
-        catch (e) {
-          console.error("Could not parse notification JSON");
-          return;
-        }
-        delegate.onNotificationOpened(notif, buttonIndex);
-      });
+          if (!delegate.onNotificationReceived)
+              return;
+
+          var notif;
+          try {
+              notif = JSON.parse(notifJson);
+          }
+          catch (e) {
+              console.error("Could not parse notification JSON", e);
+              return;
+          }
+          delegate.onNotificationReceived(notif);
+      };
+      RNWonderPush.setNotificationReceivedCallback(receivedCb);
+      var openedCb;
+      openedCb = function(notifJson, buttonIndex) {
+
+          // Circumvent single-use callbacks: re-register the callback each time it is called.
+          RNWonderPush.setNotificationOpenedCallback(openedCb);
+
+          if (!delegate.onNotificationOpened)
+              return;
+
+          var notif;
+          try {
+              notif = JSON.parse(notifJson);
+          }
+          catch (e) {
+              console.error("Could not parse notification JSON", e);
+              return;
+          }
+          delegate.onNotificationOpened(notif, buttonIndex);
+      };
+      RNWonderPush.setNotificationOpenedCallback(openedCb);
     }
 
     /**
