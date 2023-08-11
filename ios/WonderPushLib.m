@@ -1,12 +1,28 @@
 #import "WonderPushLib.h"
 #import <WonderPush/WonderPush.h>
 
-@interface SavedNotification: NSObject
+@interface WonderPushSavedNotification: NSObject
 @property (nonatomic, strong) NSString *json;
 @property (nonatomic, assign) NSInteger buttonIndex;
 @end
 
-@implementation SavedNotification
+@interface WonderPushLibDelegate : NSObject <WonderPushDelegate>
++ (instancetype) instance;
+@property (nonatomic, strong) NSMutableArray<WonderPushSavedNotification *> *savedReceivedNotifications;
+@property (nonatomic, strong) NSMutableArray<WonderPushSavedNotification *> *savedOpenedNotifications;
+@property (nonatomic, strong) RCTResponseSenderBlock notificationOpenedCallback;
+@property (nonatomic, strong) RCTResponseSenderBlock notificationReceivedCallback;
+- (void) saveOpenedNotification:(WonderPushSavedNotification *) notification;
+- (void) saveReceivedNotification:(WonderPushSavedNotification *) notification;
+- (WonderPushSavedNotification *) consumeSavedReceivedNotification;
+- (WonderPushSavedNotification *) consumeSavedOpenedNotification;
+@end
+
+@interface WonderPushLib()
+@property (nonatomic, strong) NSURL *initialDeepLinkURL;
+@end
+
+@implementation WonderPushSavedNotification
 - (instancetype) initWithJson:(NSString *)json buttonIndex:(NSInteger) buttonIndex {
     if (self = [super init]) {
         self.json = json;
@@ -15,23 +31,6 @@
     return self;
 }
 @end
-
-@interface WonderPushLibDelegate : NSObject <WonderPushDelegate>
-+ (instancetype) instance;
-@property (nonatomic, strong) NSMutableArray<SavedNotification *> *savedReceivedNotifications;
-@property (nonatomic, strong) NSMutableArray<SavedNotification *> *savedOpenedNotifications;
-@property (nonatomic, strong) RCTResponseSenderBlock notificationOpenedCallback;
-@property (nonatomic, strong) RCTResponseSenderBlock notificationReceivedCallback;
-- (void) saveOpenedNotification:(SavedNotification *) notification;
-- (void) saveReceivedNotification:(SavedNotification *) notification;
-- (SavedNotification *) consumeSavedReceivedNotification;
-- (SavedNotification *) consumeSavedOpenedNotification;
-@end
-
-@interface WonderPushLib()
-@property (nonatomic, strong) NSURL *initialDeepLinkURL;
-@end
-
 
 @implementation WonderPushLibDelegate
 
@@ -53,23 +52,23 @@
 }
 
 
-- (void)saveOpenedNotification:(SavedNotification *)notification {
+- (void)saveOpenedNotification:(WonderPushSavedNotification *)notification {
     @synchronized (self) {
         [self.savedOpenedNotifications addObject:notification];
     }
 }
 
-- (void)saveReceivedNotification:(SavedNotification *)notification {
+- (void)saveReceivedNotification:(WonderPushSavedNotification *)notification {
     @synchronized (self) {
         [self.savedReceivedNotifications addObject:notification];
     }
 }
 
-- (SavedNotification *)consumeSavedOpenedNotification {
+- (WonderPushSavedNotification *)consumeSavedOpenedNotification {
     @synchronized (self) {
         if (self.savedOpenedNotifications.count) {
 
-            SavedNotification *notification = self.savedOpenedNotifications[0];
+            WonderPushSavedNotification *notification = self.savedOpenedNotifications[0];
             [self.savedOpenedNotifications removeObjectAtIndex:0];
             return notification;
         }
@@ -77,11 +76,11 @@
     }
 }
 
-- (SavedNotification *)consumeSavedReceivedNotification {
+- (WonderPushSavedNotification *)consumeSavedReceivedNotification {
     @synchronized (self) {
         if (self.savedReceivedNotifications.count) {
 
-            SavedNotification *notification = self.savedReceivedNotifications[0];
+            WonderPushSavedNotification *notification = self.savedReceivedNotifications[0];
             [self.savedReceivedNotifications removeObjectAtIndex:0];
             return notification;
         }
@@ -113,7 +112,7 @@
 #if DEBUG
         NSLog(@"[WonderPush] save received notification for later %@", notificationJson);
 #endif
-        [self saveReceivedNotification:[[SavedNotification alloc] initWithJson:notificationJson buttonIndex:0]];
+        [self saveReceivedNotification:[[WonderPushSavedNotification alloc] initWithJson:notificationJson buttonIndex:0]];
     }
 
 }
@@ -142,7 +141,7 @@
 #if DEBUG
         NSLog(@"[WonderPush] Save opened notification for later: %@", notificationJson);
 #endif
-        [self saveOpenedNotification:[[SavedNotification alloc] initWithJson:notificationJson buttonIndex:buttonIndex]];
+        [self saveOpenedNotification:[[WonderPushSavedNotification alloc] initWithJson:notificationJson buttonIndex:buttonIndex]];
     }
 }
 
@@ -619,7 +618,7 @@ RCT_EXPORT_METHOD(getInitialURL:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 RCT_EXPORT_METHOD(setNotificationOpenedCallback:(RCTResponseSenderBlock)callback) {
 
     // Since we're repeatedly called, let's consume saved notifications one by one
-    SavedNotification *notification = [WonderPushLibDelegate.instance consumeSavedOpenedNotification];
+    WonderPushSavedNotification *notification = [WonderPushLibDelegate.instance consumeSavedOpenedNotification];
     if (notification && callback) {
         dispatch_async(dispatch_get_main_queue(), ^{
 #if DEBUG
@@ -636,7 +635,7 @@ RCT_EXPORT_METHOD(setNotificationOpenedCallback:(RCTResponseSenderBlock)callback
 RCT_EXPORT_METHOD(setNotificationReceivedCallback:(RCTResponseSenderBlock)callback) {
 
     // Since we're repeatedly called, let's consume saved notifications one by one
-    SavedNotification *notification = [WonderPushLibDelegate.instance consumeSavedReceivedNotification];
+    WonderPushSavedNotification *notification = [WonderPushLibDelegate.instance consumeSavedReceivedNotification];
     if (notification && callback) {
         dispatch_async(dispatch_get_main_queue(), ^{
 #if DEBUG
