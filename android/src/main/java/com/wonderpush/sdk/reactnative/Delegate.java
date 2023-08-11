@@ -36,12 +36,15 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class Delegate implements WonderPushDelegate, ContextReceiver {
+    public interface SubDelegate extends WonderPushDelegate {
+        boolean subDelegateIsReady();
+    }
     private Context context;
 
-    private BackgroundForwarder backgroundForwarder = new BackgroundForwarder();
+    private final BackgroundForwarder backgroundForwarder = new BackgroundForwarder();
 
-    private static List<WeakReference<WonderPushDelegate>> subDelegates = new ArrayList<>();
     private String headlessTaskName;
+    private static List<WeakReference<SubDelegate>> subDelegates = new ArrayList<>();
     private static final List<Pair<JSONObject, Integer>> savedOpenedNotifications = new ArrayList<>();
     private static final List<JSONObject> savedReceivedNotifications = new ArrayList<>();
 
@@ -65,7 +68,7 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
         }
     }
 
-    protected static void addSubDelegate(WonderPushDelegate subDelegate) {
+    protected static void addSubDelegate(SubDelegate subDelegate) {
         synchronized (Delegate.class) {
             subDelegates.add(new WeakReference<>(subDelegate));
         }
@@ -87,7 +90,7 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
     public String urlForDeepLink(DeepLinkEvent event) {
         String defaultUrl = event.getUrl();
         synchronized (Delegate.class) {
-            for (WeakReference<WonderPushDelegate> subDelegate : subDelegates) {
+            for (WeakReference<SubDelegate> subDelegate : subDelegates) {
                 WonderPushDelegate delegate = subDelegate.get();
                 if (delegate == null) continue;
                 String alternateUrl = delegate.urlForDeepLink(event);
@@ -102,12 +105,12 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
     @Override
     public void onNotificationOpened(JSONObject notif, int buttonIndex) {
         synchronized (Delegate.class) {
-            if (subDelegates.size() == 0) {
+            if (!hasReadySubDelegates()) {
                 // Save for later
                 savedOpenedNotifications.add(new Pair<>(notif, buttonIndex));
                 return;
             }
-            for (WeakReference<WonderPushDelegate> subDelegate : subDelegates) {
+            for (WeakReference<SubDelegate> subDelegate : subDelegates) {
                 WonderPushDelegate delegate = subDelegate.get();
                 if (delegate == null) continue;
                 delegate.onNotificationOpened(notif, buttonIndex);
@@ -122,17 +125,27 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
             // Forward to background task for listening to received notifications.
             backgroundForwarder.startTask(notif);
 
-            if (subDelegates.size() == 0) {
+            if (!hasReadySubDelegates()) {
                 // Save for later
                 savedReceivedNotifications.add(notif);
                 return;
             }
-            for (WeakReference<WonderPushDelegate> subDelegate : subDelegates) {
+            for (WeakReference<SubDelegate> subDelegate : subDelegates) {
                 WonderPushDelegate delegate = subDelegate.get();
                 if (delegate == null) continue;
                 delegate.onNotificationReceived(notif);
             }
         }
+    }
+
+    private static boolean hasReadySubDelegates() {
+        for (WeakReference<SubDelegate> sd : subDelegates) {
+            SubDelegate subDelegate = sd.get();
+            if (subDelegate != null && subDelegate.subDelegateIsReady()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static @Nullable PowerManager.WakeLock sWakeLock;

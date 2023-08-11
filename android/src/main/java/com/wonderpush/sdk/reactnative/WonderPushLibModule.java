@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class WonderPushLibModule extends ReactContextBaseJavaModule implements WonderPushDelegate {
+public class WonderPushLibModule extends ReactContextBaseJavaModule implements Delegate.SubDelegate {
 
     private final ReactApplicationContext reactContext;
 
@@ -733,5 +733,10 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule implements W
         if (notificationReceivedCallback != null) {
             this.notificationReceivedCallback.invoke(notif.toString());
         }
+    }
+
+    @Override
+    public boolean subDelegateIsReady() {
+        return this.notificationOpenedCallback != null || this.notificationReceivedCallback != null;
     }
 }
