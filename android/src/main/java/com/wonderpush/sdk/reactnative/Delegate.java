@@ -20,6 +20,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.UiThreadUtil;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import com.facebook.react.jstasks.HeadlessJsTaskContext;
 import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
@@ -129,12 +130,19 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
         synchronized (Delegate.class) {
 
             // Forward to background task for listening to received notifications.
-            UiThreadUtil.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    backgroundForwarder.startTask(notif);
-                }
-            });
+            final ReactInstanceManager reactInstanceManager =
+                    getReactNativeHost().getReactInstanceManager();
+            ReactContext reactContext = reactInstanceManager != null ? reactInstanceManager.getCurrentReactContext() : null;
+            // Only if we're in the background
+            if (reactContext == null || reactContext.getLifecycleState() != LifecycleState.RESUMED) {
+                UiThreadUtil.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        backgroundForwarder.startTask(notif);
+                    }
+                });
+                return;
+            }
 
             if (!hasReadySubDelegates()) {
                 // Save for later
@@ -172,6 +180,10 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
             sWakeLock.setReferenceCounted(false);
             sWakeLock.acquire();
         }
+    }
+
+    protected ReactNativeHost getReactNativeHost() {
+        return ((ReactApplication) context.getApplicationContext()).getReactNativeHost();
     }
 
     private class BackgroundForwarder implements HeadlessJsTaskEventListener {
@@ -250,9 +262,6 @@ public class Delegate implements WonderPushDelegate, ContextReceiver {
             if (sWakeLock != null) {
                 sWakeLock.release();
             }
-        }
-        protected ReactNativeHost getReactNativeHost() {
-            return ((ReactApplication) context.getApplicationContext()).getReactNativeHost();
         }
     }
 }
