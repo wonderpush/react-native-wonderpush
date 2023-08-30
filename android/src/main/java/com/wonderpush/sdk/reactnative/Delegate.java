@@ -24,7 +24,6 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import com.facebook.react.jstasks.HeadlessJsTaskContext;
 import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
-import com.wonderpush.sdk.ContextReceiver;
 import com.wonderpush.sdk.DeepLinkEvent;
 import com.wonderpush.sdk.WonderPushDelegate;
 
@@ -36,7 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class Delegate implements WonderPushDelegate, ContextReceiver {
+public class Delegate implements WonderPushDelegate {
     public interface SubDelegate extends WonderPushDelegate {
         boolean subDelegateIsReady();
     }
