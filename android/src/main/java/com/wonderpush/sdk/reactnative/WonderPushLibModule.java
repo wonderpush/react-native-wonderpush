@@ -699,9 +699,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule implements D
     }
 
     @ReactMethod
-    public void setNotificationOpenedCallback(Callback cb) {
-        Pair<JSONObject, Integer> notification = Delegate.consumeSavedOpenedNotification();
-        if (notification != null && cb != null) {
+    public void setNotificationOpenedCallback(final Callback cb) {
+        Pair<JSONObject, Integer> notification = cb != null ? Delegate.consumeSavedOpenedNotification() : null;
+        if (notification != null) {
             UiThreadUtil.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -715,9 +715,9 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule implements D
     }
 
     @ReactMethod
-    public void setNotificationReceivedCallback(Callback cb) {
-        JSONObject notification = Delegate.consumeSavedReceivedNotification();
-        if (notification != null && cb != null) {
+    public void setNotificationReceivedCallback(final Callback cb) {
+        JSONObject notification = cb != null ? Delegate.consumeSavedReceivedNotification() : null;
+        if (notification != null) {
             UiThreadUtil.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
