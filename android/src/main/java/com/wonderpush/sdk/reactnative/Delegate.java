@@ -19,6 +19,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.UiThreadUtil;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import com.facebook.react.jstasks.HeadlessJsTaskContext;
@@ -42,12 +43,14 @@ public class Delegate implements WonderPushDelegate {
 
     private final BackgroundForwarder backgroundForwarder = new BackgroundForwarder();
 
-    private String headlessTaskName;
+    private String notificationReceivedHeadlessTaskName;
+    private String notificationOpenedHeadlessTaskName;
     private static WeakReference<SubDelegate> subDelegate;
     private static final List<Pair<JSONObject, Integer>> savedOpenedNotifications = new ArrayList<>();
     private static final List<JSONObject> savedReceivedNotifications = new ArrayList<>();
 
-    private static final String HEADLESS_TASK_NAME_METADATA = "com.wonderpush.sdk.headlessTaskName";
+    private static final String NOTIFICATION_RECEIVED_HEADLESS_TASK_NAME_METADATA = "com.wonderpush.sdk.notificationReceivedHeadlessTaskName";
+    private static final String NOTIFICATION_OPENED_HEADLESS_TASK_NAME_METADATA = "com.wonderpush.sdk.notificationOpenedHeadlessTaskName";
 
     private static final String TAG = "WonderPush";
 
@@ -84,7 +87,8 @@ public class Delegate implements WonderPushDelegate {
         this.context = context;
         try {
             Bundle metaData = this.context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData;
-            this.headlessTaskName = metaData != null ? metaData.getString(HEADLESS_TASK_NAME_METADATA) : null;
+            this.notificationReceivedHeadlessTaskName = metaData != null ? metaData.getString(NOTIFICATION_RECEIVED_HEADLESS_TASK_NAME_METADATA) : null;
+            this.notificationOpenedHeadlessTaskName = metaData != null ? metaData.getString(NOTIFICATION_OPENED_HEADLESS_TASK_NAME_METADATA) : null;
         } catch (PackageManager.NameNotFoundException e) {
         }
 
@@ -106,6 +110,24 @@ public class Delegate implements WonderPushDelegate {
     @Override
     public void onNotificationOpened(JSONObject notif, int buttonIndex) {
         synchronized (Delegate.class) {
+
+            // Forward to background task for listening to received notifications.
+            final ReactInstanceManager reactInstanceManager =
+                    getReactNativeHost().getReactInstanceManager();
+            ReactContext reactContext = reactInstanceManager != null ? reactInstanceManager.getCurrentReactContext() : null;
+
+            // Only if we're in the background
+            LifecycleState state = reactContext != null ? reactContext.getLifecycleState() : null;
+            if (reactContext == null || state == LifecycleState.BEFORE_CREATE) {
+                UiThreadUtil.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        backgroundForwarder.forwardNotificationOpened(notif, buttonIndex);
+                    }
+                });
+                return;
+            }
+
             if (!subDelegateIsReady()) {
                 // Save for later
                 savedOpenedNotifications.add(new Pair<>(notif, buttonIndex));
@@ -126,12 +148,14 @@ public class Delegate implements WonderPushDelegate {
             final ReactInstanceManager reactInstanceManager =
                     getReactNativeHost().getReactInstanceManager();
             ReactContext reactContext = reactInstanceManager != null ? reactInstanceManager.getCurrentReactContext() : null;
+
             // Only if we're in the background
-            if (reactContext == null || reactContext.getLifecycleState() != LifecycleState.RESUMED) {
+            LifecycleState state = reactContext != null ? reactContext.getLifecycleState() : null;
+            if (reactContext == null || state == LifecycleState.BEFORE_CREATE) {
                 UiThreadUtil.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        backgroundForwarder.startTask(notif);
+                        backgroundForwarder.forwardNotificationReceived(notif);
                     }
                 });
                 return;
@@ -177,15 +201,26 @@ public class Delegate implements WonderPushDelegate {
 
         private final Set<Integer> mActiveTasks = new CopyOnWriteArraySet<>();
 
-        protected void startTask(final JSONObject notif) {
-
+        protected void forwardNotificationReceived(final JSONObject notif) {
             Bundle bundle = new Bundle();
             bundle.putString("notification", notif.toString());
+            startTask(Arguments.fromBundle(bundle), notificationReceivedHeadlessTaskName != null ? notificationReceivedHeadlessTaskName : "WonderPushNotificationReceived");
+        }
+
+        protected void forwardNotificationOpened(final JSONObject notif, int buttonIndex) {
+            Bundle bundle = new Bundle();
+            bundle.putString("notification", notif.toString());
+            bundle.putInt("buttonIndex", buttonIndex);
+            startTask(Arguments.fromBundle(bundle), notificationOpenedHeadlessTaskName != null ? notificationOpenedHeadlessTaskName : "WonderPushNotificationOpened");
+        }
+
+        protected void startTask(WritableMap args, String headlessTaskName) {
+
             HeadlessJsTaskConfig taskConfig = new HeadlessJsTaskConfig(
-                    headlessTaskName != null ? headlessTaskName : "WonderPushNotificationReceived",
-                    Arguments.fromBundle(bundle),
+                    headlessTaskName,
+                    args,
                     5000, // timeout in milliseconds for the task
-                    false // optional: defines whether or not the task is allowed in foreground. Default is false
+                    true // task allowed in the foreground. There is a race condition when opening a notification and the app is not started
             );
 
             UiThreadUtil.assertOnUiThread();
