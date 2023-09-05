@@ -117,5 +117,5 @@ repositories {
 dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
-  implementation 'com.wonderpush:wonderpush-android-sdk-fcm:1.0.5'
+  implementation 'com.wonderpush:wonderpush-android-sdk-fcm:1.0.7'
 }
