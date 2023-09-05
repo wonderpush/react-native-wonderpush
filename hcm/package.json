@@ -1,6 +1,6 @@
 {
   "name": "react-native-wonderpush-hcm",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "WonderPush React Native SDK. Huawei Mobile Services HCM compatibility module.",
   "repository": "https://github.com/wonderpush/react-native-wonderpush",
   "author": "WonderPush <dev@wonderpush.com> (https://www.wonderpush.com/)",
