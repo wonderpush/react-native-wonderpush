@@ -7,10 +7,15 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.facebook.react.bridge.*;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.wonderpush.sdk.DeepLinkEvent;
 import com.wonderpush.sdk.WonderPush;
+import com.wonderpush.sdk.WonderPushDelegate;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,13 +23,17 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class WonderPushLibModule extends ReactContextBaseJavaModule {
+public class WonderPushLibModule extends ReactContextBaseJavaModule implements Delegate.SubDelegate {
 
     private final ReactApplicationContext reactContext;
+
+    private Callback notificationOpenedCallback;
+    private Callback notificationReceivedCallback;
 
     public WonderPushLibModule(final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        Delegate.setSubDelegate(this);
         WonderPush.setIntegrator("react-native-wonderpush-2.2.7");
 
         LocalBroadcastManager.getInstance(reactContext).registerReceiver(new BroadcastReceiver() {
@@ -314,22 +323,24 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getPropertyValue(String property, Promise promise) {
         try {
             Object value = WonderPush.getPropertyValue(property);
-            if (value instanceof Boolean) {
+            if (value == null || value == JSONObject.NULL) {
+                promise.resolve(null);
+            } else if (value instanceof Boolean) {
                 promise.resolve((Boolean) value);
             } else if (value instanceof Number) {
                 promise.resolve(((Number) value).doubleValue());
             } else if (value instanceof String) {
                 promise.resolve((String) value);
             } else if (value instanceof Map) {
-                promise.resolve((ReadableMap) value);
-            } else if (value instanceof Array) {
-                promise.resolve((ReadableArray) value);
+                promise.resolve(toWritableMap((Map<String, Object>)value));
+            } else if (value instanceof Collection) {
+                promise.resolve(toWritableArray((Collection<Object>)value));
+            } else if (value.getClass().isArray()) {
+                promise.resolve(toWritableArray((Object[]) value));
             } else if (value instanceof JSONObject) {
                 promise.resolve(jsonToReact((JSONObject) value));
             } else if (value instanceof JSONArray) {
                 promise.resolve(jsonToReact((JSONArray) value));
-            } else if (value == null || value == JSONObject.NULL) {
-                promise.resolve(null);
             } else {
                 Log.d("WonderPush", "Unexpected type " + value.getClass().getCanonicalName());
                 promise.resolve(null);
@@ -345,22 +356,24 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
             List<Object> values = WonderPush.getPropertyValues(property);
             WritableArray writableArray = Arguments.createArray();
             for (Object obj : values) {
-                if (obj instanceof Boolean) {
+                if (obj == null || obj == JSONObject.NULL) {
+                    writableArray.pushNull();
+                } else if (obj instanceof Boolean) {
                     writableArray.pushBoolean((Boolean) obj);
                 } else if (obj instanceof Number) {
                     writableArray.pushDouble(((Number) obj).doubleValue());
                 } else if (obj instanceof String) {
                     writableArray.pushString((String) obj);
                 } else if (obj instanceof Map) {
-                    writableArray.pushMap((WritableMap) obj);
-                } else if (obj instanceof Array) {
-                    writableArray.pushArray((WritableArray) obj);
+                    writableArray.pushMap(toWritableMap((Map) obj));
+                } else if (obj instanceof Collection) {
+                    writableArray.pushArray(toWritableArray((Collection) obj));
+                } else if (obj.getClass().isArray()) {
+                    writableArray.pushArray(toWritableArray((Object[])obj));
                 } else if (obj instanceof JSONObject) {
                     writableArray.pushMap(jsonToReact((JSONObject) obj));
                 } else if (obj instanceof JSONArray) {
                     writableArray.pushArray(jsonToReact((JSONArray) obj));
-                } else if (obj == null || obj == JSONObject.NULL) {
-                    writableArray.pushNull();
                 }
             }
             promise.resolve(writableArray);
@@ -683,6 +696,148 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule {
     public void getInitialURL(Promise promise) {
         // This method isn't implemented in Android, as Linking.getInitialURL works perfectly on that platform
         promise.resolve(null);
+    }
+
+    @ReactMethod
+    public void setNotificationOpenedCallback(final Callback cb) {
+        Pair<JSONObject, Integer> notification = cb != null ? Delegate.consumeSavedOpenedNotification() : null;
+        if (notification != null) {
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notification.first.toString(), notification.second);
+                }
+            });
+            // Note, we're not storing the callback as it's one-time use
+            return;
+        }
+        this.notificationOpenedCallback = cb;
+    }
+
+    @ReactMethod
+    public void setNotificationReceivedCallback(final Callback cb) {
+        JSONObject notification = cb != null ? Delegate.consumeSavedReceivedNotification() : null;
+        if (notification != null) {
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notification.toString());
+                }
+            });
+            // Note, we're not storing the callback as it's one-time use
+            return;
+        }
+        this.notificationReceivedCallback = cb;
+    }
+
+    @Override
+    public String urlForDeepLink(DeepLinkEvent event) {
+        return event.getUrl();
+    }
+
+    @Override
+    public void onNotificationOpened(JSONObject notif, int buttonIndex) {
+        Log.d("WonderPush" , "Notification opened " + notif.toString());
+        if (this.notificationOpenedCallback != null) {
+            final Callback cb = this.notificationOpenedCallback;
+            this.notificationOpenedCallback = null; // One-time use only
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notif.toString(), (Integer) buttonIndex);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNotificationReceived(JSONObject notif) {
+        Log.d("WonderPush" , "Notification received " + notif.toString());
+        if (this.notificationReceivedCallback != null) {
+            final Callback cb = this.notificationReceivedCallback;
+            this.notificationReceivedCallback = null; // It's one-time use only
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cb.invoke(notif.toString());
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean subDelegateIsReady() {
+        return this.notificationOpenedCallback != null || this.notificationReceivedCallback != null;
+    }
+
+    public static WritableMap toWritableMap(Map<String, Object> map) {
+        WritableMap writableMap = Arguments.createMap();
+        Iterator iterator = map.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry)iterator.next();
+            Object value = pair.getValue();
+
+            if (value == null) {
+                writableMap.putNull((String) pair.getKey());
+            } else if (value instanceof Boolean) {
+                writableMap.putBoolean((String) pair.getKey(), (Boolean) value);
+            } else if (value instanceof Double) {
+                writableMap.putDouble((String) pair.getKey(), (Double) value);
+            } else if (value instanceof Integer) {
+                writableMap.putInt((String) pair.getKey(), (Integer) value);
+            } else if (value instanceof String) {
+                writableMap.putString((String) pair.getKey(), (String) value);
+            } else if (value instanceof Map) {
+                writableMap.putMap((String) pair.getKey(), toWritableMap((Map<String, Object>) value));
+            } else if (value.getClass() != null && value.getClass().isArray()) {
+                writableMap.putArray((String) pair.getKey(), toWritableArray((Object[]) value));
+            } else if (value instanceof Collection) {
+                writableMap.putArray((String) pair.getKey(), toWritableArray((Collection)value));
+            }
+
+            iterator.remove();
+        }
+
+        return writableMap;
+    }
+    public static WritableArray toWritableArray(Collection collection) {
+        return toWritableArray(collection.toArray());
+    }
+
+    public static WritableArray toWritableArray(Object[] array) {
+        WritableArray writableArray = Arguments.createArray();
+
+        for (int i = 0; i < array.length; i++) {
+            Object value = array[i];
+
+            if (value == null) {
+                writableArray.pushNull();
+            }
+            if (value instanceof Boolean) {
+                writableArray.pushBoolean((Boolean) value);
+            }
+            if (value instanceof Double) {
+                writableArray.pushDouble((Double) value);
+            }
+            if (value instanceof Integer) {
+                writableArray.pushInt((Integer) value);
+            }
+            if (value instanceof String) {
+                writableArray.pushString((String) value);
+            }
+            if (value instanceof Map) {
+                writableArray.pushMap(toWritableMap((Map<String, Object>) value));
+            }
+            if (value instanceof Collection) {
+                writableArray.pushArray(toWritableArray((Collection) value));
+            }
+            if (value.getClass().isArray()) {
+                writableArray.pushArray(toWritableArray((Object[]) value));
+            }
+        }
+
+        return writableArray;
     }
 
 }

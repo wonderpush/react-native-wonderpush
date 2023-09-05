@@ -200,6 +200,55 @@ export default class WonderPush {
         return RNWonderPush.downloadAllData();
     }
 
+    // Delegate
+    static setDelegate(delegate) {
+      if (!delegate) {
+        RNWonderPush.setNotificationOpenedCallback(null);
+        RNWonderPush.setNotificationReceivedCallback(null);
+        return;
+      }
+      var receivedCb;
+      receivedCb = function(notifJson) {
+
+          // Circumvent single-use callbacks: re-register the callback each time it is called.
+          RNWonderPush.setNotificationReceivedCallback(receivedCb);
+
+          if (!delegate.onNotificationReceived)
+              return;
+
+          var notif;
+          try {
+              notif = JSON.parse(notifJson);
+          }
+          catch (e) {
+              console.error("Could not parse notification JSON", e);
+              return;
+          }
+          delegate.onNotificationReceived(notif);
+      };
+      RNWonderPush.setNotificationReceivedCallback(receivedCb);
+      var openedCb;
+      openedCb = function(notifJson, buttonIndex) {
+
+          // Circumvent single-use callbacks: re-register the callback each time it is called.
+          RNWonderPush.setNotificationOpenedCallback(openedCb);
+
+          if (!delegate.onNotificationOpened)
+              return;
+
+          var notif;
+          try {
+              notif = JSON.parse(notifJson);
+          }
+          catch (e) {
+              console.error("Could not parse notification JSON", e);
+              return;
+          }
+          delegate.onNotificationOpened(notif, buttonIndex);
+      };
+      RNWonderPush.setNotificationOpenedCallback(openedCb);
+    }
+
     /**
      * If the application was launched by clicking a notification
      * whose targetUrl is a deeplink, this method will return that targetUrl, null otherwise
