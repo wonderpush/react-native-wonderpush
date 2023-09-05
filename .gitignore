@@ -49,3 +49,4 @@ dist
 
 # Dependency directory
 node_modules
+config.bat
