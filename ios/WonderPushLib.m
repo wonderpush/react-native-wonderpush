@@ -158,7 +158,7 @@
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [WonderPush setIntegrator:@"react-native-wonderpush-2.2.8"];
+        [WonderPush setIntegrator:@"react-native-wonderpush-2.2.9"];
         [WonderPush setDelegate:[WonderPushLibDelegate instance]];
     });
 }
