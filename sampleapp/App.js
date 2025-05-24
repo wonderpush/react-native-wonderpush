@@ -21,6 +21,7 @@ export default class App extends Component {
   constructor() {
     super();
     WonderPush.subscribeToNotifications();
+    console.log('isInitialized:', await WonderPush.isInitialized());
   }
 
   componentDidMount() {

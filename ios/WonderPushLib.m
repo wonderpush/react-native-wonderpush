@@ -201,6 +201,18 @@ RCT_EXPORT_MODULE(RNWonderPush)
 
 #pragma mark - Initialization
 
+RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        if ([WonderPush isInitialized]) {
+            resolve(@YES);
+        } else {
+            resolve(@NO);
+        }
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
 RCT_EXPORT_METHOD(setLogging:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     @try {
         [WonderPush setLogging:enable];
