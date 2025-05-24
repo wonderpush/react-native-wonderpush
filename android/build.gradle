@@ -18,10 +18,10 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('WonderPush_compileSdkVersion', 31)
+    compileSdkVersion safeExtGet('WonderPush_compileSdkVersion', 33)
     defaultConfig {
         minSdkVersion safeExtGet('WonderPush_minSdkVersion', 21)
-        targetSdkVersion safeExtGet('WonderPush_targetSdkVersion', 31)
+        targetSdkVersion safeExtGet('WonderPush_targetSdkVersion', 33)
         versionCode 1
         versionName "1.0"
 
@@ -54,6 +54,6 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.wonderpush:wonderpush-android-sdk:4.4.1'
+    implementation 'com.wonderpush:wonderpush-android-sdk:4.5.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 }
