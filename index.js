@@ -13,6 +13,18 @@ export default class WonderPush {
         return RNWonderPush.setLogging(enable);
     }
 
+    static async initialize(clientId, clientSecret) {
+        return RNWonderPush.initialize(clientId, clientSecret);
+    }
+
+    static async initializeAndRememberCredentials(clientId, clientSecret) {
+        return RNWonderPush.initializeAndRememberCredentials(clientId, clientSecret);
+    }
+
+    static async getRememberedClientId() {
+        return RNWonderPush.getRememberedClientId();
+    }
+
     static async isInitialized() {
         return RNWonderPush.isInitialized();
     }

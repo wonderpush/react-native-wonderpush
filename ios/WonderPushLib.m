@@ -201,6 +201,32 @@ RCT_EXPORT_MODULE(RNWonderPush)
 
 #pragma mark - Initialization
 
+RCT_EXPORT_METHOD(initialize:(NSString *)clientId clientSecret:(NSString *)clientSecret resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        [WonderPush setClientId:clientId secret:clientSecret];
+        resolve(nil);
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(initializeAndRememberCredentials:(NSString *)clientId clientSecret:(NSString *)clientSecret resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        [WonderPush setAndRememberClientId:clientId secret:clientSecret];
+        resolve(nil);
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
+RCT_EXPORT_METHOD(getRememberedClientId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        resolve([WonderPush getRememberedClientId]);
+    } @catch (NSError *e) {
+        reject(nil, nil, e);
+    }
+}
+
 RCT_EXPORT_METHOD(isInitialized:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     @try {
         if ([WonderPush isInitialized]) {

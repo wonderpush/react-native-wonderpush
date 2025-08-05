@@ -183,20 +183,37 @@ public class WonderPushLibModule extends ReactContextBaseJavaModule implements D
 
     //Initialization
     @ReactMethod
-    public void isInitialized(Promise promise) {
+    public void initialize(String clientId, String clientSecret, Promise promise) {
         try {
-            boolean isInitialized = WonderPush.isInitialized();
-            promise.resolve(isInitialized);
+            WonderPush.initialize(this.reactContext, clientId, clientSecret);
+            promise.resolve(null);
         } catch (Exception e) {
             promise.reject(e);
         }
     }
-
     @ReactMethod
-    public void setClientId(String clientId, String clientSecret, Promise promise) {
+    public void initializeAndRememberCredentials(String clientId, String clientSecret, Promise promise) {
         try {
-            WonderPush.initialize(this.reactContext, clientId, clientSecret);
+            WonderPush.initializeAndRememberCredentials(this.reactContext, clientId, clientSecret);
             promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+    @ReactMethod
+    public void getRememberedClientId(Promise promise) {
+        try {
+            String rememberedClientId = WonderPush.getRememberedClientId(this.reactContext);
+            promise.resolve(rememberedClientId);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+    @ReactMethod
+    public void isInitialized(Promise promise) {
+        try {
+            boolean isInitialized = WonderPush.isInitialized();
+            promise.resolve(isInitialized);
         } catch (Exception e) {
             promise.reject(e);
         }
