@@ -149,7 +149,7 @@
     ]
   },
   "codegenConfig": {
-    "name": "WonderpushSpec",
+    "name": "WonderPushSpec",
     "type": "modules",
     "jsSrcsDir": "src",
     "android": {

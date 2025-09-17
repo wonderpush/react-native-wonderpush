@@ -1,5 +1,5 @@
-import Wonderpush from './NativeWonderpush';
+import WonderPush from './NativeWonderPush';
 
 export function multiply(a: number, b: number): number {
-  return Wonderpush.multiply(a, b);
+  return WonderPush.multiply(a, b);
 }

@@ -2,11 +2,11 @@ package com.wonderpush
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
-import com.wonderpush.sdk.reactnative.NativeWonderpushSpec
+import com.wonderpush.sdk.reactnative.NativeWonderPushSpec
 
-@ReactModule(name = WonderpushModule.NAME)
-class WonderpushModule(reactContext: ReactApplicationContext) :
-  NativeWonderpushSpec(reactContext) {
+@ReactModule(name = WonderPushModule.NAME)
+class WonderPushModule(reactContext: ReactApplicationContext) :
+  NativeWonderPushSpec(reactContext) {
 
   override fun getName(): String {
     return NAME
@@ -19,6 +19,6 @@ class WonderpushModule(reactContext: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "Wonderpush"
+    const val NAME = "WonderPush"
   }
 }

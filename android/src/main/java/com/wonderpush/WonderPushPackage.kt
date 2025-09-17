@@ -7,10 +7,10 @@ import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import java.util.HashMap
 
-class WonderpushPackage : BaseReactPackage() {
-  override fun getModule(name: String, reactContext: ReactApplicationContext): WonderpushModule? {
-    return if (name == WonderpushModule.NAME) {
-      WonderpushModule(reactContext)
+class WonderPushPackage : BaseReactPackage() {
+  override fun getModule(name: String, reactContext: ReactApplicationContext): WonderPushModule? {
+    return if (name == WonderPushModule.NAME) {
+      WonderPushModule(reactContext)
     } else {
       null
     }
@@ -19,9 +19,9 @@ class WonderpushPackage : BaseReactPackage() {
   override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
     return ReactModuleInfoProvider {
       val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
-      moduleInfos[WonderpushModule.NAME] = ReactModuleInfo(
-        WonderpushModule.NAME,
-        WonderpushModule.NAME,
+      moduleInfos[WonderPushModule.NAME] = ReactModuleInfo(
+        WonderPushModule.NAME,
+        WonderPushModule.NAME,
         false,  // canOverrideExistingModule
         false,  // needsEagerInit
         false,  // isCxxModule
