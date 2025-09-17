@@ -8,7 +8,7 @@ import com.facebook.react.module.model.ReactModuleInfoProvider
 import java.util.HashMap
 
 class WonderpushPackage : BaseReactPackage() {
-  override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
+  override fun getModule(name: String, reactContext: ReactApplicationContext): WonderpushModule? {
     return if (name == WonderpushModule.NAME) {
       WonderpushModule(reactContext)
     } else {

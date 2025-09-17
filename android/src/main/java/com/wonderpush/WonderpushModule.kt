@@ -2,6 +2,7 @@ package com.wonderpush
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
+import com.wonderpush.sdk.reactnative.NativeWonderpushSpec
 
 @ReactModule(name = WonderpushModule.NAME)
 class WonderpushModule(reactContext: ReactApplicationContext) :
