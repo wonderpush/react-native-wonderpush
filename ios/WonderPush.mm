@@ -9,12 +9,6 @@ RCT_EXPORT_MODULE()
     return std::make_shared<facebook::react::NativeWonderPushSpecJSI>(params);
 }
 
-- (NSNumber *)multiply:(double)a b:(double)b {
-    NSNumber *result = @(a * b);
-
-    return result;
-}
-
 - (void)subscribeToNotifications:(NSNumber *)fallbackToSettings {
     [WonderPush subscribeToNotifications];
 }
