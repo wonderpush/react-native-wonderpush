@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-wonderpush';
+import { WonderPush } from 'react-native-wonderpush';
 
-const result = multiply(3, 5);
+const result = WonderPush.multiply(3, 5);
 
 export default function App() {
   return (
