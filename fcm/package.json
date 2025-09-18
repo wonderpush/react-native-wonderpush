@@ -1,7 +1,7 @@
 {
-  "name": "react-native-wonderpush",
-  "version": "0.1.0",
-  "description": "Mobile push notification delivery with the WonderPush service. The WonderPush ReactNative SDK is compatible with iOS and Android.",
+  "name": "react-native-wonderpush-fcm",
+  "version": "1.0.9",
+  "description": "WonderPush React Native SDK. FCM compatibility module.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
@@ -32,18 +32,15 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-wonderpush-example",
-    "fcm": "yarn workspace react-native-wonderpush-fcm",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build lib",
     "prepare": "bob build",
     "release": "release-it --only-version"
   },
   "keywords": [
     "react-native",
-    "ios",
     "android"
   ],
   "repository": {
@@ -89,16 +86,10 @@
     "react": "*",
     "react-native": "*"
   },
-  "workspaces": [
-    "example",
-    "fcm"
-  ],
   "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/fcm/node_modules",
       "<rootDir>/lib/"
     ]
   },
@@ -152,11 +143,11 @@
     ]
   },
   "codegenConfig": {
-    "name": "WonderPushSpec",
+    "name": "WonderPushFcmSpec",
     "type": "modules",
     "jsSrcsDir": "src",
     "android": {
-      "javaPackageName": "com.wonderpush.sdk.reactnative"
+      "javaPackageName": "com.wonderpush.sdk.reactnative.fcm"
     }
   },
   "create-react-native-library": {
