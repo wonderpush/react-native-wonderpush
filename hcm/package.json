@@ -1,7 +1,7 @@
 {
-  "name": "react-native-wonderpush",
-  "version": "0.1.0",
-  "description": "Mobile push notification delivery with the WonderPush service. The WonderPush ReactNative SDK is compatible with iOS and Android.",
+  "name": "react-native-wonderpush-hcm",
+  "version": "1.0.5",
+  "description": "WonderPush React Native SDK. Huawei Mobile Services HCM compatibility module.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
@@ -20,7 +20,6 @@
     "cpp",
     "*.podspec",
     "react-native.config.js",
-    "!ios/build",
     "!android/build",
     "!android/gradle",
     "!android/gradlew",
@@ -32,19 +31,15 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-wonderpush-example",
-    "fcm": "yarn workspace react-native-wonderpush-fcm",
-    "hcm": "yarn workspace react-native-wonderpush-hcm",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build lib",
     "prepare": "bob build",
     "release": "release-it --only-version"
   },
   "keywords": [
     "react-native",
-    "ios",
     "android"
   ],
   "repository": {
@@ -90,18 +85,10 @@
     "react": "*",
     "react-native": "*"
   },
-  "workspaces": [
-    "example",
-    "fcm",
-    "hcm"
-  ],
   "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/fcm/node_modules",
-      "<rootDir>/hcm/node_modules",
       "<rootDir>/lib/"
     ]
   },
@@ -155,11 +142,11 @@
     ]
   },
   "codegenConfig": {
-    "name": "WonderPushSpec",
+    "name": "WonderPushHcmSpec",
     "type": "modules",
     "jsSrcsDir": "src",
     "android": {
-      "javaPackageName": "com.wonderpush.sdk.reactnative"
+      "javaPackageName": "com.wonderpush.sdk.reactnative.hcm"
     }
   },
   "create-react-native-library": {
