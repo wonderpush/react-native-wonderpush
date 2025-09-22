@@ -7,6 +7,8 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import WonderPush from 'react-native-wonderpush';
 import { useState, useCallback, useEffect } from 'react';
@@ -135,6 +137,32 @@ export default function App() {
     }
   }, []);
 
+  // Request geolocation permission
+  const requestGeolocationPermission = useCallback(async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Permission',
+            message:
+              'This app needs location permission to provide location-based features.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Location permission granted');
+        } else {
+          console.log('Location permission denied');
+        }
+      } catch (error) {
+        console.error('Error requesting location permission:', error);
+      }
+    }
+  }, []);
+
   // Initialize all data
   useEffect(() => {
     refreshIsInitialized();
@@ -145,6 +173,9 @@ export default function App() {
     refreshUserConsent();
     refreshTags();
     refreshProperties();
+
+    // Request geolocation permission at startup
+    requestGeolocationPermission();
   }, [
     refreshIsInitialized,
     refreshHasTagFoo,
@@ -154,6 +185,7 @@ export default function App() {
     refreshUserConsent,
     refreshTags,
     refreshProperties,
+    requestGeolocationPermission,
   ]);
 
   const refreshIsSubscribedToNotifications = useCallback(async () => {
