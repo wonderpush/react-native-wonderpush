@@ -96,22 +96,28 @@ export default class WonderPush {
     return NativeWonderPush.getPropertyValues(property);
   }
 
-  static async addProperty(str: string, property: any | any[]): Promise<void> {
-    const propertyArray = Array.isArray(property) ? property : [property];
-    return NativeWonderPush.addProperty(str, propertyArray);
+  static async addProperty(
+    property: string,
+    values: any | any[]
+  ): Promise<void> {
+    const valuesArray = Array.isArray(values) ? values : [values];
+    return NativeWonderPush.addProperty(property, valuesArray);
   }
 
   static async removeProperty(
-    str: string,
-    property: any | any[]
+    property: string,
+    values: any | any[]
   ): Promise<void> {
-    const propertyArray = Array.isArray(property) ? property : [property];
-    return NativeWonderPush.removeProperty(str, propertyArray);
+    const valuesArray = Array.isArray(values) ? values : [values];
+    return NativeWonderPush.removeProperty(property, valuesArray);
   }
 
-  static async setProperty(str: string, property: any | any[]): Promise<void> {
-    const propertyArray = Array.isArray(property) ? property : [property];
-    return NativeWonderPush.setProperty(str, propertyArray);
+  static async setProperty(
+    property: string,
+    values: any | any[]
+  ): Promise<void> {
+    const valuesArray = Array.isArray(values) ? values : [values];
+    return NativeWonderPush.setProperty(property, valuesArray);
   }
 
   static async unsetProperty(property: string): Promise<void> {
@@ -186,16 +192,16 @@ export default class WonderPush {
   }
 
   // Privacy
-  static async setRequiresUserConsent(isConsent: boolean): Promise<void> {
-    return NativeWonderPush.setRequiresUserConsent(isConsent);
+  static async setRequiresUserConsent(value: boolean): Promise<void> {
+    return NativeWonderPush.setRequiresUserConsent(value);
   }
 
   static async getUserConsent(): Promise<boolean> {
     return NativeWonderPush.getUserConsent();
   }
 
-  static async setUserConsent(isConsent: boolean): Promise<void> {
-    return NativeWonderPush.setUserConsent(isConsent);
+  static async setUserConsent(value: boolean): Promise<void> {
+    return NativeWonderPush.setUserConsent(value);
   }
 
   static async disableGeolocation(): Promise<void> {
