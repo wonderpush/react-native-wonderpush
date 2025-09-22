@@ -228,7 +228,7 @@ export default class WonderPush {
     return NativeWonderPush.clearAllData();
   }
 
-  static async downloadAllData(): Promise<Record<string, any>> {
+  static async downloadAllData(): Promise<string | null> {
     return NativeWonderPush.downloadAllData();
   }
 

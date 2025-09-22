@@ -245,8 +245,16 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)downloadAllData:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    NSDictionary *data = [WonderPush downloadAllData];
-    resolve(data ?: @{});
+    [WonderPush downloadAllData:^(NSData * _Nullable data, NSError * _Nullable error) {
+        if (error) {
+            reject(@"DOWNLOAD_ERROR", [NSString stringWithFormat:@"Failed to download data: %@", error.localizedDescription], error);
+        } else if (data) {
+            NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            resolve(jsonString ?: [NSNull null]);
+        } else {
+            resolve([NSNull null]);
+        }
+    }];
 }
 
 // Callbacks

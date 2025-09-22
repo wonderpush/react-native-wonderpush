@@ -276,9 +276,14 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   }
 
   override fun downloadAllData(promise: Promise) {
-    // TODO WonderPush.downloadAllData() is blocking: Run in a thread, and resolve the promise once it returned.
-    WonderPush.downloadAllData()
-    promise.resolve(null)
+    Thread {
+      try {
+        WonderPush.downloadAllData()
+        promise.resolve(null)
+      } catch (error: Exception) {
+        promise.reject("DOWNLOAD_ERROR", "Failed to download data: ${error.message}", error)
+      }
+    }.start()
   }
 
   // Callbacks
