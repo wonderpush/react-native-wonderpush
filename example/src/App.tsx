@@ -248,8 +248,8 @@ export default function App() {
           onPress={async () => {
             try {
               await WonderPush.initialize(
-                'demo-client-id',
-                'demo-client-secret'
+                '7524c8a317c1794c0b23895dce3a3314d6a24105',
+                'b43a2d0fbdb54d24332b4d70736954eab5d24d29012b18ef6d214ff0f51e7901'
               );
               await refreshIsInitialized();
               Alert.alert('Success', 'WonderPush initialized');
@@ -263,8 +263,38 @@ export default function App() {
           onPress={async () => {
             try {
               await WonderPush.initializeAndRememberCredentials(
-                'demo-client-id',
-                'demo-client-secret'
+                '7524c8a317c1794c0b23895dce3a3314d6a24105',
+                'b43a2d0fbdb54d24332b4d70736954eab5d24d29012b18ef6d214ff0f51e7901'
+              );
+              await refreshIsInitialized();
+              Alert.alert('Success', 'WonderPush initialized and remembered');
+            } catch (error) {
+              Alert.alert('Error', `Failed to initialize: ${error}`);
+            }
+          }}
+        />
+        <Button
+          title="Initialize Example Credentials"
+          onPress={async () => {
+            try {
+              await WonderPush.initialize(
+                '47d9054ece4faca1882ba05abcf60163941597f4',
+                'f7864cc6cffc9eea85f1dac4788978434f5325e06cdfe32c1b3139b3d5c18f30'
+              );
+              await refreshIsInitialized();
+              Alert.alert('Success', 'WonderPush initialized');
+            } catch (error) {
+              Alert.alert('Error', `Failed to initialize: ${error}`);
+            }
+          }}
+        />
+        <Button
+          title="Initialize & Remember Example Credentials"
+          onPress={async () => {
+            try {
+              await WonderPush.initializeAndRememberCredentials(
+                '47d9054ece4faca1882ba05abcf60163941597f4',
+                'f7864cc6cffc9eea85f1dac4788978434f5325e06cdfe32c1b3139b3d5c18f30'
               );
               await refreshIsInitialized();
               Alert.alert('Success', 'WonderPush initialized and remembered');
@@ -322,7 +352,6 @@ export default function App() {
             onPress={async () => {
               try {
                 await WonderPush.trackEvent('firstVisit');
-                Alert.alert('Success', 'Event tracked');
               } catch (error) {
                 Alert.alert('Error', `Failed to track event: ${error}`);
               }
@@ -336,7 +365,6 @@ export default function App() {
                   amount: 9.99,
                   currency: 'USD',
                 });
-                Alert.alert('Success', 'Purchase event tracked');
               } catch (error) {
                 Alert.alert('Error', `Failed to track event: ${error}`);
               }
