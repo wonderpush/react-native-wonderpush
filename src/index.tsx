@@ -1,4 +1,40 @@
 import NativeWonderPush from './NativeWonderPush';
+import { NativeEventEmitter, NativeModules } from 'react-native';
+
+// Create event emitter for notification events
+const eventEmitter = new NativeEventEmitter(NativeModules.WonderPush);
+
+// Global delegate storage
+let currentDelegate:
+  | {
+      onNotificationReceived?: (notification: any) => void;
+      onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
+    }
+  | undefined;
+
+// Set up event listeners once during static initialization
+eventEmitter.addListener('onNotificationReceived', (notificationJson: any) => {
+  if (currentDelegate?.onNotificationReceived) {
+    try {
+      const notification = JSON.parse(notificationJson as string);
+      currentDelegate.onNotificationReceived(notification);
+    } catch (e) {
+      console.error('Could not parse notification JSON', e);
+    }
+  }
+});
+
+eventEmitter.addListener('onNotificationOpened', (data: any) => {
+  if (currentDelegate?.onNotificationOpened) {
+    try {
+      const eventData = data as { notification: string; buttonIndex: number };
+      const notification = JSON.parse(eventData.notification);
+      currentDelegate.onNotificationOpened(notification, eventData.buttonIndex);
+    } catch (e) {
+      console.error('Could not parse notification JSON', e);
+    }
+  }
+});
 
 export default class WonderPush {
   // Initialization
@@ -237,41 +273,12 @@ export default class WonderPush {
     return NativeWonderPush.getInitialURL();
   }
 
-  // Delegate (callback handling)
+  // Delegate (event-based handling)
   static setDelegate(delegate?: {
     onNotificationReceived?: (notification: any) => void;
     onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
   }) {
-    if (!delegate) {
-      NativeWonderPush.setNotificationReceivedCallback(() => {});
-      NativeWonderPush.setNotificationOpenedCallback(() => {});
-      return;
-    }
-
-    if (delegate.onNotificationReceived) {
-      NativeWonderPush.setNotificationReceivedCallback(
-        (notificationJson: string) => {
-          try {
-            const notification = JSON.parse(notificationJson);
-            delegate.onNotificationReceived!(notification);
-          } catch (e) {
-            console.error('Could not parse notification JSON', e);
-          }
-        }
-      );
-    }
-
-    if (delegate.onNotificationOpened) {
-      NativeWonderPush.setNotificationOpenedCallback(
-        (notificationJson: string, buttonIndex: number) => {
-          try {
-            const notification = JSON.parse(notificationJson);
-            delegate.onNotificationOpened!(notification, buttonIndex);
-          } catch (e) {
-            console.error('Could not parse notification JSON', e);
-          }
-        }
-      );
-    }
+    // Simply store the current delegate - event listeners are already set up
+    currentDelegate = delegate;
   }
 }

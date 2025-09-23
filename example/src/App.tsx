@@ -13,6 +13,20 @@ import {
 import WonderPush from 'react-native-wonderpush';
 import { useState, useCallback, useEffect } from 'react';
 
+WonderPush.setDelegate({
+  onNotificationReceived: (notif) => {
+    console.log('onNotificationReceived:', notif);
+    Alert.alert('Notification received', JSON.stringify(notif, null, 2));
+  },
+  onNotificationOpened: (notif, button) => {
+    console.log('onNotificationOpened with button', button, ':', notif);
+    Alert.alert(
+      'Notification clicked',
+      'Button: ' + button + '\n' + JSON.stringify(notif, null, 2)
+    );
+  },
+});
+
 export default function App() {
   // State management
   const [isSubscribedToNotifications, setIsSubscribedToNotifications] =

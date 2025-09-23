@@ -1,13 +1,45 @@
 #import "WonderPush.h"
 #import <WonderPush/WonderPush.h>
+#import <React/RCTEventEmitter.h>
 
 @implementation WonderPush
+
 RCT_EXPORT_MODULE()
+
+- (instancetype)init {
+    if (self = [super init]) {
+        // Set this module as the WonderPush delegate
+        [WonderPush setDelegate:self];
+    }
+    return self;
+}
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
 {
     return std::make_shared<facebook::react::NativeWonderPushSpecJSI>(params);
+}
+
+// Required for RCTEventEmitter
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"onNotificationReceived", @"onNotificationOpened"];
+}
+
+- (void)startObserving {
+    // Called when the first observer is added.
+}
+
+- (void)stopObserving {
+    // Called when there are no more observers
+}
+
+// Required for NativeEventEmitter compatibility
+- (void)addListener:(NSString *)eventName {
+    // Keep: Required for RN built in Event Emitter Calls.
+}
+
+- (void)removeListeners:(double)count {
+    // Keep: Required for RN built in Event Emitter Calls.
 }
 
 // Initialization
@@ -257,15 +289,29 @@ RCT_EXPORT_MODULE()
     }];
 }
 
-// Callbacks
-- (void)setNotificationReceivedCallback:(RCTResponseSenderBlock)callback {
-    // TODO: Implement callback handling
-    // This requires more complex implementation with event emitters
+// Notification event emission methods (called by WonderPush delegate)
+- (void)onNotificationReceived:(NSDictionary *)notification {
+    NSString *notificationJson = [self dictionaryToJSONString:notification];
+    [self sendEventWithName:@"onNotificationReceived" body:notificationJson];
 }
 
-- (void)setNotificationOpenedCallback:(RCTResponseSenderBlock)callback {
-    // TODO: Implement callback handling
-    // This requires more complex implementation with event emitters
+- (void)onNotificationOpened:(NSDictionary *)notification withButton:(NSInteger)buttonIndex {
+    NSString *notificationJson = [self dictionaryToJSONString:notification];
+    NSDictionary *eventData = @{
+        @"notification": notificationJson,
+        @"buttonIndex": @(buttonIndex)
+    };
+    [self sendEventWithName:@"onNotificationOpened" body:eventData];
+}
+
+- (NSString *)dictionaryToJSONString:(NSDictionary *)dictionary {
+    if (!dictionary) return @"{}";
+
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+    if (error || !jsonData) return @"{}";
+
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 // Deep linking

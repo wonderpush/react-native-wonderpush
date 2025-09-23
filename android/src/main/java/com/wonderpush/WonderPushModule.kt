@@ -8,15 +8,36 @@ import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.module.annotations.ReactModule
+import com.facebook.react.bridge.UiThreadUtil
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.wonderpush.sdk.reactnative.NativeWonderPushSpec
 import com.wonderpush.sdk.WonderPush
+import com.wonderpush.sdk.WonderPushDelegate
+import com.wonderpush.sdk.DeepLinkEvent
 import org.json.JSONArray
 import org.json.JSONObject
 
 @ReactModule(name = WonderPushModule.NAME)
 class WonderPushModule(reactContext: ReactApplicationContext) :
-  NativeWonderPushSpec(reactContext) {
+  NativeWonderPushSpec(reactContext), WonderPushDelegate {
+
+  // Required for NativeEventEmitter compatibility
+  @ReactMethod
+  override fun addListener(eventName: String) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
+  @ReactMethod
+  override fun removeListeners(count: Double) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
+  init {
+    // Set this module as the WonderPush delegate
+    WonderPush.setDelegate(this)
+  }
 
   override fun getName(): String {
     return NAME
@@ -286,16 +307,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     }.start()
   }
 
-  // Callbacks
-  override fun setNotificationReceivedCallback(callback: Callback) {
-    // TODO: Implement callback handling
-    // This requires more complex implementation with event emitters
-  }
-
-  override fun setNotificationOpenedCallback(callback: Callback) {
-    // TODO: Implement callback handling
-    // This requires more complex implementation with event emitters
-  }
 
   // Deep linking
   override fun getInitialURL(promise: Promise) {
@@ -394,6 +405,43 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
       }
     }
     return writableArray
+  }
+
+  // WonderPushDelegate implementation
+  override fun urlForDeepLink(event: DeepLinkEvent): String {
+    return event.getUrl()
+  }
+
+  override fun onNotificationReceived(notif: JSONObject) {
+    UiThreadUtil.runOnUiThread {
+      try {
+        val notificationJson = notif.toString()
+        emitEvent("onNotificationReceived", notificationJson)
+      } catch (e: Exception) {
+        android.util.Log.e(NAME, "Error handling notification received", e)
+      }
+    }
+  }
+
+  override fun onNotificationOpened(notif: JSONObject, buttonIndex: Int) {
+    UiThreadUtil.runOnUiThread {
+      try {
+        val notificationJson = notif.toString()
+        val eventData = Arguments.createMap().apply {
+          putString("notification", notificationJson)
+          putInt("buttonIndex", buttonIndex)
+        }
+        emitEvent("onNotificationOpened", eventData)
+      } catch (e: Exception) {
+        android.util.Log.e(NAME, "Error handling notification opened", e)
+      }
+    }
+  }
+
+  private fun emitEvent(eventName: String, data: Any) {
+    reactApplicationContext
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+      .emit(eventName, data)
   }
 
   companion object {

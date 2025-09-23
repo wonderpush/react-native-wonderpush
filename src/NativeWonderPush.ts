@@ -66,15 +66,13 @@ export interface Spec extends TurboModule {
   clearEventsHistory(): Promise<void>;
   clearPreferences(): Promise<void>;
   clearAllData(): Promise<void>;
-  downloadAllData(): Promise<Object>;
+  downloadAllData(): Promise<string | null>;
 
-  // Callbacks
-  setNotificationReceivedCallback(
-    callback: (notification: string) => void
-  ): void;
-  setNotificationOpenedCallback(
-    callback: (notification: string, buttonIndex: number) => void
-  ): void;
+  // Event emission methods (no callbacks needed)
+
+  // Required for NativeEventEmitter compatibility
+  addListener(eventName: string): void;
+  removeListeners(count: number): void;
 
   // Deep linking
   getInitialURL(): Promise<string>;
