@@ -22,7 +22,7 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-WonderPush.setDelegate({
+const wonderpushDelegate = {
   onNotificationReceived: (notif) => {
     console.log('onNotificationReceived:', notif);
     Alert.alert('Notification received', JSON.stringify(notif, null, 2));
@@ -34,7 +34,8 @@ WonderPush.setDelegate({
       'Button: ' + button + '\n' + JSON.stringify(notif, null, 2)
     );
   },
-});
+};
+WonderPush.setDelegate(wonderpushDelegate);
 
 export default function HomeScreen({ navigation }: Props) {
   // State management
@@ -878,27 +879,14 @@ export default function HomeScreen({ navigation }: Props) {
         <Button
           title="Set Notification Delegate"
           onPress={() => {
-            WonderPush.setDelegate({
-              onNotificationReceived: (notification) => {
-                Alert.alert(
-                  'Notification Received',
-                  JSON.stringify(notification, null, 2)
-                );
-              },
-              onNotificationOpened: (notification, buttonIndex) => {
-                Alert.alert(
-                  'Notification Opened',
-                  `Notification: ${JSON.stringify(notification)}\nButton Index: ${buttonIndex}`
-                );
-              },
-            });
+            WonderPush.setDelegate(wonderpushDelegate);
             Alert.alert('Success', 'Notification delegate set');
           }}
         />
         <Button
           title="Remove Notification Delegate"
           onPress={() => {
-            WonderPush.setDelegate();
+            WonderPush.setDelegate(null);
             Alert.alert('Success', 'Notification delegate removed');
           }}
         />
