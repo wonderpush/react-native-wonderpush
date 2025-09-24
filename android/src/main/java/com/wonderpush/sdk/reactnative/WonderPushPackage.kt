@@ -1,4 +1,4 @@
-package com.wonderpush
+package com.wonderpush.sdk.reactnative
 
 import com.facebook.react.BaseReactPackage
 import com.facebook.react.bridge.NativeModule

@@ -1,4 +1,4 @@
-package com.wonderpush
+package com.wonderpush.sdk.reactnative
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.Promise

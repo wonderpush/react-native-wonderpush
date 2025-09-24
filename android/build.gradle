@@ -26,7 +26,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
-  namespace "com.wonderpush"
+  namespace "com.wonderpush.sdk.reactnative"
 
   compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
 
