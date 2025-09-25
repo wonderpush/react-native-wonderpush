@@ -28,7 +28,7 @@ export default function App() {
             setInitialState({
               index: 1,
               routes: [{ name: 'Home' }, { name: 'Child' }],
-            });
+            } as any);
           }
         }
       } finally {

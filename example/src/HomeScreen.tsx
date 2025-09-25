@@ -11,7 +11,7 @@ import {
   Platform,
   Linking,
 } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import WonderPush from 'react-native-wonderpush';
 import { useState, useCallback, useEffect } from 'react';
 
@@ -23,11 +23,11 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const wonderpushDelegate = {
-  onNotificationReceived: (notif) => {
+  onNotificationReceived: (notif: any) => {
     console.log('onNotificationReceived:', notif);
     Alert.alert('Notification received', JSON.stringify(notif, null, 2));
   },
-  onNotificationOpened: (notif, button) => {
+  onNotificationOpened: (notif: any, button: number | undefined) => {
     console.log('onNotificationOpened with button', button, ':', notif);
     Alert.alert(
       'Notification clicked',

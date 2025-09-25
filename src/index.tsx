@@ -5,12 +5,10 @@ import { NativeEventEmitter, NativeModules } from 'react-native';
 const eventEmitter = new NativeEventEmitter(NativeModules.WonderPush);
 
 // Global delegate storage
-let currentDelegate:
-  | {
-      onNotificationReceived?: (notification: any) => void;
-      onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
-    }
-  | undefined;
+let currentDelegate: {
+  onNotificationReceived?: (notification: any) => void;
+  onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
+} | null = null;
 
 // Set up event listeners once during static initialization
 eventEmitter.addListener('onNotificationReceived', (notificationJson: any) => {
@@ -274,10 +272,12 @@ export default class WonderPush {
   }
 
   // Delegate (event-based handling)
-  static setDelegate(delegate?: {
-    onNotificationReceived?: (notification: any) => void;
-    onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
-  }) {
+  static setDelegate(
+    delegate: {
+      onNotificationReceived?: (notification: any) => void;
+      onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
+    } | null
+  ) {
     // Simply store the current delegate - event listeners are already set up
     currentDelegate = delegate;
   }
