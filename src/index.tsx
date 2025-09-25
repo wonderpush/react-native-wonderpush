@@ -1,8 +1,8 @@
 import NativeWonderPush from './NativeWonderPush';
-import { NativeEventEmitter, NativeModules } from 'react-native';
+import { NativeEventEmitter } from 'react-native';
 
 // Create event emitter for notification events
-const eventEmitter = new NativeEventEmitter(NativeModules.WonderPush);
+const eventEmitter = new NativeEventEmitter(NativeWonderPush);
 
 // Global delegate storage
 let currentDelegate: {

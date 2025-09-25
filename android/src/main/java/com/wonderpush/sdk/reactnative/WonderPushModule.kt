@@ -445,6 +445,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "WonderPush"
+    const val NAME = "RNWonderPush"
   }
 }

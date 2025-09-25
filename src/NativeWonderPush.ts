@@ -78,4 +78,4 @@ export interface Spec extends TurboModule {
   getInitialURL(): Promise<string>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('WonderPush');
+export default TurboModuleRegistry.getEnforcing<Spec>('RNWonderPush');

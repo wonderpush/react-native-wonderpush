@@ -15,6 +15,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import WonderPush from 'react-native-wonderpush';
 import { useState, useCallback, useEffect } from 'react';
 
+console.log('WonderPush from react-native-wonderpush:', WonderPush);
+
 type RootStackParamList = {
   Home: undefined;
   Child: undefined;

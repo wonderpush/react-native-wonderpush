@@ -1,10 +1,10 @@
-#import "WonderPush.h"
+#import "RNWonderPush.h"
 #import <WonderPush/WonderPush.h>
 #import <React/RCTEventEmitter.h>
 
-@implementation WonderPush
+@implementation RNWonderPush
 
-RCT_EXPORT_MODULE()
+RCT_EXPORT_MODULE(WonderPush)
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -59,7 +59,7 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)getRememberedClientId:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    NSString *clientId = [WonderPush getClientId];
+    NSString *clientId = [WonderPush getRememberedClientId];
     resolve(clientId);
 }
 
@@ -112,7 +112,7 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)getTags:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    NSArray *tags = [WonderPush getTags];
+    NSArray *tags = [[WonderPush getTags] array];
     resolve(tags ?: @[]);
 }
 
@@ -257,7 +257,7 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)setGeolocation:(double)lat lon:(double)lon resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    [WonderPush setGeolocationFromLatitude:@(lat) longitude:@(lon)];
+    [WonderPush setGeolocation:[[CLLocation alloc] initWithLatitude:lat longitude:lon]];
     resolve(nil);
 }
 
@@ -324,10 +324,10 @@ RCT_EXPORT_MODULE()
         resolve(remoteNotification[@"_wp"][@"targetUrl"]);
         return;
     }
-    if (self.initialDeepLinkURL) {
-        resolve(self.initialDeepLinkURL.absoluteString);
-        return;
-    }
+    //if (self.initialDeepLinkURL) {
+    //    resolve(self.initialDeepLinkURL.absoluteString);
+    //    return;
+    //}
 
     resolve(nil);
 }
