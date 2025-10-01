@@ -2432,6 +2432,9 @@ PODS:
   - WonderPush (4.4.0):
     - WonderPush/Core (= 4.4.0)
   - WonderPush/Core (4.4.0)
+  - WonderPushExtension (4.4.0):
+    - WonderPushExtension/Extension (= 4.4.0)
+  - WonderPushExtension/Extension (4.4.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2510,12 +2513,14 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - SocketRocket (~> 0.7.1)
+  - WonderPushExtension (= 4.4.0)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - SocketRocket
     - WonderPush
+    - WonderPushExtension
 
 EXTERNAL SOURCES:
   boost:
@@ -2744,8 +2749,9 @@ SPEC CHECKSUMS:
   RNScreens: 74985ca8e102294a60cec7513fa84c936fa0b20b
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   WonderPush: 0504c2f07bb12dfc43bd58e277f751ef953275d9
+  WonderPushExtension: 0c1fd8154789b303a03bbb379136dbc21f9ca5bd
   Yoga: fa23995c18b65978347b096d0836f4f5093df545
 
-PODFILE CHECKSUM: f01f556bb7ab9fb83d5308d78325ac5f22a16795
+PODFILE CHECKSUM: 83dfb54c9e88b7ef52619ca86fd9331ce9cf3c3c
 
 COCOAPODS: 1.16.2

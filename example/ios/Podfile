@@ -35,3 +35,7 @@ target 'WonderPushExample' do
     )
   end
 end
+
+target 'WonderPushNotificationServiceExtension' do
+  pod 'WonderPushExtension', '= 4.4.0'
+end
