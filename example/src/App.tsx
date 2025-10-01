@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Linking } from 'react-native';
 import HomeScreen from './HomeScreen';
 import ChildScreen from './ChildScreen';
+import WonderPush from 'react-native-wonderpush';
 
 type RootStackParamList = {
   Home: undefined;
@@ -19,7 +20,9 @@ export default function App() {
   React.useEffect(() => {
     const restoreState = async () => {
       try {
-        const initialUrl = await Linking.getInitialURL();
+        const rnInitialUrl = await Linking.getInitialURL();
+        const wpInitialUrl = await WonderPush.getInitialURL();
+        const initialUrl = rnInitialUrl || wpInitialUrl;
 
         if (initialUrl) {
           // If app opened from deep link, create initial state with Home in the stack
@@ -31,6 +34,8 @@ export default function App() {
             } as any);
           }
         }
+      } catch (e) {
+        console.error(e);
       } finally {
         setIsReady(true);
       }
