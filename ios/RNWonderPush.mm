@@ -54,7 +54,7 @@ RCT_EXPORT_MODULE(WonderPush)
 }
 
 - (void)initializeAndRememberCredentials:(NSString *)clientId clientSecret:(NSString *)clientSecret resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    [WonderPush setClientId:clientId secret:clientSecret];
+    [WonderPush setAndRememberClientId:clientId secret:clientSecret];
     resolve(nil);
 }
 
