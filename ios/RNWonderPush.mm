@@ -25,23 +25,6 @@ RCT_EXPORT_MODULE(WonderPush)
     return @[@"onNotificationReceived", @"onNotificationOpened"];
 }
 
-- (void)startObserving {
-    // Called when the first observer is added.
-}
-
-- (void)stopObserving {
-    // Called when there are no more observers
-}
-
-// Required for NativeEventEmitter compatibility
-- (void)addListener:(NSString *)eventName {
-    // Keep: Required for RN built in Event Emitter Calls.
-}
-
-- (void)removeListeners:(double)count {
-    // Keep: Required for RN built in Event Emitter Calls.
-}
-
 // Initialization
 - (void)setLogging:(BOOL)enable resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
     [WonderPush setLogging:enable];
