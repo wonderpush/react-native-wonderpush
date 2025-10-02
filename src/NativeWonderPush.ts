@@ -69,6 +69,7 @@ export interface Spec extends TurboModule {
   downloadAllData(): Promise<string | null>;
 
   // Event emission methods (no callbacks needed)
+  flushDelegateEvents(): Promise<void>;
 
   // Required for NativeEventEmitter compatibility
   addListener(eventName: string): void;

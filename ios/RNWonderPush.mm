@@ -2,14 +2,117 @@
 #import <WonderPush/WonderPush.h>
 #import <React/RCTEventEmitter.h>
 
+// Singleton delegate to handle WonderPush events before RNWonderPush module is initialized
+@interface RNWonderPushDelegate : NSObject <WonderPushDelegate>
++ (instancetype)sharedInstance;
+@property (nonatomic, weak) RNWonderPush *reactModule;
+@property (nonatomic, strong) NSMutableArray *queuedReceivedNotifications;
+@property (nonatomic, strong) NSMutableArray *queuedOpenedNotifications;
+- (void)flushDelegateEvents;
+@end
+
+// Singleton delegate implementation
+@implementation RNWonderPushDelegate
+
++ (instancetype)sharedInstance {
+    static RNWonderPushDelegate *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _queuedReceivedNotifications = [NSMutableArray array];
+        _queuedOpenedNotifications = [NSMutableArray array];
+    }
+    return self;
+}
+
+// Notification event emission methods (called by WonderPush delegate)
+- (void)onNotificationReceived:(NSDictionary *)notification {
+  if (self.reactModule) {
+    NSString *notificationJson = [self dictionaryToJSONString:notification];
+    [self.reactModule sendEventWithName:@"onNotificationReceived" body:notificationJson];
+  } else {
+    @synchronized(self) {
+      [self.queuedReceivedNotifications addObject:notification];
+    }
+  }
+}
+
+- (void)onNotificationOpened:(NSDictionary *)notification withButton:(NSInteger)buttonIndex {
+  if (self.reactModule) {
+    NSString *notificationJson = [self dictionaryToJSONString:notification];
+    NSDictionary *eventData = @{
+      @"notification": notificationJson,
+      @"buttonIndex": @(buttonIndex)
+    };
+    [self.reactModule sendEventWithName:@"onNotificationOpened" body:eventData];
+  } else {
+    @synchronized(self) {
+      [self.queuedOpenedNotifications addObject:@{
+        @"notification": notification,
+        @"buttonIndex": @(buttonIndex)
+      }];
+    }
+  }
+}
+
+- (void)flushDelegateEvents {
+  @synchronized(self) {
+    // Flush received notifications first
+    for (NSDictionary *notification in self.queuedReceivedNotifications) {
+      NSString *notificationJson = [self dictionaryToJSONString:notification];
+      [self.reactModule sendEventWithName:@"onNotificationReceived" body:notificationJson];
+    }
+    [self.queuedReceivedNotifications removeAllObjects];
+
+    // Then flush opened notifications
+    for (NSDictionary *queuedItem in self.queuedOpenedNotifications) {
+      NSDictionary *notification = queuedItem[@"notification"];
+      NSInteger buttonIndex = [queuedItem[@"buttonIndex"] integerValue];
+      NSString *notificationJson = [self dictionaryToJSONString:notification];
+      NSDictionary *eventData = @{
+        @"notification": notificationJson,
+        @"buttonIndex": @(buttonIndex)
+      };
+      [self.reactModule sendEventWithName:@"onNotificationOpened" body:eventData];
+    }
+    [self.queuedOpenedNotifications removeAllObjects];
+  }
+}
+
+- (NSString *)dictionaryToJSONString:(NSDictionary *)dictionary {
+    if (!dictionary) return @"{}";
+
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+    if (error || !jsonData) return @"{}";
+
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+@end
+
 @implementation RNWonderPush
 
 RCT_EXPORT_MODULE(WonderPush)
 
++ (void)initialize {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [WonderPush setIntegrator:@"react-native-wonderpush-3.0.0"];
+        [WonderPush setDelegate:[RNWonderPushDelegate sharedInstance]];
+    });
+}
+
 - (instancetype)init {
     if (self = [super init]) {
-        // Set this module as the WonderPush delegate
-        [WonderPush setDelegate:self];
+        // Register this module with the singleton delegate
+        [RNWonderPushDelegate sharedInstance].reactModule = self;
     }
     return self;
 }
@@ -272,29 +375,10 @@ RCT_EXPORT_MODULE(WonderPush)
     }];
 }
 
-// Notification event emission methods (called by WonderPush delegate)
-- (void)onNotificationReceived:(NSDictionary *)notification {
-    NSString *notificationJson = [self dictionaryToJSONString:notification];
-    [self sendEventWithName:@"onNotificationReceived" body:notificationJson];
-}
-
-- (void)onNotificationOpened:(NSDictionary *)notification withButton:(NSInteger)buttonIndex {
-    NSString *notificationJson = [self dictionaryToJSONString:notification];
-    NSDictionary *eventData = @{
-        @"notification": notificationJson,
-        @"buttonIndex": @(buttonIndex)
-    };
-    [self sendEventWithName:@"onNotificationOpened" body:eventData];
-}
-
-- (NSString *)dictionaryToJSONString:(NSDictionary *)dictionary {
-    if (!dictionary) return @"{}";
-
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-    if (error || !jsonData) return @"{}";
-
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+// Event emission
+- (void)flushDelegateEvents:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    [[RNWonderPushDelegate sharedInstance] flushDelegateEvents];
+    resolve(nil);
 }
 
 // Deep linking

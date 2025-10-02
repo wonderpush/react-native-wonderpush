@@ -2,6 +2,6 @@
 #import <React/RCTEventEmitter.h>
 #import <WonderPush/WonderPush.h>
 
-@interface RNWonderPush : RCTEventEmitter <NativeWonderPushSpec, WonderPushDelegate>
+@interface RNWonderPush : RCTEventEmitter <NativeWonderPushSpec>
 
 @end

@@ -280,5 +280,7 @@ export default class WonderPush {
   ) {
     // Simply store the current delegate - event listeners are already set up
     currentDelegate = delegate;
+    // Flush any queued notifications from native side
+    NativeWonderPush.flushDelegateEvents();
   }
 }

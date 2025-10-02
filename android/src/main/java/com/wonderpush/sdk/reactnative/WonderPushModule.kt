@@ -23,6 +23,10 @@ import org.json.JSONObject
 class WonderPushModule(reactContext: ReactApplicationContext) :
   NativeWonderPushSpec(reactContext), WonderPushDelegate {
 
+  private val queuedReceivedNotifications = mutableListOf<JSONObject>()
+  private val queuedOpenedNotifications = mutableListOf<Pair<JSONObject, Int>>()
+  private var isJsReady = false
+
   // Required for NativeEventEmitter compatibility
   @ReactMethod
   override fun addListener(eventName: String) {
@@ -307,6 +311,32 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     }.start()
   }
 
+  // Event emission
+  override fun flushDelegateEvents(promise: Promise) {
+    synchronized(this) {
+      isJsReady = true
+
+      // Flush received notifications first
+      for (notification in queuedReceivedNotifications) {
+        val notificationJson = notification.toString()
+        emitEvent("onNotificationReceived", notificationJson)
+      }
+      queuedReceivedNotifications.clear()
+
+      // Then flush opened notifications
+      for ((notification, buttonIndex) in queuedOpenedNotifications) {
+        val notificationJson = notification.toString()
+        val eventData = Arguments.createMap().apply {
+          putString("notification", notificationJson)
+          putInt("buttonIndex", buttonIndex)
+        }
+        emitEvent("onNotificationOpened", eventData)
+      }
+      queuedOpenedNotifications.clear()
+
+      promise.resolve(null)
+    }
+  }
 
   // Deep linking
   override fun getInitialURL(promise: Promise) {
@@ -415,8 +445,14 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   override fun onNotificationReceived(notif: JSONObject) {
     UiThreadUtil.runOnUiThread {
       try {
-        val notificationJson = notif.toString()
-        emitEvent("onNotificationReceived", notificationJson)
+        synchronized(this) {
+          if (isJsReady) {
+            val notificationJson = notif.toString()
+            emitEvent("onNotificationReceived", notificationJson)
+          } else {
+            queuedReceivedNotifications.add(notif)
+          }
+        }
       } catch (e: Exception) {
         android.util.Log.e(NAME, "Error handling notification received", e)
       }
@@ -426,12 +462,18 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   override fun onNotificationOpened(notif: JSONObject, buttonIndex: Int) {
     UiThreadUtil.runOnUiThread {
       try {
-        val notificationJson = notif.toString()
-        val eventData = Arguments.createMap().apply {
-          putString("notification", notificationJson)
-          putInt("buttonIndex", buttonIndex)
+        synchronized(this) {
+          if (isJsReady) {
+            val notificationJson = notif.toString()
+            val eventData = Arguments.createMap().apply {
+              putString("notification", notificationJson)
+              putInt("buttonIndex", buttonIndex)
+            }
+            emitEvent("onNotificationOpened", eventData)
+          } else {
+            queuedOpenedNotifications.add(Pair(notif, buttonIndex))
+          }
         }
-        emitEvent("onNotificationOpened", eventData)
       } catch (e: Exception) {
         android.util.Log.e(NAME, "Error handling notification opened", e)
       }
