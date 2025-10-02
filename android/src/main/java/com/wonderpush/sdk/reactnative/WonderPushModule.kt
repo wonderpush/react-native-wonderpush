@@ -39,8 +39,8 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   }
 
   init {
-    // Set this module as the WonderPush delegate
-    WonderPush.setDelegate(this)
+    // Set this module as the sub-delegate to work with the main Delegate
+    Delegate.setSubDelegate(this)
   }
 
   override fun getName(): String {
@@ -316,14 +316,13 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     synchronized(this) {
       isJsReady = true
 
-      // Flush received notifications first
+      // Flush internal queue first
       for (notification in queuedReceivedNotifications) {
         val notificationJson = notification.toString()
         emitEvent("onNotificationReceived", notificationJson)
       }
       queuedReceivedNotifications.clear()
 
-      // Then flush opened notifications
       for ((notification, buttonIndex) in queuedOpenedNotifications) {
         val notificationJson = notification.toString()
         val eventData = Arguments.createMap().apply {
@@ -333,6 +332,25 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
         emitEvent("onNotificationOpened", eventData)
       }
       queuedOpenedNotifications.clear()
+
+      // Also flush any saved notifications from the main Delegate (cold boot scenarios)
+      var savedNotification = Delegate.consumeSavedReceivedNotification()
+      while (savedNotification != null) {
+        val notificationJson = savedNotification.toString()
+        emitEvent("onNotificationReceived", notificationJson)
+        savedNotification = Delegate.consumeSavedReceivedNotification()
+      }
+
+      var savedOpenedInfo = Delegate.consumeSavedOpenedNotification()
+      while (savedOpenedInfo != null) {
+        val notificationJson = savedOpenedInfo.notification.toString()
+        val eventData = Arguments.createMap().apply {
+          putString("notification", notificationJson)
+          putInt("buttonIndex", savedOpenedInfo.buttonIndex)
+        }
+        emitEvent("onNotificationOpened", eventData)
+        savedOpenedInfo = Delegate.consumeSavedOpenedNotification()
+      }
 
       promise.resolve(null)
     }
