@@ -172,7 +172,7 @@ RCT_EXPORT_MODULE(WonderPush)
 
 // Segmentation
 - (void)trackEvent:(NSString *)type attributes:(NSDictionary *)attributes resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    [WonderPush trackEvent:type withData:attributes];
+    [WonderPush trackEvent:type attributes:attributes];
     resolve(nil);
 }
 
