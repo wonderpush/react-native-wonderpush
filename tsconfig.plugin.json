@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "rootDir": "./plugin/src",
+    "outDir": "./lib/plugin",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2019",
+    "lib": ["ES2019"]
+  },
+  "include": ["plugin/src/**/*"],
+  "exclude": ["node_modules", "lib"]
+}
