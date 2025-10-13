@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.private_header_files = "ios/**/*.h"
 
   s.dependency 'WonderPush', '4.4.0'
+  s.dependency 'ExpoModulesCore'
 
   install_modules_dependencies(s)
 end
