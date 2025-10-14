@@ -1,8 +1,0 @@
-{
-  "platforms": ["ios", "android"],
-  "apple": {
-    "podspecPath": "react-native-wonderpush.podspec",
-    "modules": ["WonderPushModule"],
-    "appDelegateSubscribers": ["WonderPushAppDelegateSubscriber"]
-  }
-}

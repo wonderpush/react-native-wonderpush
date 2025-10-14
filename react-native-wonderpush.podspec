@@ -13,11 +13,10 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/wonderpush/react-native-wonderpush.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
+  s.source_files = "ios/**/*.{h,m,mm,cpp}"
   s.private_header_files = "ios/**/*.h"
 
   s.dependency 'WonderPush', '4.4.0'
-  s.dependency 'ExpoModulesCore'
 
   install_modules_dependencies(s)
 end
