@@ -1,6 +1,7 @@
 #import "RNWonderPush.h"
 #import <WonderPush/WonderPush.h>
 #import <React/RCTEventEmitter.h>
+#import <React/RCTBridge.h>
 
 // Singleton delegate to handle WonderPush events before RNWonderPush module is initialized
 @interface RNWonderPushDelegate : NSObject <WonderPushDelegate>
@@ -8,6 +9,9 @@
 @property (nonatomic, weak) RNWonderPush *reactModule;
 @property (nonatomic, strong) NSMutableArray *queuedReceivedNotifications;
 @property (nonatomic, strong) NSMutableArray *queuedOpenedNotifications;
+@property (nonatomic, strong) NSMutableArray *queuedUrlForDeeplink;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, void (^)(NSURL * _Nullable)> *urlCallbacks;
+@property (nonatomic, strong) NSLock *urlCallbacksLock;
 - (void)flushDelegateEvents;
 @end
 
@@ -27,6 +31,9 @@
     if (self = [super init]) {
         _queuedReceivedNotifications = [NSMutableArray array];
         _queuedOpenedNotifications = [NSMutableArray array];
+        _queuedUrlForDeeplink = [NSMutableArray array];
+        _urlCallbacks = [NSMutableDictionary dictionary];
+        _urlCallbacksLock = [[NSLock alloc] init];
     }
     return self;
 }
@@ -63,14 +70,21 @@
 
 - (void)flushDelegateEvents {
   @synchronized(self) {
-    // Flush received notifications first
+    // Flush queued URL for deeplink events
+    // Those are the most time sensitive
+    for (NSDictionary *eventData in self.queuedUrlForDeeplink) {
+      [self.reactModule sendEventWithName:@"urlForDeeplink" body:eventData];
+    }
+    [self.queuedUrlForDeeplink removeAllObjects];
+
+    // Flush received notifications
     for (NSDictionary *notification in self.queuedReceivedNotifications) {
       NSString *notificationJson = [self dictionaryToJSONString:notification];
       [self.reactModule sendEventWithName:@"onNotificationReceived" body:notificationJson];
     }
     [self.queuedReceivedNotifications removeAllObjects];
 
-    // Then flush opened notifications
+    // Flush opened notifications
     for (NSDictionary *queuedItem in self.queuedOpenedNotifications) {
       NSDictionary *notification = queuedItem[@"notification"];
       NSInteger buttonIndex = [queuedItem[@"buttonIndex"] integerValue];
@@ -93,6 +107,66 @@
     if (error || !jsonData) return @"{}";
 
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+// WonderPushDelegate method for URL deep link handling
+- (void)wonderPushWillOpenURL:(NSURL *)url withCompletionHandler:(void (^)(NSURL * _Nullable))completionHandler {
+  // Generate a unique callback ID
+  NSString *callbackId = [[NSUUID UUID] UUIDString];
+
+  // Store the completion handler
+  [self.urlCallbacksLock lock];
+  self.urlCallbacks[callbackId] = completionHandler;
+  [self.urlCallbacksLock unlock];
+
+  // Prepare event data
+  NSDictionary *eventData = @{
+    @"url": url.absoluteString ?: @"",
+    @"callbackId": callbackId
+  };
+
+  // Send event to JavaScript if module is ready, otherwise queue it
+  if (self.reactModule) {
+    [self.reactModule sendEventWithName:@"urlForDeeplink" body:eventData];
+  } else {
+    @synchronized(self) {
+      [self.queuedUrlForDeeplink addObject:eventData];
+    }
+  }
+
+  // Set a timeout to prevent waiting for too long.
+  // We do not want to wait for too long because if the JavaScript code never sets a delegate, flushDelegateEvents will never run.
+  // Maybe we could store whether we had a delegate in the previous run and wait for a lower duration and still allow longer app startup duration if we know it's probably worth it.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [self.urlCallbacksLock lock];
+    void (^callback)(NSURL * _Nullable) = self.urlCallbacks[callbackId];
+    if (callback) {
+      // Callback wasn't called in time, use original URL
+      [self.urlCallbacks removeObjectForKey:callbackId];
+      [self.urlCallbacksLock unlock];
+      NSLog(@"[WonderPush] urlForDeeplink callback timed out, using original URL");
+      callback(url);
+    } else {
+      [self.urlCallbacksLock unlock];
+    }
+  });
+}
+
+- (void)invokeUrlCallback:(NSString *)callbackId withUrl:(NSString * _Nullable)urlString {
+  [self.urlCallbacksLock lock];
+  void (^callback)(NSURL * _Nullable) = self.urlCallbacks[callbackId];
+  if (callback) {
+    [self.urlCallbacks removeObjectForKey:callbackId];
+    [self.urlCallbacksLock unlock];
+
+    NSURL *url = nil;
+    if (urlString && urlString.length > 0) {
+      url = [NSURL URLWithString:urlString];
+    }
+    callback(url);
+  } else {
+    [self.urlCallbacksLock unlock];
+  }
 }
 
 @end
@@ -125,7 +199,7 @@ RCT_EXPORT_MODULE(WonderPush)
 
 // Required for RCTEventEmitter
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"onNotificationReceived", @"onNotificationOpened"];
+    return @[@"onNotificationReceived", @"onNotificationOpened", @"urlForDeeplink"];
 }
 
 // Initialization
@@ -397,6 +471,11 @@ RCT_EXPORT_MODULE(WonderPush)
     //}
 
     resolve(nil);
+}
+
+// Delegate callback for URL deep link handling
+- (void)urlForDeeplinkCallback:(NSString *)callbackId url:(NSString * _Nullable)url {
+    [[RNWonderPushDelegate sharedInstance] invokeUrlCallback:callbackId withUrl:url];
 }
 
 @end

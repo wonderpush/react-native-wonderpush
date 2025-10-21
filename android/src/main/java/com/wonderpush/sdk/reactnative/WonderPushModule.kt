@@ -26,6 +26,8 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   private val queuedReceivedNotifications = mutableListOf<JSONObject>()
   private val queuedOpenedNotifications = mutableListOf<Pair<JSONObject, Int>>()
   private var isJsReady = false
+  private val urlCallbacks = java.util.concurrent.ConcurrentHashMap<String, java.util.concurrent.CompletableFuture<String?>>()
+  private val urlCallbacksLock = Any()
 
   // Required for NativeEventEmitter compatibility
   @ReactMethod
@@ -362,6 +364,15 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     promise.resolve(null)
   }
 
+  // Delegate callback for URL deep link handling
+  @ReactMethod
+  override fun urlForDeeplinkCallback(callbackId: String, url: String?) {
+    synchronized(urlCallbacksLock) {
+      val future = urlCallbacks.remove(callbackId)
+      future?.complete(url)
+    }
+  }
+
   // Helper methods
   private fun convertReadableMapToJson(readableMap: ReadableMap): JSONObject {
     val jsonObject = JSONObject()
@@ -457,7 +468,56 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
   // WonderPushDelegate implementation
   override fun urlForDeepLink(event: DeepLinkEvent): String {
-    return event.getUrl()
+    val originalUrl = event.url
+
+    // If JS is not ready, return the original URL
+    if (!isJsReady) {
+      return originalUrl
+    }
+
+    // Generate a unique callback ID
+    val callbackId = java.util.UUID.randomUUID().toString()
+    val future = java.util.concurrent.CompletableFuture<String?>()
+
+    synchronized(urlCallbacksLock) {
+      urlCallbacks[callbackId] = future
+    }
+
+    // Send event to JavaScript on UI thread
+    UiThreadUtil.runOnUiThread {
+      try {
+        val eventData = Arguments.createMap().apply {
+          putString("url", originalUrl)
+          putString("callbackId", callbackId)
+        }
+        emitEvent("urlForDeeplink", eventData)
+      } catch (e: Exception) {
+        android.util.Log.e(NAME, "Error emitting urlForDeeplink event", e)
+        // Clean up and return original URL
+        synchronized(urlCallbacksLock) {
+          urlCallbacks.remove(callbackId)
+        }
+        future.complete(originalUrl)
+      }
+    }
+
+    // Wait for the callback with a timeout
+    return try {
+      val result = future.get(3, java.util.concurrent.TimeUnit.SECONDS)
+      result ?: originalUrl
+    } catch (e: java.util.concurrent.TimeoutException) {
+      android.util.Log.w(NAME, "urlForDeeplink callback timed out, using original URL")
+      synchronized(urlCallbacksLock) {
+        urlCallbacks.remove(callbackId)
+      }
+      originalUrl
+    } catch (e: Exception) {
+      android.util.Log.e(NAME, "Error waiting for urlForDeeplink callback", e)
+      synchronized(urlCallbacksLock) {
+        urlCallbacks.remove(callbackId)
+      }
+      originalUrl
+    }
   }
 
   override fun onNotificationReceived(notif: JSONObject) {

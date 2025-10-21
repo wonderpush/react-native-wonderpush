@@ -77,6 +77,9 @@ export interface Spec extends TurboModule {
 
   // Deep linking
   getInitialURL(): Promise<string>;
+
+  // Delegate callback for URL deep link handling
+  urlForDeeplinkCallback(callbackId: string, url: string | null): void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('RNWonderPush');

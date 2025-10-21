@@ -6,6 +6,10 @@ const eventEmitter = new NativeEventEmitter(NativeWonderPush);
 
 // Global delegate storage
 let currentDelegate: {
+  urlForDeeplink?: (
+    url: string,
+    callback: (url: string | null) => void
+  ) => void;
   onNotificationReceived?: (notification: any) => void;
   onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
 } | null = null;
@@ -31,6 +35,38 @@ eventEmitter.addListener('onNotificationOpened', (data: any) => {
     } catch (e) {
       console.error('Could not parse notification JSON', e);
     }
+  }
+});
+
+eventEmitter.addListener('urlForDeeplink', (data: any) => {
+  if (currentDelegate?.urlForDeeplink) {
+    try {
+      const eventData = data as { url: string; callbackId: string };
+      currentDelegate.urlForDeeplink(
+        eventData.url,
+        (modifiedUrl: string | null) => {
+          NativeWonderPush.urlForDeeplinkCallback(
+            eventData.callbackId,
+            modifiedUrl
+          );
+        }
+      );
+    } catch (e) {
+      console.error('Error in urlForDeeplink delegate', e);
+      // On error, return the original URL
+      const eventData = data as { url: string; callbackId: string };
+      NativeWonderPush.urlForDeeplinkCallback(
+        eventData.callbackId,
+        eventData.url
+      );
+    }
+  } else {
+    // No delegate set, return the original URL
+    const eventData = data as { url: string; callbackId: string };
+    NativeWonderPush.urlForDeeplinkCallback(
+      eventData.callbackId,
+      eventData.url
+    );
   }
 });
 
@@ -274,6 +310,10 @@ export default class WonderPush {
   // Delegate (event-based handling)
   static setDelegate(
     delegate: {
+      urlForDeeplink?: (
+        url: string,
+        callback: (url: string | null) => void
+      ) => void;
       onNotificationReceived?: (notification: any) => void;
       onNotificationOpened?: (notification: any, buttonIndex?: number) => void;
     } | null

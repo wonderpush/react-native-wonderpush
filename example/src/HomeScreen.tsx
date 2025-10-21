@@ -25,6 +25,38 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const wonderpushDelegate = {
+  urlForDeeplink: (url: string, callback: (url: string | null) => void) => {
+    console.log('🔗 [urlForDeeplink] Intercepted URL:', url);
+
+    // For demonstration, let's modify certain URLs
+    let modifiedUrl: string | null = url;
+    let action = 'using original URL';
+
+    // Example 1: Redirect wonderpush.com URLs to google.com
+    if (url.includes('wonderpush.com')) {
+      modifiedUrl = 'https://www.google.com/search?q=wonderpush';
+      action = 'redirecting to Google';
+    }
+    // Example 2: Block certain URLs (return null)
+    else if (url.includes('blocked-domain.com')) {
+      modifiedUrl = null; // Block the URL
+      action = 'BLOCKED (returning null)';
+    }
+    // Example 3: Modify query parameters
+    else if (url.includes('example.com')) {
+      modifiedUrl = url + (url.includes('?') ? '&' : '?') + 'intercepted=true';
+      action = 'added ?intercepted=true parameter';
+    }
+
+    console.log(`🔗 [urlForDeeplink] Action: ${action}`);
+    console.log(
+      `🔗 [urlForDeeplink] Result: ${modifiedUrl || 'null (blocked)'}`
+    );
+
+    // IMPORTANT: No UI operations here! This may be called in background on Android
+    // Call the callback with the modified URL
+    callback(modifiedUrl);
+  },
   onNotificationReceived: (notif: any) => {
     console.log('onNotificationReceived:', notif);
     Alert.alert('Notification received', JSON.stringify(notif, null, 2));
@@ -892,6 +924,44 @@ export default function HomeScreen({ navigation }: Props) {
             Alert.alert('Success', 'Notification delegate removed');
           }}
         />
+      </View>
+
+      {/* URL Deep Link Delegate Testing Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>🔗 URL Deep Link Delegate</Text>
+        <Text style={styles.infoText}>
+          The urlForDeeplink delegate is set to intercept deep link URLs:
+          {'\n\n'}• wonderpush.com URLs → Redirected to Google
+          {'\n'}• blocked-domain.com → Blocked (returns null)
+          {'\n'}• example.com → Adds ?intercepted=true
+          {'\n'}• Others → Pass through unchanged
+          {'\n\n'}
+          ⚠️ NOTE: This delegate may be called in the background (Android) or
+          when the app is not running, so it only logs to console - no UI!
+        </Text>
+        <Text style={styles.statusText}>
+          📝 Check console logs (adb logcat on Android, Xcode console on iOS) to
+          see URL interception in action!
+        </Text>
+        <View style={styles.buttonRow}>
+          <Button
+            title="How to Test"
+            onPress={() => {
+              Alert.alert(
+                'Testing URL Interception',
+                'To test the urlForDeeplink delegate:\n\n' +
+                  '1. Send yourself a push notification with a target URL from the WonderPush dashboard\n\n' +
+                  '2. Use URLs like:\n' +
+                  '   • https://wonderpush.com/test\n' +
+                  '   • https://example.com/page\n' +
+                  '   • https://blocked-domain.com/test\n\n' +
+                  '3. Watch the console logs to see URL interception\n\n' +
+                  '4. Observe which URL actually opens in the browser',
+                [{ text: 'Got it!' }]
+              );
+            }}
+          />
+        </View>
       </View>
     </ScrollView>
   );
