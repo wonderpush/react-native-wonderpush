@@ -39,12 +39,20 @@ eventEmitter.addListener('onNotificationOpened', (data: any) => {
 });
 
 eventEmitter.addListener('urlForDeeplink', (data: any) => {
+  console.log(
+    'XXXXXX RNWonderPush JS urlForDeeplink event received with:',
+    data
+  );
   if (currentDelegate?.urlForDeeplink) {
     try {
       const eventData = data as { url: string; callbackId: string };
       currentDelegate.urlForDeeplink(
         eventData.url,
         (modifiedUrl: string | null) => {
+          console.log(
+            'XXXXXX RNWonderPush JS urlForDeeplink callback called with:',
+            modifiedUrl
+          );
           NativeWonderPush.urlForDeeplinkCallback(
             eventData.callbackId,
             modifiedUrl

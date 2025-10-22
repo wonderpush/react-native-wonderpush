@@ -56,6 +56,7 @@ const wonderpushDelegate = {
     // IMPORTANT: No UI operations here! This may be called in background on Android
     // Call the callback with the modified URL
     callback(modifiedUrl);
+    console.log(`🔗 [urlForDeeplink] callback called`);
   },
   onNotificationReceived: (notif: any) => {
     console.log('onNotificationReceived:', notif);

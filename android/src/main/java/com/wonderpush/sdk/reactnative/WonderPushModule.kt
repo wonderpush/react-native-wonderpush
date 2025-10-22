@@ -318,6 +318,9 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     synchronized(this) {
       isJsReady = true
 
+      // Process any pending DeepLinkEvent first
+      Delegate.processPendingDeepLinkEvent()
+
       // Flush internal queue first
       for (notification in queuedReceivedNotifications) {
         val notificationJson = notification.toString()
@@ -367,8 +370,11 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   // Delegate callback for URL deep link handling
   @ReactMethod
   override fun urlForDeeplinkCallback(callbackId: String, url: String?) {
+    android.util.Log.d("WonderPushModule", "urlForDeeplinkCallback called with: " + callbackId + " and url: " + url)
+    android.util.Log.d("WonderPushModule", "urlForDeeplinkCallback entering synchronized section")
     synchronized(urlCallbacksLock) {
       val future = urlCallbacks.remove(callbackId)
+    android.util.Log.d("WonderPushModule", "urlForDeeplinkCallback in synchronized section, future: " + future)
       future?.complete(url)
     }
   }
@@ -467,13 +473,9 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   }
 
   // WonderPushDelegate implementation
-  override fun urlForDeepLink(event: DeepLinkEvent): String {
+  override fun urlForDeepLink(event: DeepLinkEvent): String? {
+    android.util.Log.d("WonderPushModule", "urlForDeepLink:" + event)
     val originalUrl = event.url
-
-    // If JS is not ready, return the original URL
-    if (!isJsReady) {
-      return originalUrl
-    }
 
     // Generate a unique callback ID
     val callbackId = java.util.UUID.randomUUID().toString()
@@ -483,6 +485,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
       urlCallbacks[callbackId] = future
     }
 
+    android.util.Log.d("WonderPushModule", "will run on UI thread to send event")
     // Send event to JavaScript on UI thread
     UiThreadUtil.runOnUiThread {
       try {
@@ -490,6 +493,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
           putString("url", originalUrl)
           putString("callbackId", callbackId)
         }
+    android.util.Log.d("WonderPushModule", "on UI thread: sending event")
         emitEvent("urlForDeeplink", eventData)
       } catch (e: Exception) {
         android.util.Log.e(NAME, "Error emitting urlForDeeplink event", e)
@@ -503,8 +507,10 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
     // Wait for the callback with a timeout
     return try {
+    android.util.Log.d("WonderPushModule", "waiting 3s for the callback future to be resolved")
       val result = future.get(3, java.util.concurrent.TimeUnit.SECONDS)
-      result ?: originalUrl
+    android.util.Log.d("WonderPushModule", "future resolved to " + result)
+      result
     } catch (e: java.util.concurrent.TimeoutException) {
       android.util.Log.w(NAME, "urlForDeeplink callback timed out, using original URL")
       synchronized(urlCallbacksLock) {
