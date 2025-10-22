@@ -16,6 +16,9 @@ import com.wonderpush.sdk.reactnative.NativeWonderPushSpec
 import com.wonderpush.sdk.WonderPush
 import com.wonderpush.sdk.WonderPushDelegate
 import com.wonderpush.sdk.DeepLinkEvent
+import com.wonderpush.sdk.WonderPushUserPreferences
+import com.wonderpush.sdk.WonderPushChannel
+import com.wonderpush.sdk.WonderPushChannelGroup
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -568,6 +571,196 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     reactApplicationContext
       .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
       .emit(eventName, data)
+  }
+
+  // Helper methods for WonderPush Channel/ChannelGroup conversion
+  private fun channelGroupToWritableMap(group: WonderPushChannelGroup): WritableMap {
+    val map = Arguments.createMap()
+    map.putString("id", group.id)
+    map.putString("name", group.name)
+    return map
+  }
+
+  private fun writableMapToChannelGroup(map: ReadableMap): WonderPushChannelGroup? {
+    val id = map.getString("id") ?: return null
+    val group = WonderPushChannelGroup(id)
+    if (map.hasKey("name")) {
+      group.name = map.getString("name")
+    }
+    return group
+  }
+
+  private fun channelToWritableMap(channel: WonderPushChannel): WritableMap {
+    val map = Arguments.createMap()
+    map.putString("id", channel.id)
+    if (channel.groupId != null) map.putString("groupId", channel.groupId)
+    if (channel.name != null) map.putString("name", channel.name)
+    if (channel.description != null) map.putString("description", channel.description)
+    if (channel.bypassDnd != null) map.putBoolean("bypassDnd", channel.bypassDnd)
+    if (channel.showBadge != null) map.putBoolean("showBadge", channel.showBadge)
+    if (channel.importance != null) map.putInt("importance", channel.importance)
+    if (channel.lights != null) map.putBoolean("lights", channel.lights)
+    if (channel.lightColor != null) map.putInt("lightColor", channel.lightColor)
+    if (channel.vibrate != null) map.putBoolean("vibrate", channel.vibrate)
+    if (channel.vibrationPattern != null) {
+      val pattern = Arguments.createArray()
+      for (value in channel.vibrationPattern) {
+        pattern.pushDouble(value.toDouble())
+      }
+      map.putArray("vibrationPattern", pattern)
+    }
+    if (channel.sound != null) map.putBoolean("sound", channel.sound)
+    if (channel.soundUri != null) map.putString("soundUri", channel.soundUri.toString())
+    if (channel.lockscreenVisibility != null) map.putInt("lockscreenVisibility", channel.lockscreenVisibility)
+    if (channel.vibrateInSilentMode != null) map.putBoolean("vibrateInSilentMode", channel.vibrateInSilentMode)
+    if (channel.color != null) map.putInt("color", channel.color)
+    if (channel.localOnly != null) map.putBoolean("localOnly", channel.localOnly)
+    return map
+  }
+
+  private fun writableMapToChannel(map: ReadableMap): WonderPushChannel? {
+    val id = map.getString("id") ?: return null
+    val groupId = if (map.hasKey("groupId")) map.getString("groupId") else null
+    val channel = WonderPushChannel(id, groupId)
+
+    if (map.hasKey("name")) channel.name = map.getString("name")
+    if (map.hasKey("description")) channel.description = map.getString("description")
+    if (map.hasKey("bypassDnd")) channel.bypassDnd = map.getBoolean("bypassDnd")
+    if (map.hasKey("showBadge")) channel.showBadge = map.getBoolean("showBadge")
+    if (map.hasKey("importance")) channel.importance = map.getInt("importance")
+    if (map.hasKey("lights")) channel.lights = map.getBoolean("lights")
+    if (map.hasKey("lightColor")) channel.lightColor = map.getInt("lightColor")
+    if (map.hasKey("vibrate")) channel.vibrate = map.getBoolean("vibrate")
+    if (map.hasKey("vibrationPattern")) {
+      val patternArray = map.getArray("vibrationPattern")
+      if (patternArray != null) {
+        val pattern = LongArray(patternArray.size())
+        for (i in 0 until patternArray.size()) {
+          pattern[i] = patternArray.getDouble(i).toLong()
+        }
+        channel.vibrationPattern = pattern
+      }
+    }
+    if (map.hasKey("sound")) channel.sound = map.getBoolean("sound")
+    if (map.hasKey("soundUri")) {
+      val uriString = map.getString("soundUri")
+      if (uriString != null) {
+        channel.soundUri = android.net.Uri.parse(uriString)
+      }
+    }
+    if (map.hasKey("lockscreenVisibility")) channel.lockscreenVisibility = map.getInt("lockscreenVisibility")
+    if (map.hasKey("vibrateInSilentMode")) channel.vibrateInSilentMode = map.getBoolean("vibrateInSilentMode")
+    if (map.hasKey("color")) channel.color = map.getInt("color")
+    if (map.hasKey("localOnly")) channel.localOnly = map.getBoolean("localOnly")
+
+    return channel
+  }
+
+  // User Preferences - Notification Channels
+  override fun getDefaultChannelId(promise: Promise) {
+    val channelId = WonderPushUserPreferences.getDefaultChannelId()
+    promise.resolve(channelId)
+  }
+
+  override fun setDefaultChannelId(id: String, promise: Promise) {
+    WonderPushUserPreferences.setDefaultChannelId(id)
+    promise.resolve(null)
+  }
+
+  override fun getChannelGroup(groupId: String, promise: Promise) {
+    val channelGroup = WonderPushUserPreferences.getChannelGroup(groupId)
+    if (channelGroup != null) {
+      val writableMap = channelGroupToWritableMap(channelGroup)
+      promise.resolve(writableMap)
+    } else {
+      promise.resolve(null)
+    }
+  }
+
+  override fun getChannel(channelId: String, promise: Promise) {
+    val channel = WonderPushUserPreferences.getChannel(channelId)
+    if (channel != null) {
+      val writableMap = channelToWritableMap(channel)
+      promise.resolve(writableMap)
+    } else {
+      promise.resolve(null)
+    }
+  }
+
+  override fun setChannelGroups(channelGroups: ReadableArray, promise: Promise) {
+    try {
+      val groups = mutableListOf<WonderPushChannelGroup>()
+      for (i in 0 until channelGroups.size()) {
+        val groupMap = channelGroups.getMap(i)
+        if (groupMap != null) {
+          val group = writableMapToChannelGroup(groupMap)
+          if (group != null) {
+            groups.add(group)
+          }
+        }
+      }
+      WonderPushUserPreferences.setChannelGroups(groups)
+      promise.resolve(null)
+    } catch (error: Exception) {
+      promise.reject("SET_CHANNEL_GROUPS_ERROR", "Failed to set channel groups: ${error.message}", error)
+    }
+  }
+
+  override fun setChannels(channels: ReadableArray, promise: Promise) {
+    try {
+      val channelList = mutableListOf<WonderPushChannel>()
+      for (i in 0 until channels.size()) {
+        val channelMap = channels.getMap(i)
+        if (channelMap != null) {
+          val channel = writableMapToChannel(channelMap)
+          if (channel != null) {
+            channelList.add(channel)
+          }
+        }
+      }
+      WonderPushUserPreferences.setChannels(channelList)
+      promise.resolve(null)
+    } catch (error: Exception) {
+      promise.reject("SET_CHANNELS_ERROR", "Failed to set channels: ${error.message}", error)
+    }
+  }
+
+  override fun putChannelGroup(channelGroup: ReadableMap, promise: Promise) {
+    try {
+      val group = writableMapToChannelGroup(channelGroup)
+      if (group != null) {
+        WonderPushUserPreferences.putChannelGroup(group)
+        promise.resolve(null)
+      } else {
+        promise.reject("PUT_CHANNEL_GROUP_ERROR", "Invalid channel group data")
+      }
+    } catch (error: Exception) {
+      promise.reject("PUT_CHANNEL_GROUP_ERROR", "Failed to put channel group: ${error.message}", error)
+    }
+  }
+
+  override fun putChannel(channel: ReadableMap, promise: Promise) {
+    try {
+      val wpChannel = writableMapToChannel(channel)
+      if (wpChannel != null) {
+        WonderPushUserPreferences.putChannel(wpChannel)
+        promise.resolve(null)
+      } else {
+        promise.reject("PUT_CHANNEL_ERROR", "Invalid channel data")
+      }
+    } catch (error: Exception) {
+      promise.reject("PUT_CHANNEL_ERROR", "Failed to put channel: ${error.message}", error)
+    }
+  }
+
+  override fun removeChannelGroup(groupId: String, promise: Promise) {
+    WonderPushUserPreferences.removeChannelGroup(groupId)
+    promise.resolve(null)
+  }
+
+  override fun removeChannel(channelId: String, promise: Promise) {
+    WonderPushUserPreferences.removeChannel(channelId)
+    promise.resolve(null)
   }
 
   companion object {

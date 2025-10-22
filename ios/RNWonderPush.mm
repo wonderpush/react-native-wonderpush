@@ -478,4 +478,55 @@ RCT_EXPORT_MODULE(WonderPush)
     [[RNWonderPushDelegate sharedInstance] invokeUrlCallback:callbackId withUrl:url];
 }
 
+// User Preferences - Notification Channels (iOS no-op implementations)
+- (void)getDefaultChannelId:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS always returns "default"
+    resolve(@"default");
+}
+
+- (void)setDefaultChannelId:(NSString *)channelId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
+- (void)getChannelGroup:(NSString *)groupId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS always returns null
+    resolve([NSNull null]);
+}
+
+- (void)getChannel:(NSString *)channelId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS always returns null
+    resolve([NSNull null]);
+}
+
+- (void)setChannelGroups:(NSArray *)channelGroups resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
+- (void)setChannels:(NSArray *)channels resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
+- (void)putChannelGroup:(NSDictionary *)channelGroup resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
+- (void)putChannel:(NSDictionary *)channel resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
+- (void)removeChannelGroup:(NSString *)groupId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
+- (void)removeChannel:(NSString *)channelId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // iOS no-op
+    resolve(nil);
+}
+
 @end

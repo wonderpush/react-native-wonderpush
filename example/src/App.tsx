@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Linking } from 'react-native';
 import HomeScreen from './HomeScreen';
 import ChildScreen from './ChildScreen';
-import WonderPush from 'react-native-wonderpush';
+import { WonderPush, WonderPushUserPreferences } from 'react-native-wonderpush';
 
 type RootStackParamList = {
   Home: undefined;
@@ -12,6 +12,33 @@ type RootStackParamList = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+Promise.resolve(undefined)
+  .then(async () => {
+    console.log(
+      'WonderPushUserPreferences.getDefaultChannelId: ',
+      await WonderPushUserPreferences.getDefaultChannelId()
+    );
+    await WonderPushUserPreferences.putChannel({
+      id: 'test',
+      name: 'Test',
+    });
+    console.log(
+      "WonderPushUserPreferences.getDChannel('test'): ",
+      await WonderPushUserPreferences.getChannel('test')
+    );
+    await WonderPushUserPreferences.putChannelGroup({
+      id: 'test_group',
+      name: 'Test group',
+    });
+    //await WonderPushUserPreferences.removeChannel('test_group');
+    await WonderPushUserPreferences.putChannel({
+      id: 'test_group',
+      groupId: 'test_group',
+      name: 'Test group channel',
+    });
+  })
+  .catch((err) => console.error(err));
 
 export default function App() {
   const [isReady, setIsReady] = React.useState(false);

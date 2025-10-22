@@ -1,5 +1,6 @@
 import NativeWonderPush from './NativeWonderPush';
 import { NativeEventEmitter } from 'react-native';
+import type { WonderPushChannel, WonderPushChannelGroup } from './types';
 
 // Create event emitter for notification events
 const eventEmitter = new NativeEventEmitter(NativeWonderPush);
@@ -332,3 +333,129 @@ export default class WonderPush {
     NativeWonderPush.flushDelegateEvents();
   }
 }
+
+/**
+ * WonderPushUserPreferences provides access to notification channel preferences.
+ * On Android, this controls notification channels and channel groups.
+ * On iOS, these methods are no-ops (except getters which return default values).
+ */
+export class WonderPushUserPreferences {
+  /**
+   * Get the default channel ID.
+   * Returns "default" on iOS, the actual default channel ID on Android.
+   */
+  static async getDefaultChannelId(): Promise<string> {
+    return NativeWonderPush.getDefaultChannelId();
+  }
+
+  /**
+   * Set the default channel ID.
+   * No-op on iOS, sets the default channel on Android.
+   */
+  static async setDefaultChannelId(id: string): Promise<void> {
+    return NativeWonderPush.setDefaultChannelId(id);
+  }
+
+  /**
+   * Get a channel group by ID.
+   * Returns null on iOS, the actual channel group on Android if it exists.
+   */
+  static async getChannelGroup(
+    groupId: string
+  ): Promise<WonderPushChannelGroup | null> {
+    const result = await NativeWonderPush.getChannelGroup(groupId);
+    return result as WonderPushChannelGroup | null;
+  }
+
+  /**
+   * Get a channel by ID.
+   * Returns null on iOS, the actual channel on Android if it exists.
+   */
+  static async getChannel(
+    channelId: string
+  ): Promise<WonderPushChannel | null> {
+    const result = await NativeWonderPush.getChannel(channelId);
+    return result as WonderPushChannel | null;
+  }
+
+  /**
+   * Set all channel groups, replacing existing ones.
+   * No-op on iOS, replaces all channel groups on Android.
+   */
+  static async setChannelGroups(
+    channelGroups: WonderPushChannelGroup[]
+  ): Promise<void> {
+    // Validate that all channel groups have an id
+    channelGroups.forEach((group, index) => {
+      if (!group.id || typeof group.id !== 'string') {
+        throw new Error(
+          `Channel group at index ${index} must have a valid 'id' string property`
+        );
+      }
+    });
+    return NativeWonderPush.setChannelGroups(channelGroups as any[]);
+  }
+
+  /**
+   * Set all channels, replacing existing ones.
+   * No-op on iOS, replaces all channels on Android.
+   */
+  static async setChannels(channels: WonderPushChannel[]): Promise<void> {
+    // Validate that all channels have an id
+    channels.forEach((channel, index) => {
+      if (!channel.id || typeof channel.id !== 'string') {
+        throw new Error(
+          `Channel at index ${index} must have a valid 'id' string property`
+        );
+      }
+    });
+    return NativeWonderPush.setChannels(channels as any[]);
+  }
+
+  /**
+   * Add or update a channel group.
+   * No-op on iOS, adds or updates the channel group on Android.
+   */
+  static async putChannelGroup(
+    channelGroup: WonderPushChannelGroup
+  ): Promise<void> {
+    // Validate that the channel group has an id
+    if (!channelGroup.id || typeof channelGroup.id !== 'string') {
+      throw new Error("Channel group must have a valid 'id' string property");
+    }
+    return NativeWonderPush.putChannelGroup(channelGroup as any);
+  }
+
+  /**
+   * Add or update a channel.
+   * No-op on iOS, adds or updates the channel on Android.
+   */
+  static async putChannel(channel: WonderPushChannel): Promise<void> {
+    // Validate that the channel has an id
+    if (!channel.id || typeof channel.id !== 'string') {
+      throw new Error("Channel must have a valid 'id' string property");
+    }
+    return NativeWonderPush.putChannel(channel as any);
+  }
+
+  /**
+   * Remove a channel group by ID.
+   * No-op on iOS, removes the channel group on Android.
+   */
+  static async removeChannelGroup(groupId: string): Promise<void> {
+    return NativeWonderPush.removeChannelGroup(groupId);
+  }
+
+  /**
+   * Remove a channel by ID.
+   * No-op on iOS, removes the channel on Android.
+   */
+  static async removeChannel(channelId: string): Promise<void> {
+    return NativeWonderPush.removeChannel(channelId);
+  }
+}
+
+// Named exports for both classes
+export { WonderPush };
+// Export types
+export type { WonderPushChannel, WonderPushChannelGroup } from './types';

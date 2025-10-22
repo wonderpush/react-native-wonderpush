@@ -80,6 +80,18 @@ export interface Spec extends TurboModule {
 
   // Delegate callback for URL deep link handling
   urlForDeeplinkCallback(callbackId: string, url: string | null): void;
+
+  // User Preferences - Notification Channels
+  getDefaultChannelId(): Promise<string>;
+  setDefaultChannelId(id: string): Promise<void>;
+  getChannelGroup(groupId: string): Promise<Object | null>;
+  getChannel(channelId: string): Promise<Object | null>;
+  setChannelGroups(channelGroups: Array<Object>): Promise<void>;
+  setChannels(channels: Array<Object>): Promise<void>;
+  putChannelGroup(channelGroup: Object): Promise<void>;
+  putChannel(channel: Object): Promise<void>;
+  removeChannelGroup(groupId: string): Promise<void>;
+  removeChannel(channelId: string): Promise<void>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('RNWonderPush');
