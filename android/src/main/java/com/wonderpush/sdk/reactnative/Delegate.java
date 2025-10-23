@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import com.wonderpush.sdk.WonderPush;
 import com.wonderpush.sdk.WonderPushDelegate;
+import com.wonderpush.sdk.WonderPushSettings;
 import com.wonderpush.sdk.DeepLinkEvent;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -126,6 +127,21 @@ public class Delegate implements WonderPushDelegate {
         this.context = context.getApplicationContext();
     }
 
+    /**
+     * Check if background React Native context initialization is allowed.
+     * This is an opt-in feature controlled by WonderPushSettings.
+     * @return true if explicitly enabled, false otherwise (default)
+     */
+    private boolean shouldAllowBackgroundStart() {
+        Boolean setting = WonderPushSettings.getBoolean(
+            "WONDERPUSH_REACTNATIVE_ALLOW_BACKGROUND_START",
+            "wonderpush_reactNative_allowBackgroundStart",
+            "com.wonderpush.sdk.reactnative.allowBackgroundStart"
+        );
+        // Only return true if explicitly set to true (null or false = disabled)
+        return Boolean.TRUE.equals(setting);
+    }
+
     @Override
     public String urlForDeepLink(DeepLinkEvent event) {
         Log.d("WonderPushRN.Delegate", "urlForDeepLink for " + event.getUrl());
@@ -134,6 +150,13 @@ public class Delegate implements WonderPushDelegate {
         if (subDelegate != null) {
             Log.d("WonderPushRN.Delegate", "Calling subDelegate");
             return subDelegate.urlForDeepLink(event);
+        }
+
+        // Check if background start is allowed
+        if (!shouldAllowBackgroundStart()) {
+            // Return original URL immediately without initializing
+            Log.d("WonderPushRN.Delegate", "urlForDeepLink: returning original URL (background start disabled)");
+            return event.getUrl();
         }
 
         Log.d("WonderPushRN.Delegate", "Trying to initialize");
@@ -184,6 +207,13 @@ public class Delegate implements WonderPushDelegate {
             // Forward to the active sub delegate
             subDelegate.onNotificationReceived(notification);
         } else {
+            // Check if background start is allowed
+            if (!shouldAllowBackgroundStart()) {
+                // Drop the notification - don't queue or initialize
+                Log.d("WonderPushRN.Delegate", "onNotificationReceived: dropping notification (background start disabled)");
+                return;
+            }
+
             // Save the notification for later processing
             sSavedReceivedNotifications.add(notification);
 
@@ -202,8 +232,15 @@ public class Delegate implements WonderPushDelegate {
             // Save the notification for later processing
             sSavedOpenedNotifications.add(new NotificationOpenedInfo(notification, buttonIndex));
 
-            // Try to initialize React Native context in background
-            tryInitializeReactNativeContext();
+            // Check if background start is allowed
+            if (shouldAllowBackgroundStart()) {
+                // Try to initialize React Native context in background
+                tryInitializeReactNativeContext();
+            } else {
+                // Don't initialize - notification might open browser/other app
+                // If app is started by user, existing code will flush pending events
+                Log.d("WonderPushRN.Delegate", "onNotificationOpened: skipping RN initialization (background start disabled)");
+            }
         }
     }
 
