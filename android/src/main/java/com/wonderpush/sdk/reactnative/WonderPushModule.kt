@@ -44,6 +44,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   }
 
   init {
+    WonderPush.setIntegrator("react-native-wonderpush-3.0.0")
     // Set this module as the sub-delegate to work with the main Delegate
     Delegate.setSubDelegate(this)
   }
