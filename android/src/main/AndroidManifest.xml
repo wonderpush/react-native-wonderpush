@@ -3,8 +3,5 @@
     <meta-data
       android:name="com.wonderpush.sdk.delegateClass"
       android:value="com.wonderpush.sdk.reactnative.Delegate" />
-    <meta-data
-      android:name="com.wonderpush.sdk.reactnative.allowBackgroundStart"
-      android:value="true" />
   </application>
 </manifest>
