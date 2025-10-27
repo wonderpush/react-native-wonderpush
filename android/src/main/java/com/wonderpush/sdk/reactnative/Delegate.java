@@ -7,8 +7,9 @@ import com.wonderpush.sdk.WonderPushDelegate;
 import com.wonderpush.sdk.WonderPushSettings;
 import com.wonderpush.sdk.DeepLinkEvent;
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactHost;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.interfaces.TaskInterface;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
@@ -142,6 +143,27 @@ public class Delegate implements WonderPushDelegate {
         return Boolean.TRUE.equals(setting);
     }
 
+    /**
+     * Get the ReactHost from the application context.
+     * @return ReactHost if available, null otherwise
+     */
+    private ReactHost getReactHost() {
+        if (!(this.context instanceof ReactApplication)) {
+            return null;
+        }
+        ReactApplication reactApp = (ReactApplication) this.context;
+        return reactApp.getReactHost();
+    }
+
+    /**
+     * Get the current React context.
+     * @return ReactContext if available, null otherwise
+     */
+    private ReactContext getCurrentReactContext() {
+        ReactHost reactHost = getReactHost();
+        return reactHost != null ? reactHost.getCurrentReactContext() : null;
+    }
+
     @Override
     public String urlForDeepLink(DeepLinkEvent event) {
         Log.d("WonderPushRN.Delegate", "urlForDeepLink for " + event.getUrl());
@@ -246,18 +268,14 @@ public class Delegate implements WonderPushDelegate {
 
     private void tryInitializeReactNativeContext() {
         try {
-            if (this.context instanceof ReactApplication) {
-                ReactApplication reactApp = (ReactApplication) this.context;
-                ReactInstanceManager reactInstanceManager = reactApp.getReactNativeHost().getReactInstanceManager();
-
-                if (!reactInstanceManager.hasStartedCreatingInitialContext()) {
-                    // Create the React context in background if not already started
-                    reactInstanceManager.createReactContextInBackground();
-                }
+            ReactHost reactHost = getReactHost();
+            if (reactHost != null) {
+                // ReactHost automatically starts when needed, just trigger it by getting context
+                reactHost.getCurrentReactContext();
             }
         } catch (Exception e) {
             // Silently handle any errors during context initialization
-            android.util.Log.w("WonderPush", "Failed to initialize React context in background", e);
+            Log.w("WonderPush", "Failed to initialize React context in background", e);
         }
     }
 
@@ -269,56 +287,61 @@ public class Delegate implements WonderPushDelegate {
     private boolean tryInitializeAndWaitForReactNativeContext(long timeoutMs) {
         Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext()");
         try {
-            if (!(this.context instanceof ReactApplication)) {
-        Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext() -> false (bad context)");
+            // If context already exists, return immediately
+            ReactContext reactContext = getCurrentReactContext();
+            if (reactContext != null) {
+                Log.d("WonderPushRN.Delegate", "React context already exists");
+                return true;
+            }
+
+            ReactHost reactHost = getReactHost();
+            if (reactHost == null) {
+                Log.d("WonderPushRN.Delegate", "ReactHost is null");
                 return false;
             }
 
-            ReactApplication reactApp = (ReactApplication) this.context;
-            ReactInstanceManager reactInstanceManager = reactApp.getReactNativeHost().getReactInstanceManager();
+            // Start the ReactHost and get the initialization task
+            TaskInterface<Void> startTask = reactHost.start();
 
-            // If context already exists, return immediately
-            ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
-            if (reactContext != null) {
-        Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext() -> true (react context already exists)");
-                return true;
+            // Wait for the task to complete with timeout
+            boolean completed = startTask.waitForCompletion(timeoutMs, TimeUnit.MILLISECONDS);
+
+            if (!completed) {
+                Log.d("WonderPushRN.Delegate", "Timeout waiting for ReactHost initialization");
+                return false;
             }
 
-            // Use a CountDownLatch to wait for context creation
-            final java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
-            final java.util.concurrent.atomic.AtomicBoolean contextReady = new java.util.concurrent.atomic.AtomicBoolean(false);
-
-            // Add a listener for when the context is created
-            reactInstanceManager.addReactInstanceEventListener(new com.facebook.react.ReactInstanceManager.ReactInstanceEventListener() {
-                @Override
-                public void onReactContextInitialized(ReactContext context) {
-        Log.d("WonderPushRN.Delegate", "XXXXXX tryInitializeAndWaitForReactNativeContext() onReactContextInitialized()");
-                    contextReady.set(true);
-                    latch.countDown();
-                    // Remove this listener after it fires
-                    reactInstanceManager.removeReactInstanceEventListener(this);
-                }
-            });
-
-            // Start creating the context if not already started
-            if (!reactInstanceManager.hasStartedCreatingInitialContext()) {
-                reactInstanceManager.createReactContextInBackground();
+            // Check if the task was cancelled
+            if (startTask.isCancelled()) {
+                Log.d("WonderPushRN.Delegate", "ReactHost initialization was cancelled");
+                return false;
             }
 
-            // Check again if context was created while we were setting up the listener
-            if (reactInstanceManager.getCurrentReactContext() != null) {
-        Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext() -> true (react context created during the listener setup)");
-                return true;
+            // Check if the task failed
+            if (startTask.isFaulted()) {
+                Exception error = startTask.getError();
+                Log.e("WonderPushRN.Delegate", "ReactHost initialization failed", error);
+                return false;
             }
 
-            // Wait for the context to be ready with timeout
-            boolean completed = latch.await(timeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS);
-        Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext() -> "+completed+" (waiting done)");
-            return completed && contextReady.get();
+            Log.d("WonderPushRN.Delegate", "ReactHost initialization completed successfully");
 
+            // Verify that the context is actually available after successful initialization
+            ReactContext finalContext = reactHost.getCurrentReactContext();
+            if (finalContext == null) {
+                Log.w("WonderPushRN.Delegate", "ReactHost initialized but context is still null");
+                return false;
+            }
+
+            Log.d("WonderPushRN.Delegate", "React context ready and verified");
+            return true;
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            Log.w("WonderPushRN.Delegate", "Interrupted while waiting for ReactHost", e);
+            return false;
         } catch (Exception e) {
-            android.util.Log.w("WonderPush", "Failed to initialize and wait for React context", e);
-        Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext() -> false (above exception)");
+            Log.w("WonderPush", "Failed to initialize and wait for React context", e);
             return false;
         }
     }
