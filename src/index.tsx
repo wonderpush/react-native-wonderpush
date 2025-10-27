@@ -1,9 +1,5 @@
 import NativeWonderPush from './NativeWonderPush';
-import { NativeEventEmitter } from 'react-native';
 import type { WonderPushChannel, WonderPushChannelGroup } from './types';
-
-// Create event emitter for notification events
-const eventEmitter = new NativeEventEmitter(NativeWonderPush);
 
 // Global delegate storage
 let currentDelegate: {
@@ -16,68 +12,59 @@ let currentDelegate: {
 } | null = null;
 
 // Set up event listeners once during static initialization
-eventEmitter.addListener('onNotificationReceived', (notificationJson: any) => {
+NativeWonderPush.onNotificationReceived((data: { notification: any }) => {
+  console.log('XXXXXX RNWonderPush JS onNotificationReceived event received');
   if (currentDelegate?.onNotificationReceived) {
-    try {
-      const notification = JSON.parse(notificationJson as string);
-      currentDelegate.onNotificationReceived(notification);
-    } catch (e) {
-      console.error('Could not parse notification JSON', e);
-    }
+    currentDelegate.onNotificationReceived(data.notification);
   }
 });
 
-eventEmitter.addListener('onNotificationOpened', (data: any) => {
-  if (currentDelegate?.onNotificationOpened) {
-    try {
-      const eventData = data as { notification: string; buttonIndex: number };
-      const notification = JSON.parse(eventData.notification);
-      currentDelegate.onNotificationOpened(notification, eventData.buttonIndex);
-    } catch (e) {
-      console.error('Could not parse notification JSON', e);
+NativeWonderPush.onNotificationOpened(
+  (data: { notification: any; buttonIndex: number }) => {
+    console.log('XXXXXX RNWonderPush JS onNotificationOpened event received');
+    if (currentDelegate?.onNotificationOpened) {
+      currentDelegate.onNotificationOpened(data.notification, data.buttonIndex);
     }
   }
-});
+);
 
-eventEmitter.addListener('urlForDeeplink', (data: any) => {
-  console.log(
-    'XXXXXX RNWonderPush JS urlForDeeplink event received with:',
-    data
-  );
-  if (currentDelegate?.urlForDeeplink) {
-    try {
-      const eventData = data as { url: string; callbackId: string };
-      currentDelegate.urlForDeeplink(
-        eventData.url,
-        (modifiedUrl: string | null) => {
-          console.log(
-            'XXXXXX RNWonderPush JS urlForDeeplink callback called with:',
-            modifiedUrl
-          );
-          NativeWonderPush.urlForDeeplinkCallback(
-            eventData.callbackId,
-            modifiedUrl
-          );
-        }
-      );
-    } catch (e) {
-      console.error('Error in urlForDeeplink delegate', e);
-      // On error, return the original URL
-      const eventData = data as { url: string; callbackId: string };
-      NativeWonderPush.urlForDeeplinkCallback(
-        eventData.callbackId,
-        eventData.url
-      );
-    }
-  } else {
-    // No delegate set, return the original URL
-    const eventData = data as { url: string; callbackId: string };
-    NativeWonderPush.urlForDeeplinkCallback(
-      eventData.callbackId,
-      eventData.url
+console.log('XXXXXX RNWonderPush JS addListener("urlForDeeplink")');
+NativeWonderPush.onUrlForDeeplink(
+  (data: { url: string; callbackId: string }) => {
+    console.log(
+      'XXXXXX RNWonderPush JS urlForDeeplink event received with:',
+      data
     );
+    if (currentDelegate?.urlForDeeplink) {
+      try {
+        currentDelegate.urlForDeeplink(
+          data.url,
+          (modifiedUrl: string | null) => {
+            console.log(
+              'XXXXXX RNWonderPush JS urlForDeeplink callback called with:',
+              modifiedUrl
+            );
+            NativeWonderPush.urlForDeeplinkCallback(
+              data.callbackId,
+              modifiedUrl
+            );
+          }
+        );
+      } catch (e) {
+        console.error('Error in urlForDeeplink delegate', e);
+        // On error, return the original URL
+        NativeWonderPush.urlForDeeplinkCallback(data.callbackId, data.url);
+      }
+    } else {
+      console.log(
+        'XXXXXX RNWonderPush JS urlForDeeplink no delegate, calling back right away'
+      );
+      // No delegate set, return the original URL
+      NativeWonderPush.urlForDeeplinkCallback(data.callbackId, data.url);
+    }
   }
-});
+);
+console.log('XXXXXX RNWonderPush JS event listeners setup complete');
 
 export default class WonderPush {
   // Initialization

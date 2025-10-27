@@ -32,21 +32,12 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   private val urlCallbacks = java.util.concurrent.ConcurrentHashMap<String, java.util.concurrent.CompletableFuture<String?>>()
   private val urlCallbacksLock = Any()
 
-  // Required for NativeEventEmitter compatibility
-  @ReactMethod
-  override fun addListener(eventName: String) {
-    // Keep: Required for RN built in Event Emitter Calls.
-  }
-
-  @ReactMethod
-  override fun removeListeners(count: Double) {
-    // Keep: Required for RN built in Event Emitter Calls.
-  }
-
   init {
     WonderPush.setIntegrator("react-native-wonderpush-3.0.0")
     // Set this module as the sub-delegate to work with the main Delegate
+    android.util.Log.d("WonderPushModule", "XXXXXX WonderPushModule.init, calling setSubDelegate")
     Delegate.setSubDelegate(this)
+    android.util.Log.d("WonderPushModule", "XXXXXX WonderPushModule.init, called setSubDelegate")
   }
 
   override fun getName(): String {
@@ -319,6 +310,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
   // Event emission
   override fun flushDelegateEvents(promise: Promise) {
+        android.util.Log.d("WonderPushRN", "XXXXXX flushDelegateEvents()");
     synchronized(this) {
       isJsReady = true
 
@@ -327,37 +319,39 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
       // Flush internal queue first
       for (notification in queuedReceivedNotifications) {
-        val notificationJson = notification.toString()
-        emitEvent("onNotificationReceived", notificationJson)
+        val eventData = Arguments.createMap().apply {
+          putMap("notification", convertJsonToWritableMap(notification))
+        }
+        emitOnNotificationReceived(eventData)
       }
       queuedReceivedNotifications.clear()
 
       for ((notification, buttonIndex) in queuedOpenedNotifications) {
-        val notificationJson = notification.toString()
         val eventData = Arguments.createMap().apply {
-          putString("notification", notificationJson)
+          putMap("notification", convertJsonToWritableMap(notification))
           putInt("buttonIndex", buttonIndex)
         }
-        emitEvent("onNotificationOpened", eventData)
+        emitOnNotificationOpened(eventData)
       }
       queuedOpenedNotifications.clear()
 
       // Also flush any saved notifications from the main Delegate (cold boot scenarios)
       var savedNotification = Delegate.consumeSavedReceivedNotification()
       while (savedNotification != null) {
-        val notificationJson = savedNotification.toString()
-        emitEvent("onNotificationReceived", notificationJson)
+        val eventData = Arguments.createMap().apply {
+          putMap("notification", convertJsonToWritableMap(savedNotification))
+        }
+        emitOnNotificationReceived(eventData)
         savedNotification = Delegate.consumeSavedReceivedNotification()
       }
 
       var savedOpenedInfo = Delegate.consumeSavedOpenedNotification()
       while (savedOpenedInfo != null) {
-        val notificationJson = savedOpenedInfo.notification.toString()
         val eventData = Arguments.createMap().apply {
-          putString("notification", notificationJson)
+          putMap("notification", convertJsonToWritableMap(savedOpenedInfo.notification))
           putInt("buttonIndex", savedOpenedInfo.buttonIndex)
         }
-        emitEvent("onNotificationOpened", eventData)
+        emitOnNotificationOpened(eventData)
         savedOpenedInfo = Delegate.consumeSavedOpenedNotification()
       }
 
@@ -498,7 +492,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
           putString("callbackId", callbackId)
         }
     android.util.Log.d("WonderPushModule", "on UI thread: sending event")
-        emitEvent("urlForDeeplink", eventData)
+        emitOnUrlForDeeplink(eventData)
       } catch (e: Exception) {
         android.util.Log.e(NAME, "Error emitting urlForDeeplink event", e)
         // Clean up and return original URL
@@ -535,8 +529,10 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
       try {
         synchronized(this) {
           if (isJsReady) {
-            val notificationJson = notif.toString()
-            emitEvent("onNotificationReceived", notificationJson)
+            val eventData = Arguments.createMap().apply {
+              putMap("notification", convertJsonToWritableMap(notif))
+            }
+            emitOnNotificationReceived(eventData)
           } else {
             queuedReceivedNotifications.add(notif)
           }
@@ -552,12 +548,11 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
       try {
         synchronized(this) {
           if (isJsReady) {
-            val notificationJson = notif.toString()
             val eventData = Arguments.createMap().apply {
-              putString("notification", notificationJson)
+              putMap("notification", convertJsonToWritableMap(notif))
               putInt("buttonIndex", buttonIndex)
             }
-            emitEvent("onNotificationOpened", eventData)
+            emitOnNotificationOpened(eventData)
           } else {
             queuedOpenedNotifications.add(Pair(notif, buttonIndex))
           }
@@ -568,11 +563,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  private fun emitEvent(eventName: String, data: Any) {
-    reactApplicationContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-      .emit(eventName, data)
-  }
 
   // Helper methods for WonderPush Channel/ChannelGroup conversion
   private fun channelGroupToWritableMap(group: WonderPushChannelGroup): WritableMap {

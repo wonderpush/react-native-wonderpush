@@ -1,6 +1,5 @@
 #import "RNWonderPush.h"
 #import <WonderPush/WonderPush.h>
-#import <React/RCTEventEmitter.h>
 #import <React/RCTBridge.h>
 
 // Singleton delegate to handle WonderPush events before RNWonderPush module is initialized
@@ -41,8 +40,8 @@
 // Notification event emission methods (called by WonderPush delegate)
 - (void)onNotificationReceived:(NSDictionary *)notification {
   if (self.reactModule) {
-    NSString *notificationJson = [self dictionaryToJSONString:notification];
-    [self.reactModule sendEventWithName:@"onNotificationReceived" body:notificationJson];
+    NSDictionary *eventData = @{@"notification": notification};
+    [self.reactModule emitOnNotificationReceived:eventData];
   } else {
     @synchronized(self) {
       [self.queuedReceivedNotifications addObject:notification];
@@ -52,12 +51,11 @@
 
 - (void)onNotificationOpened:(NSDictionary *)notification withButton:(NSInteger)buttonIndex {
   if (self.reactModule) {
-    NSString *notificationJson = [self dictionaryToJSONString:notification];
     NSDictionary *eventData = @{
-      @"notification": notificationJson,
+      @"notification": notification,
       @"buttonIndex": @(buttonIndex)
     };
-    [self.reactModule sendEventWithName:@"onNotificationOpened" body:eventData];
+    [self.reactModule emitOnNotificationOpened:eventData];
   } else {
     @synchronized(self) {
       [self.queuedOpenedNotifications addObject:@{
@@ -73,14 +71,14 @@
     // Flush queued URL for deeplink events
     // Those are the most time sensitive
     for (NSDictionary *eventData in self.queuedUrlForDeeplink) {
-      [self.reactModule sendEventWithName:@"urlForDeeplink" body:eventData];
+      [self.reactModule emitOnUrlForDeeplink:eventData];
     }
     [self.queuedUrlForDeeplink removeAllObjects];
 
     // Flush received notifications
     for (NSDictionary *notification in self.queuedReceivedNotifications) {
-      NSString *notificationJson = [self dictionaryToJSONString:notification];
-      [self.reactModule sendEventWithName:@"onNotificationReceived" body:notificationJson];
+      NSDictionary *eventData = @{@"notification": notification};
+      [self.reactModule emitOnNotificationReceived:eventData];
     }
     [self.queuedReceivedNotifications removeAllObjects];
 
@@ -88,25 +86,14 @@
     for (NSDictionary *queuedItem in self.queuedOpenedNotifications) {
       NSDictionary *notification = queuedItem[@"notification"];
       NSInteger buttonIndex = [queuedItem[@"buttonIndex"] integerValue];
-      NSString *notificationJson = [self dictionaryToJSONString:notification];
       NSDictionary *eventData = @{
-        @"notification": notificationJson,
+        @"notification": notification,
         @"buttonIndex": @(buttonIndex)
       };
-      [self.reactModule sendEventWithName:@"onNotificationOpened" body:eventData];
+      [self.reactModule emitOnNotificationOpened:eventData];
     }
     [self.queuedOpenedNotifications removeAllObjects];
   }
-}
-
-- (NSString *)dictionaryToJSONString:(NSDictionary *)dictionary {
-    if (!dictionary) return @"{}";
-
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-    if (error || !jsonData) return @"{}";
-
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 // WonderPushDelegate method for URL deep link handling
@@ -127,7 +114,7 @@
 
   // Send event to JavaScript if module is ready, otherwise queue it
   if (self.reactModule) {
-    [self.reactModule sendEventWithName:@"urlForDeeplink" body:eventData];
+    [self.reactModule emitOnUrlForDeeplink:eventData];
   } else {
     @synchronized(self) {
       [self.queuedUrlForDeeplink addObject:eventData];
@@ -195,11 +182,6 @@ RCT_EXPORT_MODULE(WonderPush)
     (const facebook::react::ObjCTurboModule::InitParams &)params
 {
     return std::make_shared<facebook::react::NativeWonderPushSpecJSI>(params);
-}
-
-// Required for RCTEventEmitter
-- (NSArray<NSString *> *)supportedEvents {
-    return @[@"onNotificationReceived", @"onNotificationOpened", @"urlForDeeplink"];
 }
 
 // Initialization

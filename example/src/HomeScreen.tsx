@@ -25,7 +25,10 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const wonderpushDelegate = {
-  urlForDeeplink: (url: string, callback: (url: string | null) => void) => {
+  ________urlForDeeplink: (
+    url: string,
+    callback: (url: string | null) => void
+  ) => {
     console.log('🔗 [urlForDeeplink] Intercepted URL:', url);
 
     // For demonstration, let's modify certain URLs
@@ -70,7 +73,9 @@ const wonderpushDelegate = {
     );
   },
 };
+console.log('XXXXXX HomeScreen calling setDelegate');
 WonderPush.setDelegate(wonderpushDelegate);
+console.log('XXXXXX HomeScreen called setDelegate');
 
 export default function HomeScreen({ navigation }: Props) {
   // State management

@@ -292,6 +292,7 @@ public class Delegate implements WonderPushDelegate {
             reactInstanceManager.addReactInstanceEventListener(new com.facebook.react.ReactInstanceManager.ReactInstanceEventListener() {
                 @Override
                 public void onReactContextInitialized(ReactContext context) {
+        Log.d("WonderPushRN.Delegate", "XXXXXX tryInitializeAndWaitForReactNativeContext() onReactContextInitialized()");
                     contextReady.set(true);
                     latch.countDown();
                     // Remove this listener after it fires

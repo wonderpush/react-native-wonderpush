@@ -1,6 +1,23 @@
-import { TurboModuleRegistry, type TurboModule } from 'react-native';
+import {
+  TurboModuleRegistry,
+  type TurboModule,
+  type CodegenTypes,
+} from 'react-native';
 
 export interface Spec extends TurboModule {
+  // Event emitters
+  readonly onNotificationReceived: CodegenTypes.EventEmitter<{
+    notification: Object;
+  }>;
+  readonly onNotificationOpened: CodegenTypes.EventEmitter<{
+    notification: Object;
+    buttonIndex: number;
+  }>;
+  readonly onUrlForDeeplink: CodegenTypes.EventEmitter<{
+    url: string;
+    callbackId: string;
+  }>;
+
   // Initialization
   setLogging(enable: boolean): Promise<void>;
   initialize(clientId: string, clientSecret: string): Promise<void>;
@@ -70,10 +87,6 @@ export interface Spec extends TurboModule {
 
   // Event emission methods (no callbacks needed)
   flushDelegateEvents(): Promise<void>;
-
-  // Required for NativeEventEmitter compatibility
-  addListener(eventName: string): void;
-  removeListeners(count: number): void;
 
   // Deep linking
   getInitialURL(): Promise<string>;
