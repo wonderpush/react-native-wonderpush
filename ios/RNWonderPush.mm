@@ -439,19 +439,8 @@ RCT_EXPORT_MODULE()
 
 // Deep linking
 - (void)getInitialURL:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    // Stop listening for deeplinks
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:WP_DEEPLINK_OPENED object:nil];
-
-    NSDictionary *remoteNotification = self.bridge.launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (remoteNotification && remoteNotification[@"_wp"][@"targetUrl"]) {
-        resolve(remoteNotification[@"_wp"][@"targetUrl"]);
-        return;
-    }
-    //if (self.initialDeepLinkURL) {
-    //    resolve(self.initialDeepLinkURL.absoluteString);
-    //    return;
-    //}
-
+    // The new architecture uses no bridge so we cannot ask it for the launchOptions.
+    // Besides, the previous way of working does not handle choosing the targetUrl of the clicked button.
     resolve(nil);
 }
 
