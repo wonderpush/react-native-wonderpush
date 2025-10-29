@@ -101,7 +101,7 @@
   // Generate a unique callback ID
   NSString *callbackId = [[NSUUID UUID] UUIDString];
 
-  // Store the completion handler
+  // Store the completion handler along with the URL
   [self.urlCallbacksLock lock];
   self.urlCallbacks[callbackId] = completionHandler;
   [self.urlCallbacksLock unlock];
@@ -122,8 +122,6 @@
   }
 
   // Set a timeout to prevent waiting for too long.
-  // We do not want to wait for too long because if the JavaScript code never sets a delegate, flushDelegateEvents will never run.
-  // Maybe we could store whether we had a delegate in the previous run and wait for a lower duration and still allow longer app startup duration if we know it's probably worth it.
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [self.urlCallbacksLock lock];
     void (^callback)(NSURL * _Nullable) = self.urlCallbacks[callbackId];
@@ -133,6 +131,9 @@
       [self.urlCallbacksLock unlock];
       NSLog(@"[WonderPush] urlForDeeplink callback timed out, using original URL");
       callback(url);
+
+      // Post the URL to RCTLinkingManager with retry logic to ensure React Navigation handles it
+      [self postURLToLinkingManager:url retryCount:0];
     } else {
       [self.urlCallbacksLock unlock];
     }
@@ -151,9 +152,43 @@
       url = [NSURL URLWithString:urlString];
     }
     callback(url);
+
+    // Post the URL to RCTLinkingManager with retry logic to ensure React Navigation handles it
+    if (url) {
+      [self postURLToLinkingManager:url retryCount:0];
+    }
   } else {
     [self.urlCallbacksLock unlock];
   }
+}
+
+// Helper method to post URL to RCTLinkingManager with retry logic
+- (void)postURLToLinkingManager:(NSURL *)url retryCount:(NSInteger)retryCount {
+  if (!url) return;
+
+  // Maximum 10 retries with exponential backoff
+  if (retryCount >= 10) {
+    NSLog(@"[WonderPush] Gave up posting URL to RCTLinkingManager after %ld retries", (long)retryCount);
+    return;
+  }
+
+  // Calculate delay: 0, 0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4s...
+  NSTimeInterval delay = retryCount == 0 ? 0 : (0.1 * pow(2, retryCount - 1));
+
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    NSLog(@"[WonderPush] Posting URL to Linking (attempt %ld): %@", (long)(retryCount + 1), url.absoluteString);
+
+    // Try to post the URL event to React Native's Linking module
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RCTOpenURLNotification"
+                                                        object:nil
+                                                      userInfo:@{@"url": url.absoluteString}];
+
+    // If this is cold start and React Navigation isn't ready yet, retry
+    // We only retry a few times to avoid excessive retries
+    if (retryCount < 3) {
+      [self postURLToLinkingManager:url retryCount:retryCount + 1];
+    }
+  });
 }
 
 @end
