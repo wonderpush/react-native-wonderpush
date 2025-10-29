@@ -160,7 +160,7 @@
 
 @implementation RNWonderPush
 
-RCT_EXPORT_MODULE(WonderPush)
+RCT_EXPORT_MODULE()
 
 + (void)initialize {
     static dispatch_once_t onceToken;
