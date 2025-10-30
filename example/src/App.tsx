@@ -41,84 +41,52 @@ Promise.resolve(undefined)
   .catch((err) => console.error(err));
 
 export default function App() {
-  const navigationRef = React.useRef<any>(null);
+  const [isReady, setIsReady] = React.useState(false);
+  const [initialState, setInitialState] = React.useState();
 
   React.useEffect(() => {
-    // Listen for deep links when app is already open
-    const subscription = Linking.addEventListener('url', ({ url }) => {
-      console.log('📱 [App] Linking event received:', url);
-    });
+    const restoreState = async () => {
+      try {
+        const rnInitialUrl = await Linking.getInitialURL();
+        const wpInitialUrl = await WonderPush.getInitialURL();
+        const initialUrl = rnInitialUrl || wpInitialUrl;
 
-    return () => {
-      subscription.remove();
+        if (initialUrl) {
+          // If app opened from deep link, create initial state with Home in the stack
+          if (initialUrl.includes('child')) {
+            // Create navigation state with Home -> Child
+            setInitialState({
+              index: 1,
+              routes: [{ name: 'Home' }, { name: 'Child' }],
+            } as any);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsReady(true);
+      }
     };
+
+    restoreState();
   }, []);
 
-  const linking = React.useMemo(
-    () => ({
-      prefixes: ['wonderpush://', 'https://wonderpush.example'],
-      config: {
-        screens: {
-          Home: '',
-          Child: 'child',
-        },
+  const linking = {
+    prefixes: ['wonderpush://', 'https://wonderpush.example'],
+    config: {
+      screens: {
+        Home: '',
+        Child: 'child',
       },
-      // Custom getInitialURL to handle both React Native Linking and WonderPush
-      async getInitialURL() {
-        console.log('📱 [App] getInitialURL called');
+    },
+  };
 
-        // Check if app was opened by a deep link
-        const rnUrl = await Linking.getInitialURL();
-        console.log('📱 [App] Linking.getInitialURL():', rnUrl);
-
-        if (rnUrl != null) {
-          return rnUrl;
-        }
-
-        // Check if app was opened by a WonderPush notification
-        const wpUrl = await WonderPush.getInitialURL();
-        console.log('📱 [App] WonderPush.getInitialURL():', wpUrl);
-
-        return wpUrl;
-      },
-      // Custom subscribe to handle URL events
-      subscribe(listener: (url: string) => void) {
-        console.log(
-          '📱 [App] subscribe called - NavigationContainer is now listening'
-        );
-
-        // Listen to incoming links from React Native Linking
-        const onReceiveURL = ({ url }: { url: string }) => {
-          console.log('📱 [App] onReceiveURL called with URL:', url);
-          console.log('📱 [App] Passing URL to NavigationContainer listener');
-          listener(url);
-        };
-
-        // Subscribe to Linking URL events
-        const subscription = Linking.addEventListener('url', onReceiveURL);
-        console.log('📱 [App] Linking.addEventListener registered');
-
-        return () => {
-          console.log('📱 [App] unsubscribe called');
-          subscription.remove();
-        };
-      },
-    }),
-    []
-  );
+  if (!isReady) {
+    return null;
+  }
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      linking={linking}
-      onReady={() => console.log('📱 [App] NavigationContainer ready')}
-      onStateChange={(state) =>
-        console.log(
-          '📱 [App] Navigation state changed:',
-          state?.routes?.[state?.index]?.name
-        )
-      }
-    >
+    <NavigationContainer linking={linking} initialState={initialState}>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
