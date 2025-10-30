@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Delegate implements WonderPushDelegate {
 
+    private static final String TAG = WonderPushModule.NAME + ".Delegate";
     private Context context = null;
     private static WeakReference<WonderPushDelegate> sSubDelegate = new WeakReference<>(null);
     private static final List<JSONObject> sSavedReceivedNotifications = new ArrayList<>();
@@ -40,7 +41,6 @@ public class Delegate implements WonderPushDelegate {
     }
 
     public static synchronized void setSubDelegate(WonderPushDelegate subDelegate) {
-        Log.d("WonderPushRN.Delegate", "setSubDelegate(" + subDelegate + ")");
         sSubDelegate = new WeakReference<>(subDelegate);
 
         // Flush any saved notifications to the new sub delegate
@@ -66,25 +66,21 @@ public class Delegate implements WonderPushDelegate {
      * This method spawns a background thread to avoid blocking the bridge thread.
      */
     public static synchronized void processPendingDeepLinkEvent() {
-        Log.d("WonderPushRN.Delegate", "processPendingDeepLinkEvent()");
         // Get a local copy of the variables to work on (in case sPendingDeepLinkFuture is nullified in between)
         final DeepLinkEvent pendingDeepLinkEvent = sPendingDeepLinkEvent;
         final CompletableFuture<String> pendingDeepLinkFuture = sPendingDeepLinkFuture;
         if (pendingDeepLinkEvent != null && pendingDeepLinkFuture != null) {
             final WonderPushDelegate subDelegate = sSubDelegate.get();
             if (subDelegate != null) {
-                Log.d("WonderPushRN.Delegate", "Processing pending DeepLinkEvent on background thread");
                 // Spawn a background thread to avoid blocking the bridge thread
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            Log.d("WonderPushRN.Delegate", "Background thread: calling subDelegate.urlForDeepLink()");
                             String result = subDelegate.urlForDeepLink(pendingDeepLinkEvent);
-                            Log.d("WonderPushRN.Delegate", "Background thread: got result for pending DeepLinkEvent: " + result);
                             pendingDeepLinkFuture.complete(result);
                         } catch (Exception e) {
-                            Log.e("WonderPushRN.Delegate", "Background thread: error processing pending DeepLinkEvent", e);
+                            Log.e(TAG, "Error processing pending DeepLinkEvent in background thread", e);
                             // Complete with original URL on error
                             pendingDeepLinkFuture.complete(pendingDeepLinkEvent.getUrl());
                         }
@@ -95,7 +91,6 @@ public class Delegate implements WonderPushDelegate {
                 // They will be cleared by the urlForDeepLink method
             } else {
                 // Complete with original URL if there is no sub-delegate (should not happen)
-                Log.d("WonderPushRN.Delegate", "No sub-delegate available, completing with original URL");
                 pendingDeepLinkFuture.complete(pendingDeepLinkEvent.getUrl());
             }
         }
@@ -166,22 +161,18 @@ public class Delegate implements WonderPushDelegate {
 
     @Override
     public String urlForDeepLink(DeepLinkEvent event) {
-        Log.d("WonderPushRN.Delegate", "urlForDeepLink for " + event.getUrl());
         WonderPushDelegate subDelegate = sSubDelegate.get();
-        Log.d("WonderPushRN.Delegate", "subDelegate:" + subDelegate);
         if (subDelegate != null) {
-            Log.d("WonderPushRN.Delegate", "Calling subDelegate");
             return subDelegate.urlForDeepLink(event);
         }
 
         // Check if background start is allowed
         if (!shouldAllowBackgroundStart()) {
             // Return original URL immediately without initializing
-            Log.d("WonderPushRN.Delegate", "urlForDeepLink: returning original URL (background start disabled)");
             return event.getUrl();
         }
 
-        Log.d("WonderPushRN.Delegate", "Trying to initialize");
+        if (WonderPush.getLogging()) Log.d(TAG, "Initializing React Native context in the background for urlForDeeplink");
 
         // Store the pending event and create a future for the result
         sPendingDeepLinkEvent = event;
@@ -199,26 +190,26 @@ public class Delegate implements WonderPushDelegate {
         long remainingTime = maxWaitTime - elapsedTime;
 
         if (!couldInitializeReactNative) {
-            Log.d("WonderPushRN.Delegate", "Could not initialize React Native properly");
+            Log.w(TAG, "Could not initialize React Native context properly for urlForDeeplink");
         } else if (remainingTime > 0) {
             // Wait for setSubDelegate to be called (with remaining timeout)
-            Log.d("WonderPushRN.Delegate", "Waiting for setSubDelegate with " + remainingTime + "ms timeout");
+            Log.d(TAG, "Waiting for setSubDelegate with " + remainingTime + "ms timeout");
             try {
                 String result = sPendingDeepLinkFuture.get(remainingTime, TimeUnit.MILLISECONDS);
-                Log.d("WonderPushRN.Delegate", "Got result from future: " + result);
+                if (WonderPush.getLogging()) Log.d(TAG, "Got result from future for urlForDeeplink: " + result);
                 return result;
             } catch (Exception e) {
-                Log.d("WonderPushRN.Delegate", "Timeout or error waiting for delegate: " + e.getMessage());
+                Log.w(TAG, "Timeout or error waiting for delegate to process urlForDeeplink", e);
             }
         } else {
-            Log.d("WonderPushRN.Delegate", "No time remaining to wait for setSubDelegate");
+            Log.w(TAG, "Took too long to initialize React Native context for urlForDeeplink");
         }
         // Clear pending state
         sPendingDeepLinkFuture = null;
         sPendingDeepLinkEvent = null;
 
         // Either React Native didn't start in time, or delegate wasn't set
-        Log.d("WonderPushRN.Delegate", "no luck, resolving manually");
+        Log.w(TAG, "Could not get urlForDeeplink handled by delegate in time, resolving manually");
         return event.getUrl();
     }
 
@@ -232,7 +223,7 @@ public class Delegate implements WonderPushDelegate {
             // Check if background start is allowed
             if (!shouldAllowBackgroundStart()) {
                 // Drop the notification - don't queue or initialize
-                Log.d("WonderPushRN.Delegate", "onNotificationReceived: dropping notification (background start disabled)");
+                if (WonderPush.getLogging()) Log.d(TAG, "Background start disabled, dropping onNotificationReceived");
                 return;
             }
 
@@ -261,7 +252,7 @@ public class Delegate implements WonderPushDelegate {
             } else {
                 // Don't initialize - notification might open browser/other app
                 // If app is started by user, existing code will flush pending events
-                Log.d("WonderPushRN.Delegate", "onNotificationOpened: skipping RN initialization (background start disabled)");
+                if (WonderPush.getLogging()) Log.d(TAG, "Background start disabled, dropping onNotificationOpened");
             }
         }
     }
@@ -275,7 +266,7 @@ public class Delegate implements WonderPushDelegate {
             }
         } catch (Exception e) {
             // Silently handle any errors during context initialization
-            Log.w("WonderPush", "Failed to initialize React context in background", e);
+            Log.w(TAG, "Failed to initialize React Native context in background", e);
         }
     }
 
@@ -285,18 +276,16 @@ public class Delegate implements WonderPushDelegate {
      * @return true if context is ready, false if timeout or error
      */
     private boolean tryInitializeAndWaitForReactNativeContext(long timeoutMs) {
-        Log.d("WonderPushRN.Delegate", "tryInitializeAndWaitForReactNativeContext()");
         try {
             // If context already exists, return immediately
             ReactContext reactContext = getCurrentReactContext();
             if (reactContext != null) {
-                Log.d("WonderPushRN.Delegate", "React context already exists");
                 return true;
             }
 
             ReactHost reactHost = getReactHost();
             if (reactHost == null) {
-                Log.d("WonderPushRN.Delegate", "ReactHost is null");
+                Log.w(TAG, "tryInitializeAndWaitForReactNativeContext(): ReactHost is null");
                 return false;
             }
 
@@ -307,41 +296,37 @@ public class Delegate implements WonderPushDelegate {
             boolean completed = startTask.waitForCompletion(timeoutMs, TimeUnit.MILLISECONDS);
 
             if (!completed) {
-                Log.d("WonderPushRN.Delegate", "Timeout waiting for ReactHost initialization");
+                Log.w(TAG, "tryInitializeAndWaitForReactNativeContext(): Timeout waiting for ReactHost initialization");
                 return false;
             }
 
             // Check if the task was cancelled
             if (startTask.isCancelled()) {
-                Log.d("WonderPushRN.Delegate", "ReactHost initialization was cancelled");
+                Log.w(TAG, "tryInitializeAndWaitForReactNativeContext(): ReactHost initialization was cancelled");
                 return false;
             }
 
             // Check if the task failed
             if (startTask.isFaulted()) {
                 Exception error = startTask.getError();
-                Log.e("WonderPushRN.Delegate", "ReactHost initialization failed", error);
+                Log.e(TAG, "tryInitializeAndWaitForReactNativeContext(): ReactHost initialization failed", error);
                 return false;
             }
-
-            Log.d("WonderPushRN.Delegate", "ReactHost initialization completed successfully");
 
             // Verify that the context is actually available after successful initialization
             ReactContext finalContext = reactHost.getCurrentReactContext();
             if (finalContext == null) {
-                Log.w("WonderPushRN.Delegate", "ReactHost initialized but context is still null");
+                Log.w(TAG, "tryInitializeAndWaitForReactNativeContext(): ReactHost initialized but context is still null");
                 return false;
             }
 
-            Log.d("WonderPushRN.Delegate", "React context ready and verified");
             return true;
-
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            Log.w("WonderPushRN.Delegate", "Interrupted while waiting for ReactHost", e);
+            Log.w(TAG, "tryInitializeAndWaitForReactNativeContext(): Interrupted while waiting for ReactHost", e);
             return false;
         } catch (Exception e) {
-            Log.w("WonderPush", "Failed to initialize and wait for React context", e);
+            Log.w(TAG, "tryInitializeAndWaitForReactNativeContext(): Failed to initialize and wait for React Native context", e);
             return false;
         }
     }

@@ -22,10 +22,10 @@ class WonderPushFcmPackage : BaseReactPackage() {
       moduleInfos[WonderPushFcmModule.NAME] = ReactModuleInfo(
         WonderPushFcmModule.NAME,
         WonderPushFcmModule.NAME,
-        false,  // canOverrideExistingModule
-        false,  // needsEagerInit
-        false,  // isCxxModule
-        true // isTurboModule
+        false, // canOverrideExistingModule
+        false, // needsEagerInit
+        false, // isCxxModule
+        true   // isTurboModule
       )
       moduleInfos
     }

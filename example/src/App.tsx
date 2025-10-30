@@ -24,7 +24,7 @@ Promise.resolve(undefined)
       name: 'Test',
     });
     console.log(
-      "WonderPushUserPreferences.getDChannel('test'): ",
+      "WonderPushUserPreferences.getChannel('test'): ",
       await WonderPushUserPreferences.getChannel('test')
     );
     await WonderPushUserPreferences.putChannelGroup({
@@ -50,14 +50,10 @@ export default function App() {
         const rnInitialUrl = await Linking.getInitialURL();
         const wpInitialUrl = await WonderPush.getInitialURL();
         const initialUrl = rnInitialUrl || wpInitialUrl;
-        console.log('XXXXXX App: Linking.getInitialURL:', rnInitialUrl);
-        console.log('XXXXXX App: WonderPush.getInitialURL:', wpInitialUrl);
-        console.log('XXXXXX App: -> initialURL:', initialUrl);
 
         if (initialUrl) {
           // If app opened from deep link, create initial state with Home in the stack
           if (initialUrl.includes('child')) {
-            console.log('XXXXXX App: setInitialState(child)');
             // Create navigation state with Home -> Child
             setInitialState({
               index: 1,

@@ -15,8 +15,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import WonderPush from 'react-native-wonderpush';
 import { useState, useCallback, useEffect } from 'react';
 
-console.log('WonderPush from react-native-wonderpush:', WonderPush);
-
 type RootStackParamList = {
   Home: undefined;
   Child: undefined;
@@ -70,9 +68,7 @@ const wonderpushDelegate = {
     );
   },
 };
-console.log('XXXXXX HomeScreen calling setDelegate');
 WonderPush.setDelegate(wonderpushDelegate);
-console.log('XXXXXX HomeScreen called setDelegate');
 
 export default function HomeScreen({ navigation }: Props) {
   // State management

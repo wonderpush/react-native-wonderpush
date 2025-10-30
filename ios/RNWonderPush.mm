@@ -159,7 +159,7 @@
       // Callback wasn't called in time, use original URL
       [self.urlCallbacks removeObjectForKey:callbackId];
       [self.urlCallbacksLock unlock];
-      NSLog(@"[WonderPush] urlForDeeplink callback timed out, using original URL");
+      NSLog(@"[RNWonderPushDelegate] urlForDeeplink callback timed out, using original URL");
       callback(url);
     } else {
       [self.urlCallbacksLock unlock];
@@ -470,7 +470,6 @@ RCT_EXPORT_MODULE()
     RNWonderPushDelegate *delegate = [RNWonderPushDelegate sharedInstance];
     @synchronized(delegate) {
         delegate.getInitialURLCalled = YES;
-NSLog(@"[WonderPush] XXXXXX RNWonderPush.getInitialURL() -> %@", delegate.initialURL);
         resolve(delegate.initialURL);
     }
 }

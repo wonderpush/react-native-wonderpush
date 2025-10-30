@@ -1,5 +1,6 @@
 package com.wonderpush.sdk.reactnative
 
+import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReadableArray
@@ -35,9 +36,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   init {
     WonderPush.setIntegrator("react-native-wonderpush-3.0.0")
     // Set this module as the sub-delegate to work with the main Delegate
-    android.util.Log.d("WonderPushModule", "XXXXXX WonderPushModule.init, calling setSubDelegate")
     Delegate.setSubDelegate(this)
-    android.util.Log.d("WonderPushModule", "XXXXXX WonderPushModule.init, called setSubDelegate")
   }
 
   override fun getName(): String {
@@ -310,7 +309,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
   // Event emission
   override fun flushDelegateEvents(promise: Promise) {
-        android.util.Log.d("WonderPushRN", "XXXXXX flushDelegateEvents()");
     synchronized(this) {
       isJsReady = true
 
@@ -368,11 +366,8 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   // Delegate callback for URL deep link handling
   @ReactMethod
   override fun urlForDeeplinkCallback(callbackId: String, url: String?) {
-    android.util.Log.d("WonderPushModule", "urlForDeeplinkCallback called with: " + callbackId + " and url: " + url)
-    android.util.Log.d("WonderPushModule", "urlForDeeplinkCallback entering synchronized section")
     synchronized(urlCallbacksLock) {
       val future = urlCallbacks.remove(callbackId)
-    android.util.Log.d("WonderPushModule", "urlForDeeplinkCallback in synchronized section, future: " + future)
       future?.complete(url)
     }
   }
@@ -472,7 +467,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
   // WonderPushDelegate implementation
   override fun urlForDeepLink(event: DeepLinkEvent): String? {
-    android.util.Log.d("WonderPushModule", "urlForDeepLink:" + event)
     val originalUrl = event.url
 
     // Generate a unique callback ID
@@ -483,7 +477,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
       urlCallbacks[callbackId] = future
     }
 
-    android.util.Log.d("WonderPushModule", "will run on UI thread to send event")
     // Send event to JavaScript on UI thread
     UiThreadUtil.runOnUiThread {
       try {
@@ -491,10 +484,9 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
           putString("url", originalUrl)
           putString("callbackId", callbackId)
         }
-    android.util.Log.d("WonderPushModule", "on UI thread: sending event")
         emitOnUrlForDeeplink(eventData)
       } catch (e: Exception) {
-        android.util.Log.e(NAME, "Error emitting urlForDeeplink event", e)
+        Log.e(TAG, "urlForDeepLink(): Error emitting urlForDeeplink event", e)
         // Clean up and return original URL
         synchronized(urlCallbacksLock) {
           urlCallbacks.remove(callbackId)
@@ -505,18 +497,18 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
     // Wait for the callback with a timeout
     return try {
-    android.util.Log.d("WonderPushModule", "waiting 3s for the callback future to be resolved")
+      if (WonderPush.getLogging()) Log.d(TAG, "waiting 3s for the callback future to be resolved")
       val result = future.get(3, java.util.concurrent.TimeUnit.SECONDS)
-    android.util.Log.d("WonderPushModule", "future resolved to " + result)
+      if (WonderPush.getLogging()) Log.d(TAG, "future resolved to " + result)
       result
     } catch (e: java.util.concurrent.TimeoutException) {
-      android.util.Log.w(NAME, "urlForDeeplink callback timed out, using original URL")
+      Log.w(TAG, "urlForDeeplink callback timed out, using original URL")
       synchronized(urlCallbacksLock) {
         urlCallbacks.remove(callbackId)
       }
       originalUrl
     } catch (e: Exception) {
-      android.util.Log.e(NAME, "Error waiting for urlForDeeplink callback", e)
+      Log.e(TAG, "Error waiting for urlForDeeplink callback", e)
       synchronized(urlCallbacksLock) {
         urlCallbacks.remove(callbackId)
       }
@@ -538,7 +530,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
           }
         }
       } catch (e: Exception) {
-        android.util.Log.e(NAME, "Error handling notification received", e)
+        Log.e(TAG, "Error handling notification received", e)
       }
     }
   }
@@ -558,7 +550,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
           }
         }
       } catch (e: Exception) {
-        android.util.Log.e(NAME, "Error handling notification opened", e)
+        Log.e(TAG, "Error handling notification opened", e)
       }
     }
   }
@@ -756,5 +748,6 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
 
   companion object {
     const val NAME = "RNWonderPush"
+    const val TAG = NAME + ".Module"
   }
 }

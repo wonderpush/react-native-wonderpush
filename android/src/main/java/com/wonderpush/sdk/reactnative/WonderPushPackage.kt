@@ -22,10 +22,10 @@ class WonderPushPackage : BaseReactPackage() {
       moduleInfos[WonderPushModule.NAME] = ReactModuleInfo(
         WonderPushModule.NAME,
         WonderPushModule.NAME,
-        false,  // canOverrideExistingModule
-        false,  // needsEagerInit
-        false,  // isCxxModule
-        true // isTurboModule
+        false, // canOverrideExistingModule
+        false, // needsEagerInit
+        false, // isCxxModule
+        true   // isTurboModule
       )
       moduleInfos
     }
