@@ -1,6 +1,5 @@
 #import "RNWonderPush.h"
 #import <WonderPush/WonderPush.h>
-#import <React/RCTBridge.h>
 
 // Singleton delegate to handle WonderPush events before RNWonderPush module is initialized
 @interface RNWonderPushDelegate : NSObject <WonderPushDelegate>
