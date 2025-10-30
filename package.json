@@ -6,7 +6,22 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "wonderpush",
+    "push",
+    "mobile push",
+    "mobile push notifications",
+    "GDPR",
+    "RGPD",
+    "notification",
+    "notifications",
+    "push notification",
+    "push notifications",
+    "apn",
+    "apns",
+    "gcm",
+    "fcm",
+    "hcm"
   ],
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
