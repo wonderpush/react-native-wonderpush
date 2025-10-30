@@ -1,4 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.wonderpush.sdk.reactnative.fcm">
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 </manifest>

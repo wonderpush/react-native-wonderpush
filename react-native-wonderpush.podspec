@@ -6,18 +6,17 @@ Pod::Spec.new do |s|
   s.name         = "react-native-wonderpush"
   s.version      = package["version"]
   s.summary      = package["description"]
-  s.description  = <<-DESC
-                  react-native-wonderpush
-                   DESC
-  s.homepage     = "https://github.com/github_account/react-native-wonderpush"
-  s.license      = "MIT"
-  # s.license    = { :type => "MIT", :file => "FILE_LICENSE" }
-  s.authors      = { "Your Name" => "yourname@email.com" }
-  s.platforms    = { :ios => "12.0" }
-  s.source       = { :git => "https://github.com/github_account/react-native-wonderpush.git", :tag => "#{s.version}" }
-  s.source_files = "ios/**/*.{h,m,swift}"
-  s.requires_arc = true
+  s.homepage     = package["homepage"]
+  s.license      = package["license"]
+  s.authors      = package["author"]
 
-  s.dependency 'React',  '>= 0.13.0', '< 1.0.0'
+  s.platforms    = { :ios => min_ios_version_supported }
+  s.source       = { :git => "https://github.com/wonderpush/react-native-wonderpush.git", :tag => "#{s.version}" }
+
+  s.source_files = "ios/**/*.{h,m,mm,cpp}"
+  s.private_header_files = "ios/**/*.h"
+
   s.dependency 'WonderPush', '4.4.0'
+
+  install_modules_dependencies(s)
 end
