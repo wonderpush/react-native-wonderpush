@@ -11,6 +11,8 @@
 @property (nonatomic, strong) NSMutableArray *queuedUrlForDeeplink;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, void (^)(NSURL * _Nullable)> *urlCallbacks;
 @property (nonatomic, strong) NSLock *urlCallbacksLock;
+@property (nonatomic, strong) NSString *initialURL;
+@property (nonatomic, assign) BOOL getInitialURLCalled;
 - (void)flushDelegateEvents;
 @end
 
@@ -33,6 +35,8 @@
         _queuedUrlForDeeplink = [NSMutableArray array];
         _urlCallbacks = [NSMutableDictionary dictionary];
         _urlCallbacksLock = [[NSLock alloc] init];
+        _initialURL = nil;
+        _getInitialURLCalled = NO;
     }
     return self;
 }
@@ -50,6 +54,31 @@
 }
 
 - (void)onNotificationOpened:(NSDictionary *)notification withButton:(NSInteger)buttonIndex {
+  // Capture the initial URL if getInitialURL hasn't been called yet
+  @synchronized(self) {
+    if (!self.getInitialURLCalled && !self.initialURL) {
+      NSString *targetUrl = nil;
+
+      if (buttonIndex == -1) {
+        // No button clicked, get the main targetUrl
+        targetUrl = notification[@"_wp"][@"targetUrl"];
+      } else {
+        // Button clicked, get the button's targetUrl
+        NSArray *buttons = notification[@"_wp"][@"alert"][@"buttons"];
+        if (buttons && [buttons isKindOfClass:[NSArray class]] && buttonIndex >= 0 && buttonIndex < buttons.count) {
+          NSDictionary *button = buttons[buttonIndex];
+          if ([button isKindOfClass:[NSDictionary class]]) {
+            targetUrl = button[@"targetUrl"];
+          }
+        }
+      }
+
+      if (targetUrl && [targetUrl isKindOfClass:[NSString class]] && targetUrl.length > 0) {
+        self.initialURL = targetUrl;
+      }
+    }
+  }
+
   if (self.reactModule) {
     NSDictionary *eventData = @{
       @"notification": notification,
@@ -439,9 +468,12 @@ RCT_EXPORT_MODULE()
 
 // Deep linking
 - (void)getInitialURL:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    // The new architecture uses no bridge so we cannot ask it for the launchOptions.
-    // Besides, the previous way of working does not handle choosing the targetUrl of the clicked button.
-    resolve(nil);
+    RNWonderPushDelegate *delegate = [RNWonderPushDelegate sharedInstance];
+    @synchronized(delegate) {
+        delegate.getInitialURLCalled = YES;
+NSLog(@"[WonderPush] XXXXXX RNWonderPush.getInitialURL() -> %@", delegate.initialURL);
+        resolve(delegate.initialURL);
+    }
 }
 
 // Delegate callback for URL deep link handling
