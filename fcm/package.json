@@ -1,6 +1,6 @@
 {
   "name": "react-native-wonderpush-fcm",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "WonderPush React Native SDK. FCM compatibility module.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
