@@ -34,7 +34,7 @@ class WonderPushModule(reactContext: ReactApplicationContext) :
   private val urlCallbacksLock = Any()
 
   init {
-    WonderPush.setIntegrator("react-native-wonderpush-3.0.1")
+    WonderPush.setIntegrator("react-native-wonderpush-3.0.2")
     // Set this module as the sub-delegate to work with the main Delegate
     Delegate.setSubDelegate(this)
   }
