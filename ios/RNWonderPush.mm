@@ -193,7 +193,7 @@ RCT_EXPORT_MODULE()
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [WonderPush setIntegrator:@"react-native-wonderpush-3.0.1"];
+        [WonderPush setIntegrator:@"react-native-wonderpush-3.0.2"];
         [WonderPush setDelegate:[RNWonderPushDelegate sharedInstance]];
     });
 }
