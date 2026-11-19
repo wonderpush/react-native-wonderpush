@@ -6,10 +6,16 @@ import WonderPush
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  var window: UIWindow?
+  // Kept static: WonderPush proxies the application delegate, so `UIApplication.shared.delegate as? AppDelegate` is unreliable.
+  static var reactNativeDelegate: ReactNativeDelegate?
+  static var reactNativeFactory: RCTReactNativeFactory?
+  static weak var mainWindow: UIWindow?
 
-  var reactNativeDelegate: ReactNativeDelegate?
-  var reactNativeFactory: RCTReactNativeFactory?
+  // React Native still reads `UIApplication.shared.delegate.window` (e.g. RCTDeviceInfo), so expose the scene's window.
+  var window: UIWindow? {
+    get { AppDelegate.mainWindow }
+    set { AppDelegate.mainWindow = newValue }
+  }
 
   func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     WonderPush.setLogging(true)
@@ -28,34 +34,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let factory = RCTReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()
 
-    reactNativeDelegate = delegate
-    reactNativeFactory = factory
-
-    window = UIWindow(frame: UIScreen.main.bounds)
-
-    factory.startReactNative(
-      withModuleName: "WonderPushExample",
-      in: window,
-      launchOptions: launchOptions
-    )
+    AppDelegate.reactNativeDelegate = delegate
+    AppDelegate.reactNativeFactory = factory
 
     return true
   }
 
   func application(
-    _ app: UIApplication,
-    open url: URL,
-    options: [UIApplication.OpenURLOptionsKey : Any] = [:]
-  ) -> Bool {
-    return RCTLinkingManager.application(app, open: url, options: options)
+    _ application: UIApplication,
+    configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -> UISceneConfiguration {
+    let configuration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    configuration.delegateClass = SceneDelegate.self
+    return configuration
+  }
+}
+
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+  var window: UIWindow?
+
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
+    guard let windowScene = scene as? UIWindowScene,
+          let factory = AppDelegate.reactNativeFactory else { return }
+
+    let window = UIWindow(windowScene: windowScene)
+    self.window = window
+    AppDelegate.mainWindow = window
+
+    factory.startReactNative(
+      withModuleName: "WonderPushExample",
+      in: window,
+      launchOptions: nil
+    )
+
+    // Cold launch from a deep link or universal link
+    if let urlContext = connectionOptions.urlContexts.first {
+      RCTLinkingManager.application(UIApplication.shared, open: urlContext.url, options: [:])
+    }
+    if let userActivity = connectionOptions.userActivities.first {
+      RCTLinkingManager.application(UIApplication.shared, continue: userActivity, restorationHandler: { _ in })
+    }
   }
 
-  func application(
-    _ application: UIApplication,
-    continue userActivity: NSUserActivity,
-    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
-  ) -> Bool {
-    return RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
+  func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    for context in URLContexts {
+      RCTLinkingManager.application(UIApplication.shared, open: context.url, options: [:])
+    }
+  }
+
+  func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+    RCTLinkingManager.application(UIApplication.shared, continue: userActivity, restorationHandler: { _ in })
   }
 }
 

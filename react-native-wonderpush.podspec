@@ -16,7 +16,18 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,cpp}"
   s.private_header_files = "ios/**/*.h"
 
-  s.dependency 'WonderPush', '4.4.3'
+  # The WonderPush iOS SDK is distributed through Swift Package Manager (v4.5.1+).
+  # CocoaPods stays on v4.4.3, the last version published there, and is only used as a fallback
+  # when React Native's `spm_dependency` helper is unavailable (React Native < 0.75).
+  if respond_to?(:spm_dependency, true)
+    spm_dependency(s,
+      url: 'https://github.com/wonderpush/wonderpush-ios-sdk.git',
+      requirement: { kind: 'exactVersion', version: '4.5.1' },
+      products: ['WonderPush']
+    )
+  else
+    s.dependency 'WonderPush', '4.4.3'
+  end
 
   install_modules_dependencies(s)
 end
