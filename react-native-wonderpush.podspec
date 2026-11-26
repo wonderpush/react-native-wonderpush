@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   if respond_to?(:spm_dependency, true)
     spm_dependency(s,
       url: 'https://github.com/wonderpush/wonderpush-ios-sdk.git',
-      requirement: { kind: 'exactVersion', version: '4.5.2' },
+      requirement: { kind: 'exactVersion', version: '4.5.3' },
       products: ['WonderPush']
     )
   else
